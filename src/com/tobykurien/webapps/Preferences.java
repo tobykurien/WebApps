@@ -14,6 +14,6 @@ public class Preferences extends PreferenceActivity {
    protected void onPause() {
       super.onPause();
       // tell Webview to reload with new settings
-      WebAppActivity.reload = true;
+      BaseWebAppActivity.reload = true;
    }
 }

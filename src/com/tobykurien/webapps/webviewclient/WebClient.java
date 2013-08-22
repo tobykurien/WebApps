@@ -1,5 +1,7 @@
 package com.tobykurien.webapps.webviewclient;
 
+import java.io.ByteArrayInputStream;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +9,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieSyncManager;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -69,6 +72,19 @@ public class WebClient extends WebViewClient {
    }
 
    @Override
+   public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+      // Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
+      // and also any unencrypted connections
+      if (!url.startsWith("https://") || !isInSandbox(Uri.parse(url))) {
+         //Log.d("wvc11", "Blocking " + url);
+         return new WebResourceResponse("text/plain", "utf-8", 
+                  new ByteArrayInputStream("[blocked]".getBytes()));
+      }
+      
+      return super.shouldInterceptRequest(view, url);
+   }
+   
+   @Override
    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
       // TODO Auto-generated method stub
       super.onReceivedError(view, errorCode, description, failingUrl);
@@ -109,5 +125,6 @@ public class WebClient extends WebViewClient {
          }
       }
       return false;
-   }   
+   } 
+   
 }
