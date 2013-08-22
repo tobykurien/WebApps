@@ -1,17 +1,10 @@
 package com.tobykurien.webapps;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,22 +65,27 @@ public class BaseWebAppActivity extends Activity {
       WebSettings settings = wv.getSettings();
       settings.setJavaScriptEnabled(true);
       settings.setJavaScriptCanOpenWindowsAutomatically(false);
-      settings.setAllowFileAccess(false);
-      settings.setPluginsEnabled(false);
       
       // Enable local database.
       settings.setDatabaseEnabled(true);
-      String databasePath = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
+      String databasePath = this.getApplicationContext().getDir("db-" + siteUrl.getHost(), Context.MODE_PRIVATE).getPath();
       settings.setDatabasePath(databasePath);
 
       // Enable manifest cache.
-      String cachePath = this.getApplicationContext().getDir("cache", Context.MODE_PRIVATE).getPath();
+      String cachePath = this.getApplicationContext().getDir("cache-" + siteUrl.getHost(), Context.MODE_PRIVATE).getPath();
       settings.setAppCachePath(cachePath);
-      settings.setAllowFileAccess(true);
+      settings.setAllowFileAccess(false);
+      settings.setPluginsEnabled(false);
+      settings.setAllowContentAccess(false);
       settings.setAppCacheEnabled(true);
-      settings.setDomStorageEnabled(true);
+      settings.setDomStorageEnabled(false);
       settings.setAppCacheMaxSize(1024 * 1024 * 8);
       settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+      settings.setBuiltInZoomControls(true);
+      settings.setGeolocationEnabled(false);
+      settings.setJavaScriptCanOpenWindowsAutomatically(false);
+      settings.setSaveFormData(false);
+      settings.setSavePassword(false);
 
       // set preferred text size
       setTextSize();

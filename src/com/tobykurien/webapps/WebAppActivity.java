@@ -1,5 +1,8 @@
 package com.tobykurien.webapps;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -50,16 +53,23 @@ public class WebAppActivity extends BaseWebAppActivity {
       
       if (item.getItemId() == R.id.menu_3rd_party) {
          // show blocked 3rd party domains and allow user to allow them
+         final List<String> unblock = new ArrayList<String>();
          new AlertDialog.Builder(this)
             .setTitle("Blocked root domains")
             .setMultiChoiceItems(wc.getBlockedHosts(), null, new OnMultiChoiceClickListener() {
                @Override
                public void onClick(DialogInterface d, int pos, boolean checked) {
+                  if (checked) {
+                     unblock.add(wc.getBlockedHosts()[pos].intern());
+                  } else {
+                     unblock.remove(wc.getBlockedHosts()[pos].intern());
+                  }
                }
             })
             .setPositiveButton("Unblock", new OnClickListener() {
                @Override
                public void onClick(DialogInterface d, int pos) {
+                  wc.unblockDomains(unblock); 
                   wv.reload();
                   d.dismiss();
                }

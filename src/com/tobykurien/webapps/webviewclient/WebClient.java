@@ -21,7 +21,7 @@ public class WebClient extends WebViewClient {
    Activity activity;
    WebView wv;
    View pd;
-   String[] domainUrls;
+   public String[] domainUrls;
    HashMap<String,Boolean> blockedHosts = new HashMap<String,Boolean>();
 
    public WebClient(Activity activity, WebView wv, View pd, String[] domainUrls) {
@@ -154,6 +154,17 @@ public class WebClient extends WebViewClient {
          ret.add(key);
       }
       return (String[]) ret.toArray(new String[]{});
+   }
+
+   /**
+    * Add domains to be unblocked
+    * @param unblock
+    */
+   public void unblockDomains(List<String> unblock) {
+      for (String s : domainUrls) {
+         unblock.add(s);
+      }
+      domainUrls = unblock.toArray(new String[]{ });
    } 
    
 }
