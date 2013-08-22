@@ -3,7 +3,7 @@
 
     <CheckBoxPreference
         android:title="Block 3rd party requests"
-        android:summary="Don't load images/scripts outside Google's domains (Android 3+ only)"
+        android:summary="Don't load images/scripts outside webapps domains"
         android:defaultValue="true"
         android:key="block_3rd_party"/>    
 
@@ -18,7 +18,7 @@
     
     <ListPreference
         android:title="User Agent"
-        android:summary="Affects how Google sites render on your device"
+        android:summary="Affects how sites render on your device"
         android:defaultValue=""
         android:entries="@array/user_agents"
         android:entryValues="@array/user_agent_strings"

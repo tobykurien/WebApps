@@ -5,7 +5,8 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -35,6 +36,8 @@ public class WebAppActivity extends BaseWebAppActivity {
       // setup actionbar
       ActionBar ab = getActionBar();
       ab.setDisplayShowTitleEnabled(false);
+      ab.setDisplayHomeAsUpEnabled(true);
+      
 //      ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 //      ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 //               android.R.layout.simple_list_item_1,
@@ -53,6 +56,7 @@ public class WebAppActivity extends BaseWebAppActivity {
       
       if (getIntent() != null && getIntent().getData() != null && 
                Intent.ACTION_VIEW.equals(getIntent().getAction())) {
+         Log.d("wa", "loading " + getIntent().getDataString());
          openSite(getIntent().getDataString());
       }
    }
@@ -62,6 +66,19 @@ public class WebAppActivity extends BaseWebAppActivity {
       return new WebClient(this, wv, pb);
    }
 
+   @Override
+   public boolean onOptionsItemSelected(MenuItem item) {
+      if (item.getItemId() == android.R.id.home) {
+         finish();
+         return true;
+      }
+      if (item.getItemId() == R.id.menu_exit) {
+         Runtime.getRuntime().exit(0);
+         return true;
+      }
+      return super.onOptionsItemSelected(item);
+   }
+   
    /**
     * Attempt to make the actionBar auto-hide and auto-reveal based on drag,
     * but unfortunately makes the bit under the actionbar mostly inaccessible,

@@ -118,7 +118,7 @@ public class WebClient extends WebViewClient {
    protected boolean isInSandbox(Uri uri) {
       // String url = uri.toString();
       String host = uri.getHost();
-      String[] sandboxSites = new String[]{ }; //activity.getResources().getStringArray(R.array.google_sites);
+      String[] sandboxSites = new String[]{ uri.getHost() }; //activity.getResources().getStringArray(R.array.google_sites);
       for (String sites : sandboxSites) {
          for (String site : sites.split(" ")) {
             if (host.toLowerCase().endsWith(site.toLowerCase())) { return true; }

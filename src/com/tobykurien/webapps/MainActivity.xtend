@@ -33,6 +33,7 @@ class MainActivity extends Activity {
       get_main_list.setAdapter(adapter)
       get_main_list.setOnItemClickListener([av, v, pos, id|
          var intent = new Intent(activity, typeof(WebAppActivity))
+         intent.action = Intent.ACTION_VIEW
          intent.data = Uri.parse(webapps.get(pos).url)
          startActivity(intent)
       ])
