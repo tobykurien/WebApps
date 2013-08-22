@@ -77,7 +77,7 @@ public class WebClient extends WebViewClient {
    public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
       // Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
       // and also any unencrypted connections
-      if (!url.startsWith("https://") || !isInSandbox(Uri.parse(url))) {
+      if (url.startsWith("http://") || !isInSandbox(Uri.parse(url))) {
          Log.d("webclient", "Blocking " + url);
          return new WebResourceResponse("text/plain", "utf-8", 
                   new ByteArrayInputStream("[blocked]".getBytes()));
@@ -118,6 +118,8 @@ public class WebClient extends WebViewClient {
     */
    protected boolean isInSandbox(Uri uri) {
    // String url = uri.toString();
+      if ("data".equals(uri.getScheme())) return true;
+      
       String host = uri.getHost();
       for (String sites : domainUrls) {
          for (String site : sites.split(" ")) {
