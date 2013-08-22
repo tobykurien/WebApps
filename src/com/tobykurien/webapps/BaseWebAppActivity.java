@@ -39,7 +39,7 @@ public class BaseWebAppActivity extends Activity {
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.main);
+      setContentView(R.layout.webapp);
       CookieSyncManager.createInstance(this);
 
       wv = getWebView();

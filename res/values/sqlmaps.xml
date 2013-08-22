@@ -1,0 +1,25 @@
+<resources>
+    <string name="initialize">
+        create table webapps (
+           id integer primary key,
+           name text not null,
+           url text not null,
+           iconUrl text not null
+        );
+        
+        create table domain_names (
+           id integer primary key,
+           webappId integer not null,
+           domain text not null
+        );
+        
+        insert into webapps (name,url,iconUrl) values (\'Facebook\',\'https://facebook.com\',\'https://facebook.com/favicon.ico\');
+        insert into webapps (name,url,iconUrl) values (\'Twitter\',\'https://m.twitter.com\',\'https://twitter.com/favicon.ico\');
+        insert into webapps (name,url,iconUrl) values (\'Google News\',\'https://news.google.com\',\'https://news.google.com/favicon.ico\');
+        insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://reddit.com\',\'https://reddit.com/favicon.ico\');
+    </string>
+    
+    <string name="dbGetWebapps">
+        select * from webapps
+    </string>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <WebView
+        android:id="@+id/site_webview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+
+    <ProgressBar
+        android:id="@+id/site_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/loader_bg"
+        android:indeterminate="true"
+        android:padding="20dp"
+        android:visibility="gone" />
+
+</FrameLayout>

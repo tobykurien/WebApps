@@ -2,6 +2,7 @@ package com.tobykurien.webapps;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -49,12 +50,11 @@ public class WebAppActivity extends BaseWebAppActivity {
 //      });
       
       autohideActionbar();
-   }
-   
-   @Override
-   public boolean onCreateOptionsMenu(Menu menu) {
-      menu.findItem(R.id.menu_site).setVisible(false);
-      return true;
+      
+      if (getIntent() != null && getIntent().getData() != null && 
+               Intent.ACTION_VIEW.equals(getIntent().getAction())) {
+         openSite(getIntent().getDataString());
+      }
    }
    
    @Override
