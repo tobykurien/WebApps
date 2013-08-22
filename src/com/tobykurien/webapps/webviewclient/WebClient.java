@@ -1,6 +1,9 @@
 package com.tobykurien.webapps.webviewclient;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,13 +17,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.tobykurien.webapps.R;
-
 public class WebClient extends WebViewClient {
    Activity activity;
    WebView wv;
    View pd;
    String[] domainUrls;
+   HashMap<String,Boolean> blockedHosts = new HashMap<String,Boolean>();
 
    public WebClient(Activity activity, WebView wv, View pd, String[] domainUrls) {
       this.activity = activity;
@@ -79,6 +81,7 @@ public class WebClient extends WebViewClient {
       // and also any unencrypted connections
       if (url.startsWith("http://") || !isInSandbox(Uri.parse(url))) {
          Log.d("webclient", "Blocking " + url);
+         blockedHosts.put(getRootDomain(url), true);
          return new WebResourceResponse("text/plain", "utf-8", 
                   new ByteArrayInputStream("[blocked]".getBytes()));
       }
@@ -86,6 +89,21 @@ public class WebClient extends WebViewClient {
       return super.shouldInterceptRequest(view, url);
    }
    
+   /**
+    * Most blocked 3rd party domains are CDNs, so rather use root domain
+    * @param url
+    * @return
+    */
+   private String getRootDomain(String url) {
+      String host = Uri.parse(url).getHost();
+      String[] parts = host.split("\\.");
+      if (parts.length > 1) {
+         return parts[parts.length - 2] + "." + parts[parts.length - 1];
+      } else {
+         return host;
+      }
+   }
+
    @Override
    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
       super.onReceivedError(view, errorCode, description, failingUrl);
@@ -126,7 +144,16 @@ public class WebClient extends WebViewClient {
             if (host.toLowerCase().endsWith(site.toLowerCase())) { return true; }
          }
       }
+      
       return false;
+   }
+
+   public String[] getBlockedHosts() {
+      List<String> ret = new ArrayList<String>();
+      for (String key : blockedHosts.keySet()) {
+         ret.add(key);
+      }
+      return (String[]) ret.toArray(new String[]{});
    } 
    
 }

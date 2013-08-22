@@ -32,6 +32,7 @@ public class BaseWebAppActivity extends Activity {
 
    WebView wv;
    Uri siteUrl;
+   WebClient wc;
    
    /** Called when the activity is first created. */
    @Override
@@ -148,7 +149,8 @@ public class BaseWebAppActivity extends Activity {
     * @return
     */
    protected WebClient getWebViewClient(ProgressBar pb) {
-      return new WebClient(this, wv, pb, new String[]{ siteUrl.getHost() });
+      if (wc == null) wc = new WebClient(this, wv, pb, new String[]{ siteUrl.getHost() });
+      return wc;
    }
 
    public void openSite(String url) {

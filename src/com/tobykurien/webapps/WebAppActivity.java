@@ -2,22 +2,22 @@ package com.tobykurien.webapps;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
-import android.widget.ProgressBar;
-
-import com.tobykurien.webapps.webviewclient.WebClient;
 
 /**
- * Extensions to the main activity for Android 3.0+
+ * Extensions to the main activity for Android 3.0+, or at least it used to be. Now the core
+ * functionality is in the base class and the UI-related stuff is here.
  * @author toby
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -46,6 +46,26 @@ public class WebAppActivity extends BaseWebAppActivity {
       if (item.getItemId() == android.R.id.home) {
          finish();
          return true;
+      }
+      
+      if (item.getItemId() == R.id.menu_3rd_party) {
+         // show blocked 3rd party domains and allow user to allow them
+         new AlertDialog.Builder(this)
+            .setTitle("Blocked root domains")
+            .setMultiChoiceItems(wc.getBlockedHosts(), null, new OnMultiChoiceClickListener() {
+               @Override
+               public void onClick(DialogInterface d, int pos, boolean checked) {
+               }
+            })
+            .setPositiveButton("Unblock", new OnClickListener() {
+               @Override
+               public void onClick(DialogInterface d, int pos) {
+                  wv.reload();
+                  d.dismiss();
+               }
+            })
+            .create()
+            .show();
       }
 
       return super.onOptionsItemSelected(item);

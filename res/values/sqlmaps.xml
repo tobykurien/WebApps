@@ -20,5 +20,6 @@
     
     <string name="dbGetWebapps">
         select * from webapps
+        order by name asc
     </string>
 </resources>
