@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GoogleApps</string>
+    <string name="menu_site">Change Site</string>
+    <string name="menu_exit">Exit</string>
+    <string name="menu_text_size">Font Size</string>
+    <string name="menu_stop">Stop</string>
+    <string name="menu_settings">Settings</string>
+</resources>
