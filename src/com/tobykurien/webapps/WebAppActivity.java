@@ -38,32 +38,7 @@ public class WebAppActivity extends BaseWebAppActivity {
       ab.setDisplayShowTitleEnabled(false);
       ab.setDisplayHomeAsUpEnabled(true);
       
-//      ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-//      ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//               android.R.layout.simple_list_item_1,
-//               android.R.id.text1,
-//               getResources().getStringArray(R.array.sites));
-//      ab.setListNavigationCallbacks(adapter, new OnNavigationListener() {
-//         @Override
-//         public boolean onNavigationItemSelected(int arg0, long arg1) {
-//            String url = getResources().getStringArray(R.array.sites_url)[arg0];
-//            openSite(url);
-//            return true;
-//         }
-//      });
-      
       autohideActionbar();
-      
-      if (getIntent() != null && getIntent().getData() != null && 
-               Intent.ACTION_VIEW.equals(getIntent().getAction())) {
-         Log.d("wa", "loading " + getIntent().getDataString());
-         openSite(getIntent().getDataString());
-      }
-   }
-   
-   @Override
-   protected WebClient getWebViewClient(ProgressBar pb) {
-      return new WebClient(this, wv, pb);
    }
 
    @Override
@@ -72,10 +47,7 @@ public class WebAppActivity extends BaseWebAppActivity {
          finish();
          return true;
       }
-      if (item.getItemId() == R.id.menu_exit) {
-         Runtime.getRuntime().exit(0);
-         return true;
-      }
+
       return super.onOptionsItemSelected(item);
    }
    

@@ -28,13 +28,11 @@ import com.tobykurien.webapps.utils.Settings;
 import com.tobykurien.webapps.webviewclient.WebClient;
 
 public class BaseWebAppActivity extends Activity {
-   private final int DIALOG_SITE = 1;
-   private final int DIALOG_TEXT_SIZE = 2;
-   
    public static boolean reload = false;
 
    WebView wv;
-
+   Uri siteUrl;
+   
    /** Called when the activity is first created. */
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +44,11 @@ public class BaseWebAppActivity extends Activity {
       if (wv == null) {
          finish();
          return;
+      }
+      
+      if (getIntent() != null && getIntent().getData() != null && 
+               Intent.ACTION_VIEW.equals(getIntent().getAction())) {
+         siteUrl = getIntent().getData();
       }
       
       setupWebView();
@@ -118,7 +121,7 @@ public class BaseWebAppActivity extends Activity {
          }
       });
 
-      //openSite(getSiteUrl());
+      openSite(siteUrl.toString());
    }
 
    /**
@@ -144,8 +147,8 @@ public class BaseWebAppActivity extends Activity {
     * @param pb
     * @return
     */
-   protected WebClient getWebViewClient(final ProgressBar pb) {
-      return new WebClient(this, wv, pb);
+   protected WebClient getWebViewClient(ProgressBar pb) {
+      return new WebClient(this, wv, pb, new String[]{ siteUrl.getHost() });
    }
 
    public void openSite(String url) {
@@ -197,14 +200,10 @@ public class BaseWebAppActivity extends Activity {
    @Override
    public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
-         case R.id.menu_site:
-            showDialog(DIALOG_SITE);
-            return true;
          case R.id.menu_stop:
             wv.stopLoading();
             return true;
          case R.id.menu_settings:
-            //showDialog(DIALOG_TEXT_SIZE);
             Intent i = new Intent(this, Preferences.class);
             startActivity(i);
             return true;

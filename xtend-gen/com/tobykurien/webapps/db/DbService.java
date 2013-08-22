@@ -9,7 +9,7 @@ import java.util.List;
 @SuppressWarnings("all")
 public class DbService extends AbatisService {
   protected DbService(final Context context) {
-    super(context, "webapps1", 1);
+    super(context, "webapps2", 1);
   }
   
   public static DbService getInstance(final Context context) {

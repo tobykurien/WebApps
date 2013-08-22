@@ -13,16 +13,4 @@
         android:title="@string/menu_settings"
         android:showAsAction="ifRoom"/>
 
-    <item
-        android:id="@+id/menu_site"
-        android:icon="@drawable/ic_action_site"
-        android:title="@string/menu_site"
-        android:showAsAction="ifRoom"/>
-    
-    <item
-        android:id="@+id/menu_exit"
-        android:icon="@drawable/ic_action_exit"
-        android:title="@string/menu_exit"
-        android:showAsAction="never"/>
-
 </menu>

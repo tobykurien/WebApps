@@ -20,11 +20,13 @@ public class WebClient extends WebViewClient {
    Activity activity;
    WebView wv;
    View pd;
+   String[] domainUrls;
 
-   public WebClient(Activity activity, WebView wv, View pd) {
+   public WebClient(Activity activity, WebView wv, View pd, String[] domainUrls) {
       this.activity = activity;
       this.wv = wv;
       this.pd = pd;
+      this.domainUrls = domainUrls;
    }
 
    @Override
@@ -40,7 +42,7 @@ public class WebClient extends WebViewClient {
 
    @Override
    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-      Log.d("GoogleApps", "loading " + url);
+      Log.d("webclient", "loading " + url);
 
       if (pd != null) pd.setVisibility(View.VISIBLE);
       super.onPageStarted(view, url, favicon);
@@ -49,7 +51,7 @@ public class WebClient extends WebViewClient {
    @Override
    public boolean shouldOverrideUrlLoading(WebView view, String url) {
       Uri uri = getLoadUri(Uri.parse(url));
-      if (uri.getScheme().equals("http") || !isInSandbox(uri)) {
+      if (!uri.getScheme().equals("https") || !isInSandbox(uri)) {
          Intent i = new Intent(android.content.Intent.ACTION_VIEW);
          i.setData(uri);
          activity.startActivity(i);
@@ -76,7 +78,7 @@ public class WebClient extends WebViewClient {
       // Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
       // and also any unencrypted connections
       if (!url.startsWith("https://") || !isInSandbox(Uri.parse(url))) {
-         //Log.d("wvc11", "Blocking " + url);
+         Log.d("webclient", "Blocking " + url);
          return new WebResourceResponse("text/plain", "utf-8", 
                   new ByteArrayInputStream("[blocked]".getBytes()));
       }
@@ -86,7 +88,6 @@ public class WebClient extends WebViewClient {
    
    @Override
    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-      // TODO Auto-generated method stub
       super.onReceivedError(view, errorCode, description, failingUrl);
       Toast.makeText(activity, description, Toast.LENGTH_LONG).show();
    }
@@ -116,10 +117,9 @@ public class WebClient extends WebViewClient {
     * @return
     */
    protected boolean isInSandbox(Uri uri) {
-      // String url = uri.toString();
+   // String url = uri.toString();
       String host = uri.getHost();
-      String[] sandboxSites = new String[]{ uri.getHost() }; //activity.getResources().getStringArray(R.array.google_sites);
-      for (String sites : sandboxSites) {
+      for (String sites : domainUrls) {
          for (String site : sites.split(" ")) {
             if (host.toLowerCase().endsWith(site.toLowerCase())) { return true; }
          }
