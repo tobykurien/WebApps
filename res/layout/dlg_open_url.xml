@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/txtOpenUrl"
+        android:hint="@string/open_url_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/btnOpenUrl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/open_url" />
+
+</LinearLayout>

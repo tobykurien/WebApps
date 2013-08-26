@@ -23,9 +23,9 @@ import com.tobykurien.webapps.webviewclient.WebClient;
 public class BaseWebAppActivity extends Activity {
    public static boolean reload = false;
 
-   WebView wv;
-   Uri siteUrl;
-   WebClient wc;
+   WebView wv = null;
+   Uri siteUrl = null;
+   WebClient wc = null;
    
    /** Called when the activity is first created. */
    @Override

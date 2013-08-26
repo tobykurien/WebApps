@@ -9,7 +9,7 @@ import java.util.List
 class DbService extends AbatisService {
    
    protected new(Context context) {
-      super(context, "webapps2", 1)
+      super(context, "webapps3", 1)
    }
 
    def static getInstance(Context context) {

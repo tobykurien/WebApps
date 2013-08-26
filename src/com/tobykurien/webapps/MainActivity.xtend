@@ -2,32 +2,38 @@ package com.tobykurien.webapps
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.tobykurien.webapps.data.Webapp
+import com.tobykurien.webapps.fragment.DlgOpenUrl
 import com.tobykurien.webapps.utils.AndroidView
 import java.util.List
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
-import java.net.URI
-import android.net.Uri
 
 class MainActivity extends Activity {
    @AndroidView ListView main_list
    var List<Webapp> webapps
+ 
+   def static test() {
+      "sdfgsdfg"
+   }
    
    override protected onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState)
       setContentView(R.layout.main)
-      
+ 
       webapps = db.getWebapps
       var adapter = new ArrayAdapter<Webapp>(this, 
          android.R.layout.simple_list_item_1,
          android.R.id.text1,
          webapps)
+ 
       
       val activity = this
       get_main_list.setAdapter(adapter)
@@ -46,6 +52,10 @@ class MainActivity extends Activity {
    
    override onOptionsItemSelected(MenuItem item) {
       switch (item.itemId) {
+         case R.id.menu_open: {
+            var dlg = new DlgOpenUrl()
+            dlg.show(fragmentManager, "open_url")
+         }
          case R.id.menu_settings: {
             var i = new Intent(this, typeof(Preferences))
             startActivity(i)
