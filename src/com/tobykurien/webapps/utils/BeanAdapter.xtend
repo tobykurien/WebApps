@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import java.lang.reflect.Method
+import java.util.HashMap
 import java.util.List
 
 /**
@@ -20,9 +21,10 @@ import java.util.List
  * isToast -> R.id.toast
  */
 class BeanAdapter<T> extends BaseAdapter {
-   var List<T> data
-   var Context context
-   var int layoutId
+   val List<T> data
+   val Context context
+   val int layoutId
+   val HashMap<Integer,Method> mapping = newHashMap()
    
    new(Context context, int layoutId, List<T> data) {
       this.data = data
@@ -40,14 +42,14 @@ class BeanAdapter<T> extends BaseAdapter {
       data.length
    }
    
-   override getItem(int row) {
+   override T getItem(int row) {
       data.get(row)
    }
    
    override getItemId(int row) {
       try {
          var item = getItem(row)
-         var m = item.class.getMethod("id")
+         var m = item.class.getMethod("getId")
          Long.valueOf(String.valueOf(m.invoke(item)))
       } catch (Exception e) {
          row as long
@@ -55,33 +57,43 @@ class BeanAdapter<T> extends BaseAdapter {
    }
    
    override getView(int row, View cv, ViewGroup root) {
+      val i = getItem(row)
       var v = cv
       if (v == null) {
          v = LayoutInflater.from(context).inflate(layoutId, root, false)
+         if (mapping.empty) setupMapping(v, i)
       }
       
-      val i = getItem(row)
       val view = v
+      mapping.forEach [resId,method|
+         var res = view.findViewById(resId)
+         if (res != null) {
+            switch (res.class) {
+               case TextView: (res as TextView).setText(String.valueOf(method.invoke(i)))
+               case EditText: (res as EditText).setText(String.valueOf(method.invoke(i)))
+               case ImageView: (res as ImageView).setImageBitmap(method.invoke(i) as Bitmap)
+               default: Log.e("base_adapter", "View type not yet supported: " + res.class)
+            }
+         }
+      ]
+      
+      v
+   }
+   
+   /**
+    * Set up the bean-to-view for use in subsequent rows
+    */
+   def setupMapping(View v, T i) {
       i.class.methods.forEach [m|
          if (m.name.startsWith("get") || m.name.startsWith("is")) {
             // might be a getter, let's see if there is a corresponding view
             var resName = m.toResourceName
             var resId = context.resources.getIdentifier(resName, "id", context.packageName)
             if (resId > 0) {
-               var res = view.findViewById(resId)
-               if (res != null) {
-                  switch (res.class) {
-                     case TextView: (res as TextView).setText(String.valueOf(m.invoke(i)))
-                     case EditText: (res as EditText).setText(String.valueOf(m.invoke(i)))
-                     case ImageView: (res as ImageView).setImageBitmap(m.invoke(i) as Bitmap)
-                     default: Log.d("ba", "View type not yet supported: " + res.class)
-                  }
-               }
+               mapping.put(resId, m)
             } 
          }
       ]
-      
-      v
    }
 
    /**
