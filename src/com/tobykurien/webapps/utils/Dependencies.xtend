@@ -9,6 +9,6 @@ class Dependencies {
    }
    
    def static Settings getSettings(Context context) {
-      return Settings.getSettings(context)
+      return Settings.getPreferences(context) as Settings
    }
 }

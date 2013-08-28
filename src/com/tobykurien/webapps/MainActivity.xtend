@@ -9,14 +9,14 @@ import android.view.MenuItem
 import android.widget.ListView
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.fragment.DlgOpenUrl
-import com.tobykurien.webapps.utils.AndroidView
-import com.tobykurien.webapps.utils.BeanAdapter
+import com.tobykurien.xtendroid.adapter.BeanAdapter
+import com.tobykurien.xtendroid.annotations.AndroidView
 import java.util.List
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 
 class MainActivity extends Activity {
-   @AndroidView ListView main_list
+   @AndroidView ListView mainList
    var List<Webapp> webapps
 
    override protected onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,8 @@ class MainActivity extends Activity {
       var adapter = new BeanAdapter<Webapp>(this, R.layout.row_webapp, webapps) 
       
       val activity = this
-      get_main_list.setAdapter(adapter)
-      get_main_list.setOnItemClickListener([av, v, pos, id|
+      getMainList.setAdapter(adapter)
+      getMainList.setOnItemClickListener([av, v, pos, id|
          var intent = new Intent(activity, typeof(WebAppActivity))
          intent.action = Intent.ACTION_VIEW
          intent.data = Uri.parse(webapps.get(pos).url)
