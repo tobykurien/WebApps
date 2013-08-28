@@ -12,7 +12,7 @@ public class Dependencies {
   }
   
   public static Settings getSettings(final Context context) {
-    BasePreferences _preferences = Settings.getPreferences(context);
+    BasePreferences _preferences = Settings.getPreferences(context, Settings.class);
     return ((Settings) _preferences);
   }
 }

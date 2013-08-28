@@ -7,15 +7,19 @@ import com.tobykurien.xtendroid.utils.BasePreferences
 
 class Settings extends BasePreferences {
    @Preference boolean block3rdParty = true
-   @Preference int fontSize = 2
+   @Preference String fontSize = "2"
    @Preference String userAgent = ""
    
-   protected new(SharedPreferences preferences) {
-      super(preferences);
+   // for backward compatibility
+   def static Settings getSettings(Context context) {
+      return getPreferences(context, typeof(Settings)) as Settings
    }
    
-   // for backward compatability
-   def static getSettings(Context context) {
-      return getPreferences(context) as Settings
+   def getIntFontSize() {
+      try {
+         Integer.parseInt(getFontSize())
+      } catch (Exception e) {
+         2
+      }
    }
 }

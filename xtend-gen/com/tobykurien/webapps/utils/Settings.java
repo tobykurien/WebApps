@@ -1,9 +1,9 @@
 package com.tobykurien.webapps.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import com.tobykurien.xtendroid.annotations.Preference;
 import com.tobykurien.xtendroid.utils.BasePreferences;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 
 @SuppressWarnings("all")
 public class Settings extends BasePreferences {
@@ -11,18 +11,31 @@ public class Settings extends BasePreferences {
   private boolean block3rdParty = true;
   
   @Preference
-  private int fontSize = 2;
+  private String fontSize = "2";
   
   @Preference
   private String userAgent = "";
   
-  protected Settings(final SharedPreferences preferences) {
-    super(preferences);
+  public static Settings getSettings(final Context context) {
+    BasePreferences _preferences = BasePreferences.getPreferences(context, Settings.class);
+    return ((Settings) _preferences);
   }
   
-  public static Settings getSettings(final Context context) {
-    BasePreferences _preferences = BasePreferences.getPreferences(context);
-    return ((Settings) _preferences);
+  public int getIntFontSize() {
+    int _xtrycatchfinallyexpression = (int) 0;
+    try {
+      String _fontSize = this.getFontSize();
+      int _parseInt = Integer.parseInt(_fontSize);
+      _xtrycatchfinallyexpression = _parseInt;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        _xtrycatchfinallyexpression = 2;
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
   }
   
   public boolean getBlock3rdParty() {
@@ -36,13 +49,13 @@ public class Settings extends BasePreferences {
     
   }
   
-  public int getFontSize() {
-    return pref.getInt("font_size", fontSize);
+  public String getFontSize() {
+    return pref.getString("font_size", fontSize);
     
   }
   
   public boolean setFontSize() {
-    pref.edit().putInt("font_size", fontSize).commit();
+    pref.edit().putString("font_size", fontSize).commit();
     return true;
     
   }

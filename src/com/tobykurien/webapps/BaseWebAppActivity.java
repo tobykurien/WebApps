@@ -158,7 +158,7 @@ public class BaseWebAppActivity extends Activity {
    public void setTextSize() {
       TextSize textSize = TextSize.NORMAL;
 
-      int size = Settings.getSettings(this).getFontSize(); 
+      int size = Settings.getSettings(this).getIntFontSize(); 
       switch (size) {
          case 0:
             textSize = TextSize.SMALLEST;
