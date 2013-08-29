@@ -1,5 +1,5 @@
 <resources>
-    <string name="initialize">
+    <string name="dbInitialize">
         create table webapps (
            id integer primary key,
            name text not null,

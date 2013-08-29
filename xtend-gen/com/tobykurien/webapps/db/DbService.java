@@ -1,15 +1,15 @@
 package com.tobykurien.webapps.db;
 
 import android.content.Context;
-import asia.sonix.android.orm.AbatisService;
 import com.tobykurien.webapps.R.string;
 import com.tobykurien.webapps.data.Webapp;
+import com.tobykurien.xtendroid.db.BaseDbService;
 import java.util.List;
 
 @SuppressWarnings("all")
-public class DbService extends AbatisService {
+public class DbService extends BaseDbService {
   protected DbService(final Context context) {
-    super(context, "webapps3", 1);
+    super(context, "webapps4", 1);
   }
   
   public static DbService getInstance(final Context context) {
