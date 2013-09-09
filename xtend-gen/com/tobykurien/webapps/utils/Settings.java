@@ -40,34 +40,28 @@ public class Settings extends BasePreferences {
   
   public boolean getBlock3rdParty() {
     return pref.getBoolean("block3rd_party", block3rdParty);
-    
   }
   
   public boolean setBlock3rdParty() {
     pref.edit().putBoolean("block3rd_party", block3rdParty).commit();
     return true;
-    
   }
   
   public String getFontSize() {
     return pref.getString("font_size", fontSize);
-    
   }
   
   public boolean setFontSize() {
     pref.edit().putString("font_size", fontSize).commit();
     return true;
-    
   }
   
   public String getUserAgent() {
     return pref.getString("user_agent", userAgent);
-    
   }
   
   public boolean setUserAgent() {
     pref.edit().putString("user_agent", userAgent).commit();
     return true;
-    
   }
 }

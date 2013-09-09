@@ -25,10 +25,10 @@ public class DlgOpenUrl extends DialogFragment {
       View _findViewById = v.findViewById(id.btnOpenUrl);
       Button b = ((Button) _findViewById);
       final OnClickListener _function = new OnClickListener() {
-          public void onClick(final View btn) {
-            DlgOpenUrl.this.onOpenUrlClick(btn);
-          }
-        };
+        public void onClick(final View btn) {
+          DlgOpenUrl.this.onOpenUrlClick(btn);
+        }
+      };
       b.setOnClickListener(_function);
       _xblockexpression = (v);
     }
