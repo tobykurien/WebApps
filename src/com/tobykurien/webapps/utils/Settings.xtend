@@ -7,6 +7,7 @@ import com.tobykurien.xtendroid.utils.BasePreferences
 
 class Settings extends BasePreferences {
    @Preference boolean block3rdParty = true
+   @Preference boolean blockHttp = true
    @Preference String fontSize = "2"
    @Preference String userAgent = ""
    

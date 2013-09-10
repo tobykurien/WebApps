@@ -18,6 +18,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.tobykurien.webapps.utils.Dependencies;
+import com.tobykurien.webapps.utils.Settings;
+
 public class WebClient extends WebViewClient {
    Activity activity;
    WebView wv;
@@ -80,8 +83,18 @@ public class WebClient extends WebViewClient {
    public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
       // Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
       // and also any unencrypted connections
-      if (url.startsWith("http://") || !isInSandbox(Uri.parse(url))) {
-         Log.d("webclient", "Blocking " + url);
+      Uri uri = Uri.parse(url);
+      boolean isBlocked = false;
+      Settings settings = Dependencies.getSettings(activity);
+      if (settings.isBlock3rdParty() && !isInSandbox(uri)) {
+         isBlocked = true;
+      }
+      if (settings.isBlockHttp() && !uri.getScheme().equals("https")) {
+         isBlocked = true;
+      }
+
+      if (isBlocked) {
+         //Log.d("webclient", "Blocking " + url);
          blockedHosts.put(getRootDomain(url), true);
          return new WebResourceResponse("text/plain", "utf-8", 
                   new ByteArrayInputStream("[blocked]".getBytes()));

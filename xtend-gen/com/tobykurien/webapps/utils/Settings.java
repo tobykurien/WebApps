@@ -11,6 +11,9 @@ public class Settings extends BasePreferences {
   private boolean block3rdParty = true;
   
   @Preference
+  private boolean blockHttp = true;
+  
+  @Preference
   private String fontSize = "2";
   
   @Preference
@@ -38,12 +41,21 @@ public class Settings extends BasePreferences {
     return _xtrycatchfinallyexpression;
   }
   
-  public boolean getBlock3rdParty() {
+  public boolean isBlock3rdParty() {
     return pref.getBoolean("block3rd_party", block3rdParty);
   }
   
   public boolean setBlock3rdParty() {
     pref.edit().putBoolean("block3rd_party", block3rdParty).commit();
+    return true;
+  }
+  
+  public boolean isBlockHttp() {
+    return pref.getBoolean("block_http", blockHttp);
+  }
+  
+  public boolean setBlockHttp() {
+    pref.edit().putBoolean("block_http", blockHttp).commit();
     return true;
   }
   

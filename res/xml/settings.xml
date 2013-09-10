@@ -5,8 +5,14 @@
         android:title="Block 3rd party requests"
         android:summary="Don't load images/scripts outside webapps domains"
         android:defaultValue="true"
-        android:key="block_3rd_party"/>    
+        android:key="block3rd_party"/>    
 
+    <CheckBoxPreference
+        android:title="Block insecure requests"
+        android:summary="Don't load HTTP requests, only HTTPS"
+        android:defaultValue="true"
+        android:key="block_http"/>
+    
     <ListPreference
         android:title="Font Size"
         android:summary="Change the rendered font size"
