@@ -11,25 +11,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="https://"/>
+            android:text="@string/webapp_name"/>
         
         <EditText
-            android:id="@+id/txtOpenUrl"
+            android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/open_url_hint"
-            android:inputType="textUri" 
-            android:imeOptions="actionGo">
+            android:ems="10">
 
             <requestFocus />
         </EditText>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnOpenUrl"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/open_url" />
 
 </LinearLayout>

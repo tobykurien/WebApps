@@ -8,6 +8,8 @@ import java.util.List;
 
 @SuppressWarnings("all")
 public class DbService extends BaseDbService {
+  public final static String TABLE_WEBAPPS = "webapps";
+  
   protected DbService(final Context context) {
     super(context, "webapps4", 1);
   }

@@ -7,6 +7,7 @@ import com.tobykurien.xtendroid.db.BaseDbService
 import java.util.List
 
 class DbService extends BaseDbService {
+   public static val TABLE_WEBAPPS = "webapps"
    
    protected new(Context context) {
       super(context, "webapps4", 1)

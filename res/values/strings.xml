@@ -8,6 +8,14 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_3rd_party">Blocked 3rd party domains</string>
     <string name="menu_open_url">Open Url</string>
-    <string name="open_url_hint">https://site.com</string>
+    <string name="open_url_hint">site.com</string>
     <string name="open_url">Open URL</string>
+    <string name="menu_save">Save as Webapp</string>
+    <string name="blocked_root_domains">Blocked root domains</string>
+    <string name="unblock">Unblock</string>
+    <string name="title_save_webapp">Save Webapp</string>
+    <string name="msg_save_webapp">Save current site as a Webapp?</string>
+    <string name="btn_save">Save</string>
+    <string name="webapp_name">Webapp Name</string>
+    <string name="open_site">Open Site</string>
 </resources>

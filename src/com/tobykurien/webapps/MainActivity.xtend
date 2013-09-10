@@ -8,12 +8,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
 import com.tobykurien.webapps.data.Webapp
+import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgOpenUrl
 import com.tobykurien.xtendroid.adapter.BeanAdapter
 import com.tobykurien.xtendroid.annotations.AndroidView
 import java.util.List
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
+import static extension com.tobykurien.xtendroid.utils.AlertUtils.*
 
 class MainActivity extends Activity {
    @AndroidView ListView mainList
@@ -22,18 +24,29 @@ class MainActivity extends Activity {
    override protected onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState)
       setContentView(R.layout.main)
- 
-      webapps = db.getWebapps
-      var adapter = new BeanAdapter<Webapp>(this, R.layout.row_webapp, webapps) 
-      
+   }
+
+   override protected onStart() {
+      super.onStart()
+    
       val activity = this
-      getMainList.setAdapter(adapter)
+      loadWebapps
+      
       getMainList.setOnItemClickListener([av, v, pos, id|
          var intent = new Intent(activity, typeof(WebAppActivity))
          intent.action = Intent.ACTION_VIEW
          intent.data = Uri.parse(webapps.get(pos).url)
          startActivity(intent)
       ])
+      
+      getMainList.setOnItemLongClickListener([av, v, pos, id|
+         confirm("Delete Webapp?", [|
+            db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
+            loadWebapps
+            null
+         ])
+         true
+      ])      
    }
    
    override onCreateOptionsMenu(Menu menu) {
@@ -55,5 +68,10 @@ class MainActivity extends Activity {
       }
       super.onOptionsItemSelected(item)
    }
-   
+ 
+   def loadWebapps() {
+      webapps = db.getWebapps
+      var adapter = new BeanAdapter<Webapp>(this, R.layout.row_webapp, webapps) 
+      getMainList.setAdapter(adapter)
+   }  
 }

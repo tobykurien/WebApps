@@ -12,6 +12,8 @@ import android.widget.EditText
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.WebAppActivity
 
+import static extension com.tobykurien.xtendroid.utils.AlertUtils.*
+
 class DlgOpenUrl extends DialogFragment {
    
    override onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,13 +24,22 @@ class DlgOpenUrl extends DialogFragment {
       
       v
    }
+
+   override onStart() {
+      super.onStart()      
+      dialog.title = getString(R.string.open_site)
+   }
  
    def onOpenUrlClick(View v) {
       var txtUrl = view.findViewById(R.id.txtOpenUrl) as EditText
       var i = new Intent(activity, typeof(WebAppActivity))
       i.action = Intent.ACTION_VIEW
-      i.data = Uri.parse(txtUrl.text.toString)
-      startActivity(i)
-      dismiss
+      try {
+         i.data = Uri.parse("https://" + txtUrl.text.toString)
+         startActivity(i)
+         dismiss
+      } catch (Exception e) {
+         activity.toast("Error parsing URL: " + e.message)
+      }
    }  
 }

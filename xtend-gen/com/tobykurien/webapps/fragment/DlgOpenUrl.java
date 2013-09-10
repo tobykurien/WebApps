@@ -1,6 +1,7 @@
 package com.tobykurien.webapps.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,7 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.tobykurien.webapps.R.id;
 import com.tobykurien.webapps.R.layout;
+import com.tobykurien.webapps.R.string;
 import com.tobykurien.webapps.WebAppActivity;
+import com.tobykurien.xtendroid.utils.AlertUtils;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 
 @SuppressWarnings("all")
 public class DlgOpenUrl extends DialogFragment {
@@ -35,6 +39,13 @@ public class DlgOpenUrl extends DialogFragment {
     return _xblockexpression;
   }
   
+  public void onStart() {
+    super.onStart();
+    Dialog _dialog = this.getDialog();
+    String _string = this.getString(string.open_site);
+    _dialog.setTitle(_string);
+  }
+  
   public void onOpenUrlClick(final View v) {
     View _view = this.getView();
     View _findViewById = _view.findViewById(id.txtOpenUrl);
@@ -43,11 +54,24 @@ public class DlgOpenUrl extends DialogFragment {
     Intent _intent = new Intent(_activity, WebAppActivity.class);
     Intent i = _intent;
     i.setAction(Intent.ACTION_VIEW);
-    Editable _text = txtUrl.getText();
-    String _string = _text.toString();
-    Uri _parse = Uri.parse(_string);
-    i.setData(_parse);
-    this.startActivity(i);
-    this.dismiss();
+    try {
+      Editable _text = txtUrl.getText();
+      String _string = _text.toString();
+      String _plus = ("https://" + _string);
+      Uri _parse = Uri.parse(_plus);
+      i.setData(_parse);
+      this.startActivity(i);
+      this.dismiss();
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        Activity _activity_1 = this.getActivity();
+        String _message = e.getMessage();
+        String _plus_1 = ("Error parsing URL: " + _message);
+        AlertUtils.toast(_activity_1, _plus_1);
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
   }
 }
