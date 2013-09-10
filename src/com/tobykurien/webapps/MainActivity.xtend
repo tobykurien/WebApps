@@ -40,7 +40,7 @@ class MainActivity extends Activity {
       ])
       
       getMainList.setOnItemLongClickListener([av, v, pos, id|
-         confirm("Delete Webapp?", [|
+         confirm(getString(R.string.delete_webapp), [|
             db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
             loadWebapps
             null

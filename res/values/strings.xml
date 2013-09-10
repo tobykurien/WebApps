@@ -18,4 +18,5 @@
     <string name="btn_save">Save</string>
     <string name="webapp_name">Webapp Name</string>
     <string name="open_site">Open Site</string>
+    <string name="delete_webapp">Delete Webapp?</string>
 </resources>
