@@ -24,4 +24,14 @@
         select * from webapps
         order by name asc
     </string>
+    
+    <string name="dbGetDomainNames">
+        select * from domain_names
+        where webappId = #webappId#
+    </string>
+
+    <string name="dbDeleteDomains">
+        delete from domain_names
+        where webappId = #webappId#
+    </string>
 </resources>

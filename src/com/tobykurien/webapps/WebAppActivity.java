@@ -59,7 +59,6 @@ public class WebAppActivity extends BaseWebAppActivity {
       
       if (item.getItemId() == R.id.menu_3rd_party) {
          // show blocked 3rd party domains and allow user to allow them
-         final List<String> unblock = new ArrayList<String>();
          new AlertDialog.Builder(this)
             .setTitle(R.string.blocked_root_domains)
             .setMultiChoiceItems(wc.getBlockedHosts(), null, new OnMultiChoiceClickListener() {
@@ -100,7 +99,27 @@ public class WebAppActivity extends BaseWebAppActivity {
                   values.put("name", name.getText());
                   values.put("url", wv.getUrl());
                   values.put("iconUrl", "");
-                  db.insert(DbService.TABLE_WEBAPPS, values);
+                  
+                  if (webappId > 0) {
+                     db.update(DbService.TABLE_WEBAPPS, values, String.valueOf(webappId));
+                  } else {
+                     db.insert(DbService.TABLE_WEBAPPS, values);
+                  }
+                  
+                  // save the unblock list
+                  if (unblock.size() > 0) {
+                     // clear current list
+                     HashMap<String,Object> params = new HashMap<String,Object>();
+                     params.put("webappId", webappId);
+                     db.execute(R.string.dbDeleteDomains, params);
+                     
+                     // add new items
+                     for (String domain : unblock) {
+                        params.put("domain", domain);
+                        db.insert(DbService.TABLE_DOMAINS, params);
+                     }
+                  }
+                  
                   d.dismiss();
                }
             })

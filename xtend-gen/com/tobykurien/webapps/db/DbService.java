@@ -10,6 +10,8 @@ import java.util.List;
 public class DbService extends BaseDbService {
   public final static String TABLE_WEBAPPS = "webapps";
   
+  public final static String TABLE_DOMAINS = "domain_names";
+  
   protected DbService(final Context context) {
     super(context, "webapps4", 1);
   }

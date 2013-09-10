@@ -1,5 +1,12 @@
 package com.tobykurien.webapps;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,15 +24,20 @@ import android.webkit.WebSettings.TextSize;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+import com.tobykurien.webapps.db.DbService;
+import com.tobykurien.webapps.utils.Dependencies;
 import com.tobykurien.webapps.utils.Settings;
 import com.tobykurien.webapps.webviewclient.WebClient;
 
 public class BaseWebAppActivity extends Activity {
    public static boolean reload = false;
+   public static String EXTRA_WEBAPP_ID = "webapp_id";
 
    WebView wv = null;
    Uri siteUrl = null;
    WebClient wc = null;
+   long webappId = -1;
+   Set<String> unblock = new HashSet<String>();
    
    /** Called when the activity is first created. */
    @Override
@@ -43,6 +55,7 @@ public class BaseWebAppActivity extends Activity {
       if (getIntent() != null && getIntent().getData() != null && 
                Intent.ACTION_VIEW.equals(getIntent().getAction())) {
          siteUrl = getIntent().getData();
+         webappId = getIntent().getLongExtra(EXTRA_WEBAPP_ID, -1);
       }
       
       setupWebView();
@@ -147,7 +160,23 @@ public class BaseWebAppActivity extends Activity {
     * @return
     */
    protected WebClient getWebViewClient(ProgressBar pb) {
-      if (wc == null) wc = new WebClient(this, wv, pb, new String[]{ siteUrl.getHost() });
+      if (wc == null) {
+         unblock = new HashSet<String>();
+         unblock.add(siteUrl.getHost());
+         
+         if (webappId > 0) {
+            // load saved unblock list
+            DbService db = Dependencies.getDb(this);
+            HashMap<String,Object> params = new HashMap<String,Object>();
+            params.put("webappId", webappId);
+            List<Map<String,Object>> domains = db.executeForMapList(R.string.dbGetDomainNames, params);
+            for (Map<String,Object> domain : domains) {
+               unblock.add((String)domain.get("domain"));
+            }
+         }
+         
+         wc = new WebClient(this, wv, pb, unblock.toArray(new String[0]));
+      }
       return wc;
    }
 

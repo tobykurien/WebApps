@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -160,7 +161,7 @@ public class WebClient extends WebViewClient {
     * Add domains to be unblocked
     * @param unblock
     */
-   public void unblockDomains(List<String> unblock) {
+   public void unblockDomains(Set<String> unblock) {
       for (String s : domainUrls) {
          unblock.add(s);
       }

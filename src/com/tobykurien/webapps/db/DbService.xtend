@@ -8,6 +8,7 @@ import java.util.List
 
 class DbService extends BaseDbService {
    public static val TABLE_WEBAPPS = "webapps"
+   public static val TABLE_DOMAINS = "domain_names"
    
    protected new(Context context) {
       super(context, "webapps4", 1)
