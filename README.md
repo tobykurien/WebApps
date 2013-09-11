@@ -22,3 +22,11 @@ https://github.com/tobykurien/WebApps/tree/master/apk
 This app is available from the Google Play Store:
 https://play.google.com/store/apps/details?id=com.tobykurien.webapps
 
+Libraries
+=========
+
+This project makes use of the following libraries/tools:
+
+- Xtend compiler: http://xtend-lang.org
+- Xtendroid library: http://github.com/tobykurien/xtendroid
+
