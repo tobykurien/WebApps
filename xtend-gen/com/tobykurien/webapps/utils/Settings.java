@@ -45,8 +45,8 @@ public class Settings extends BasePreferences {
     return pref.getBoolean("block3rd_party", block3rdParty);
   }
   
-  public boolean setBlock3rdParty() {
-    pref.edit().putBoolean("block3rd_party", block3rdParty).commit();
+  public boolean setBlock3rdParty(final boolean value) {
+    pref.edit().putBoolean("block3rd_party", value).commit();
     return true;
   }
   
@@ -54,8 +54,8 @@ public class Settings extends BasePreferences {
     return pref.getBoolean("block_http", blockHttp);
   }
   
-  public boolean setBlockHttp() {
-    pref.edit().putBoolean("block_http", blockHttp).commit();
+  public boolean setBlockHttp(final boolean value) {
+    pref.edit().putBoolean("block_http", value).commit();
     return true;
   }
   
@@ -63,8 +63,8 @@ public class Settings extends BasePreferences {
     return pref.getString("font_size", fontSize);
   }
   
-  public boolean setFontSize() {
-    pref.edit().putString("font_size", fontSize).commit();
+  public boolean setFontSize(final String value) {
+    pref.edit().putString("font_size", value).commit();
     return true;
   }
   
@@ -72,8 +72,8 @@ public class Settings extends BasePreferences {
     return pref.getString("user_agent", userAgent);
   }
   
-  public boolean setUserAgent() {
-    pref.edit().putString("user_agent", userAgent).commit();
+  public boolean setUserAgent(final String value) {
+    pref.edit().putString("user_agent", value).commit();
     return true;
   }
 }

@@ -32,7 +32,7 @@ class MainActivity extends Activity {
       val activity = this
       loadWebapps
       
-      getMainList.setOnItemClickListener([av, v, pos, id|
+      mainList.setOnItemClickListener([av, v, pos, id|
          var intent = new Intent(activity, typeof(WebAppActivity))
          intent.action = Intent.ACTION_VIEW
          intent.data = Uri.parse(webapps.get(pos).url)
@@ -40,7 +40,7 @@ class MainActivity extends Activity {
          startActivity(intent)
       ])
       
-      getMainList.setOnItemLongClickListener([av, v, pos, id|
+      mainList.setOnItemLongClickListener([av, v, pos, id|
          confirm(getString(R.string.delete_webapp), [|
             db.execute(R.string.dbDeleteDomains, #{'webappId' -> id})
             db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
@@ -74,6 +74,6 @@ class MainActivity extends Activity {
    def loadWebapps() {
       webapps = db.getWebapps
       var adapter = new BeanAdapter<Webapp>(this, R.layout.row_webapp, webapps) 
-      getMainList.setAdapter(adapter)
+      mainList.setAdapter(adapter)
    }  
 }
