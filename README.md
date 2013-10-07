@@ -30,3 +30,6 @@ This project makes use of the following libraries/tools:
 - Xtend compiler: http://xtend-lang.org
 - Xtendroid library: http://github.com/tobykurien/xtendroid
 
+In order to compile with the command line you should install maven and run: 
+`mvn package`.
+
