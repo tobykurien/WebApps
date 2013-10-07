@@ -17,10 +17,6 @@ class Settings extends BasePreferences {
    }
    
    def getIntFontSize() {
-      try {
-         Integer.parseInt(getFontSize())
-      } catch (Exception e) {
          2
       }
-   }
 }
