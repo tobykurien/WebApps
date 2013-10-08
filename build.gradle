@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "18.1"
+
+
+    dependencies {
+      //compile project(':Xtendroid')
+      compile files('libs/xtendroid.jar')
+      compile files('libs/android-support-v13.jar')
+      compile files('libs/com.google.guava_10.0.1.v201203051515.jar')
+      compile files('libs/org.eclipse.xtend.lib_2.4.3.v201309030823.jar')
+      compile files('libs/org.eclipse.xtext.xbase.lib_2.4.3.v201309030823.jar')
+    }
+
+    sourceSets {
+      main {
+        manifest.srcFile 'AndroidManifest.xml'
+        aidl.srcDirs = ['src']
+        java.srcDirs = ['src', 'xtend-gen']
+        res.srcDirs = ['res']
+        assets.srcDirs = ['assets']
+      }
+    }
+}
+
