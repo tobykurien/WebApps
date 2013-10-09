@@ -9,6 +9,10 @@ buildscript {
 
 apply plugin: 'android'
 
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.8'
+}
+
 android {
     compileSdkVersion 17
     buildToolsVersion "18.1"
@@ -17,6 +21,7 @@ android {
     dependencies {
       //compile project(':Xtendroid')
       compile fileTree(dir: 'libs', includes: ['*.jar'])
+      compile fileTree(dir: 'libs-gradle', includes: ['*.jar'])
     }
 
     sourceSets {
