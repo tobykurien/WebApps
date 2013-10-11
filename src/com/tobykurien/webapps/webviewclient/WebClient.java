@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -38,11 +41,26 @@ public class WebClient extends WebViewClient {
    }
    
    @Override
-   public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-      // TODO Auto-generated method stub
-      //super.onReceivedSslError(view, handler, error);
-      Toast.makeText(activity, "WARNING: Invalid SSL Certificate " + error.getCertificate().getIssuedTo().getDName(), Toast.LENGTH_LONG).show();
-      handler.proceed();
+   public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
+      new AlertDialog.Builder(activity)
+         .setTitle("Untrusted SSL Cert")
+         .setMessage("Issued by: " + error.getCertificate().getIssuedBy().getDName() + "\r\n" +
+                  "Issued to: " + error.getCertificate().getIssuedTo().getDName() + "\r\n" +
+                  "Expires: " + error.getCertificate().getValidNotAfterDate().toLocaleString() + "\r\n")
+         .setPositiveButton("Add exception", new OnClickListener() {
+               @Override
+               public void onClick(DialogInterface arg0, int arg1) {
+                  handler.proceed();
+               }
+            })
+         .setNegativeButton("Cancel", new OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                  handler.cancel();
+               }
+            })
+         .create()
+         .show();
    }
    
    @Override
