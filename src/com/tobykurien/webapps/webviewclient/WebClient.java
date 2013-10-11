@@ -10,9 +10,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieSyncManager;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -34,7 +36,15 @@ public class WebClient extends WebViewClient {
       this.pd = pd;
       this.domainUrls = domainUrls;
    }
-
+   
+   @Override
+   public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+      // TODO Auto-generated method stub
+      //super.onReceivedSslError(view, handler, error);
+      Toast.makeText(activity, "WARNING: Invalid SSL Certificate " + error.getCertificate().getIssuedTo().getDName(), Toast.LENGTH_LONG).show();
+      handler.proceed();
+   }
+   
    @Override
    public void onPageFinished(WebView view, String url) {
       if (pd != null) pd.setVisibility(View.GONE);
