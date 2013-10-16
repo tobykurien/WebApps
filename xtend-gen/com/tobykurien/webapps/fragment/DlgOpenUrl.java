@@ -17,8 +17,8 @@ import com.tobykurien.webapps.R.id;
 import com.tobykurien.webapps.R.layout;
 import com.tobykurien.webapps.R.string;
 import com.tobykurien.webapps.WebAppActivity;
-import com.tobykurien.xtendroid.utils.AlertUtils;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.xtendroid.utils.AlertUtils;
 
 @SuppressWarnings("all")
 public class DlgOpenUrl extends DialogFragment {

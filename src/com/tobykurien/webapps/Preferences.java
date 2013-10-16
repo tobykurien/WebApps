@@ -1,6 +1,6 @@
 package com.tobykurien.webapps;
 
-import com.tobykurien.xtendroid.utils.BasePreferences;
+import org.xtendroid.utils.BasePreferences;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

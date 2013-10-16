@@ -1,9 +1,9 @@
 package com.tobykurien.webapps.utils;
 
 import android.content.Context;
-import com.tobykurien.xtendroid.annotations.Preference;
-import com.tobykurien.xtendroid.utils.BasePreferences;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.xtendroid.annotations.Preference;
+import org.xtendroid.utils.BasePreferences;
 
 @SuppressWarnings("all")
 public class Settings extends BasePreferences {

@@ -12,7 +12,7 @@ import android.widget.EditText
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.WebAppActivity
 
-import static extension com.tobykurien.xtendroid.utils.AlertUtils.*
+import static extension org.xtendroid.utils.AlertUtils.*
 
 class DlgOpenUrl extends DialogFragment {
    

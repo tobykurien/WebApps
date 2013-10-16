@@ -3,7 +3,7 @@ package com.tobykurien.webapps.utils;
 import android.content.Context;
 import com.tobykurien.webapps.db.DbService;
 import com.tobykurien.webapps.utils.Settings;
-import com.tobykurien.xtendroid.utils.BasePreferences;
+import org.xtendroid.utils.BasePreferences;
 
 @SuppressWarnings("all")
 public class Dependencies {

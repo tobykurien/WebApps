@@ -10,12 +10,13 @@ import android.widget.ListView
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgOpenUrl
-import com.tobykurien.xtendroid.adapter.BeanAdapter
-import com.tobykurien.xtendroid.annotations.AndroidView
 import java.util.List
+import org.xtendroid.adapter.BeanAdapter
+import org.xtendroid.annotations.AndroidView
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
-import static extension com.tobykurien.xtendroid.utils.AlertUtils.*
+
+import static extension org.xtendroid.utils.AlertUtils.*
 
 class MainActivity extends Activity {
    @AndroidView ListView mainList

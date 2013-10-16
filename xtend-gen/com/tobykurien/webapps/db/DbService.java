@@ -3,8 +3,8 @@ package com.tobykurien.webapps.db;
 import android.content.Context;
 import com.tobykurien.webapps.R.string;
 import com.tobykurien.webapps.data.Webapp;
-import com.tobykurien.xtendroid.db.BaseDbService;
 import java.util.List;
+import org.xtendroid.db.BaseDbService;
 
 @SuppressWarnings("all")
 public class DbService extends BaseDbService {

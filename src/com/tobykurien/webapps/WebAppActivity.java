@@ -1,8 +1,6 @@
 package com.tobykurien.webapps;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
