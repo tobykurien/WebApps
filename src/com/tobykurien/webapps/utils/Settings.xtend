@@ -1,8 +1,8 @@
 package com.tobykurien.webapps.utils
 
 import android.content.Context
-import org.xtendroid.utils.BasePreferences
 import org.xtendroid.annotations.Preference
+import org.xtendroid.utils.BasePreferences
 
 class Settings extends BasePreferences {
    @Preference boolean block3rdParty = true
