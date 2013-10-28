@@ -19,6 +19,12 @@ public class Settings extends BasePreferences {
   @Preference
   private String userAgent = "";
   
+  @Preference
+  private boolean fullscreen = false;
+  
+  @Preference
+  private boolean hideActionbar = true;
+  
   public static Settings getSettings(final Context context) {
     BasePreferences _preferences = BasePreferences.getPreferences(context, Settings.class);
     return ((Settings) _preferences);
@@ -74,6 +80,24 @@ public class Settings extends BasePreferences {
   
   public boolean setUserAgent(final String value) {
     pref.edit().putString("user_agent", value).commit();
+    return true;
+  }
+  
+  public boolean isFullscreen() {
+    return pref.getBoolean("fullscreen", fullscreen);
+  }
+  
+  public boolean setFullscreen(final boolean value) {
+    pref.edit().putBoolean("fullscreen", value).commit();
+    return true;
+  }
+  
+  public boolean isHideActionbar() {
+    return pref.getBoolean("hide_actionbar", hideActionbar);
+  }
+  
+  public boolean setHideActionbar(final boolean value) {
+    pref.edit().putBoolean("hide_actionbar", value).commit();
     return true;
   }
 }

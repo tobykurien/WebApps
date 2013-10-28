@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.tobykurien.webapps.db.DbService;
 import com.tobykurien.webapps.utils.Dependencies;
+import com.tobykurien.webapps.utils.Settings;
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be. Now the core
@@ -32,13 +33,17 @@ public class WebAppActivity extends BaseWebAppActivity {
    // variables to track dragging for actionbar auto-hide
    protected float startX;
    protected float startY;
+   Settings settings;
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
 
-      getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      settings = Settings.getSettings(this);
+      if (settings.isFullscreen()) {
+         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      }
       
       // setup actionbar
       ActionBar ab = getActionBar();
@@ -48,6 +53,14 @@ public class WebAppActivity extends BaseWebAppActivity {
       autohideActionbar();
    }
 
+   @Override
+   protected void onResume() {
+      super.onResume();
+      
+      // may not be neccessary, but reload the settings
+      settings = Settings.getSettings(this);
+   }
+   
    @Override
    public boolean onOptionsItemSelected(MenuItem item) {
       if (item.getItemId() == android.R.id.home) {
@@ -139,18 +152,20 @@ public class WebAppActivity extends BaseWebAppActivity {
       wv.setOnTouchListener(new OnTouchListener() {
          @Override
          public boolean onTouch(View arg0, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-               startY = event.getY();
-            }
+            if (settings.isHideActionbar()) {
+               if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                  startY = event.getY();
+               }
 
-            if (event.getAction() == MotionEvent.ACTION_MOVE) {
-               // avoid juddering by waiting for large-ish drag
-               if (Math.abs(startY - event.getY()) > 
-                  new ViewConfiguration().getScaledTouchSlop() * 5) {
-                  if (startY < event.getY()) 
-                     getActionBar().show();
-                  else
-                     getActionBar().hide();
+               if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                  // avoid juddering by waiting for large-ish drag
+                  if (Math.abs(startY - event.getY()) > 
+                     new ViewConfiguration().getScaledTouchSlop() * 5) {
+                     if (startY < event.getY()) 
+                        getActionBar().show();
+                     else
+                        getActionBar().hide();
+                  }
                }
             }
 

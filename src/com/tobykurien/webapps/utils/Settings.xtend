@@ -9,6 +9,8 @@ class Settings extends BasePreferences {
    @Preference boolean blockHttp = true
    @Preference String fontSize = "2"
    @Preference String userAgent = ""
+   @Preference boolean fullscreen = false
+   @Preference boolean hideActionbar = true
    
    // for backward compatibility
    def static Settings getSettings(Context context) {

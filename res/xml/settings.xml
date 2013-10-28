@@ -31,4 +31,16 @@
         android:key="user_agent"
         android:persistent="true" />
 
+    <CheckBoxPreference
+        android:title="Fullscreen"
+        android:summary="Hide the status bar and use all screen space (requires restart)"
+        android:defaultValue="false"
+        android:key="fullscreen"/>    
+
+    <CheckBoxPreference
+        android:title="Auto-hide action bar"
+        android:summary="Hide the action bar when you scroll down, reveal when you scroll up"
+        android:defaultValue="true"
+        android:key="hide_actionbar"/>     
+    
 </PreferenceScreen>
