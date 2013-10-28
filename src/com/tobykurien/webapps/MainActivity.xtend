@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.ListView
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
@@ -15,7 +16,6 @@ import org.xtendroid.adapter.BeanAdapter
 import org.xtendroid.annotations.AndroidView
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
-
 import static extension org.xtendroid.utils.AlertUtils.*
 
 class MainActivity extends Activity {
@@ -24,6 +24,12 @@ class MainActivity extends Activity {
 
    override protected onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState)
+      
+      if (settings.isFullscreen()) {
+         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+      }      
+      
       setContentView(R.layout.main)
    }
 

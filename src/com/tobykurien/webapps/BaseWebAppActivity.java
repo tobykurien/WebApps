@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.webkit.CookieSyncManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.TextSize;
 import android.webkit.WebView;
@@ -110,6 +111,7 @@ public class BaseWebAppActivity extends Activity {
       wv.setWebViewClient(getWebViewClient(pb));
 
       wv.addJavascriptInterface(new Object() {
+         @JavascriptInterface
          // attempt to override the _window function used by Google+ mobile app
          public void open(String url, String stuff, String otherstuff, String morestuff, String yetmorestuff, String yetevenmore) {
             throw new IllegalStateException(url); // to indicate success

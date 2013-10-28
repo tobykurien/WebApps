@@ -138,11 +138,16 @@ public class WebClient extends WebViewClient {
     */
    private String getRootDomain(String url) {
       String host = Uri.parse(url).getHost();
-      String[] parts = host.split("\\.");
-      if (parts.length > 1) {
-         return parts[parts.length - 2] + "." + parts[parts.length - 1];
-      } else {
-         return host;
+      try {
+         String[] parts = host.split("\\.");
+         if (parts.length > 1) {
+            return parts[parts.length - 2] + "." + parts[parts.length - 1];
+         } else {
+            return host;
+         }
+      } catch (Exception e) {
+         // sometimes things don't quite work out
+         return host; 
       }
    }
 
