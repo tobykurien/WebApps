@@ -88,7 +88,6 @@ public class BaseWebAppActivity extends Activity {
       String cachePath = this.getApplicationContext().getDir("cache-" + siteUrl.getHost(), Context.MODE_PRIVATE).getPath();
       settings.setAppCachePath(cachePath);
       settings.setAllowFileAccess(false);
-      settings.setPluginsEnabled(false);
       settings.setAllowContentAccess(false);
       settings.setAppCacheEnabled(true);
       settings.setDomStorageEnabled(false);

@@ -30,3 +30,10 @@ This project makes use of the following libraries/tools:
 - Xtend compiler: http://xtend-lang.org
 - Xtendroid library: http://github.com/tobykurien/xtendroid
 
+In order to compile with the command line you should install maven, make an
+apklib from Xtendroid by cloning from the above location, changing into it 
+and running:  
+`zip -r Xtendroid.apklib *` then ` mvn install:install-file 
+-Dfile=Xtendroid.apklib -DgroupId=com.tobykurien -DartifactId=xtendroid 
+-Dversion=1.0 -Dpackaging=apklib` and finally, `mvn package`.
+
