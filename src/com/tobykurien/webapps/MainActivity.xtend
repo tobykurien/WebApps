@@ -52,7 +52,6 @@ class MainActivity extends Activity {
             db.execute(R.string.dbDeleteDomains, #{'webappId' -> id})
             db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
             loadWebapps
-            null
          ])
          true
       ])      
