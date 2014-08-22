@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
+import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -44,8 +44,7 @@ public class BaseWebAppActivity extends Activity {
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.webapp);
-      CookieSyncManager.createInstance(this);
-
+      
       wv = getWebView();
       if (wv == null) {
          finish();
@@ -58,42 +57,55 @@ public class BaseWebAppActivity extends Activity {
          webappId = getIntent().getLongExtra(EXTRA_WEBAPP_ID, -1);
       }
       
+      CookieSyncManager.createInstance(this);
+      //CookieManager.setAcceptFileSchemeCookies(false); // needs API min level = 12
+      CookieManager.getInstance().setAcceptCookie(true);
       setupWebView();
    }
    
    @Override
    protected void onResume() {
       super.onResume();
+      
+      CookieSyncManager.getInstance().startSync();
+
       if (reload) {
          reload = false;
          setupWebView();
       }
    }
    
+   @Override
+	protected void onPause() {
+		super.onPause();
+		CookieSyncManager.getInstance().stopSync();
+	}
+   
    protected void setupWebView() {      
       final ProgressBar pb = getProgressBar();
       if (pb != null) pb.setVisibility(View.VISIBLE);
-
+      
       // WebView.enablePlatformNotifications();
       WebSettings settings = wv.getSettings();
       settings.setJavaScriptEnabled(true);
       settings.setJavaScriptCanOpenWindowsAutomatically(false);
       
-      // Enable local database.
+      // Enable local database per site
       settings.setDatabaseEnabled(true);
-      String databasePath = this.getApplicationContext().getDir("db-" + siteUrl.getHost(), Context.MODE_PRIVATE).getPath();
+      String databasePath = this.getApplicationContext().getCacheDir() + "db-" + siteUrl.getHost();
       settings.setDatabasePath(databasePath);
 
-      // Enable manifest cache.
-      String cachePath = this.getApplicationContext().getDir("cache-" + siteUrl.getHost(), Context.MODE_PRIVATE).getPath();
+      // Enable caching each site individually
+      String cachePath = this.getApplicationContext().getCacheDir() + "/cache-" + siteUrl.getHost();
       settings.setAppCachePath(cachePath);
+      settings.setAppCacheEnabled(true);
+      settings.setAppCacheMaxSize(1024 * 1024 * 8);
+      settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
       settings.setAllowFileAccess(false);
       settings.setPluginsEnabled(false);
       settings.setAllowContentAccess(false);
-      settings.setAppCacheEnabled(true);
       settings.setDomStorageEnabled(false);
-      settings.setAppCacheMaxSize(1024 * 1024 * 8);
-      settings.setCacheMode(WebSettings.LOAD_DEFAULT);
       settings.setBuiltInZoomControls(true);
       settings.setGeolocationEnabled(false);
       settings.setJavaScriptCanOpenWindowsAutomatically(false);
