@@ -142,9 +142,7 @@ public class WebAppActivity extends BaseWebAppActivity {
    }
    
    /**
-    * Attempt to make the actionBar auto-hide and auto-reveal based on drag,
-    * but unfortunately makes the bit under the actionbar mostly inaccessible,
-    * so leaving this out for now.
+    * Attempt to make the actionBar auto-hide and auto-reveal based on drag
     * @param activity
     * @param wv
     */
