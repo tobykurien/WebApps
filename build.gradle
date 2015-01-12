@@ -1,19 +1,20 @@
 buildscript {
     repositories {
+	jcenter()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.11.+'
-        classpath 'org.xtend:xtend-gradle-plugin:0.1.+'
+        classpath 'com.android.tools.build:gradle:1.0+'
+        classpath 'org.xtend:xtend-android-gradle-plugin:0.3.4'
     }
 }
 
 apply plugin: 'android'
-apply plugin: 'xtend-android'
+apply plugin: 'org.xtend.xtend-android'
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '1.11'
+  gradleVersion = '2.2.1'
 }
 
 repositories {
@@ -22,12 +23,12 @@ repositories {
 
 android {
     compileSdkVersion 17
-    buildToolsVersion "20"
+    buildToolsVersion "21.1.1"
 
     dependencies {
       compile 'com.android.support:support-v4:20.0.0'
-      compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.6.+'
-      compile 'com.github.tobykurien:xtendroid:0.10.+'
+      compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.7.3'
+      compile 'com.github.tobykurien:xtendroid:0.11.0'
     }
 
     sourceSets {
@@ -56,7 +57,7 @@ android {
             }
             
             signingConfig signingConfigs.release
-            runProguard true
+            minifyEnabled true
             proguardFile file('proguard-project.txt')
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
         }
