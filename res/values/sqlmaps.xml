@@ -16,8 +16,9 @@
         insert into webapps (name,url,iconUrl) values (\'Facebook\',\'https://m.facebook.com\',\'https://facebook.com/favicon.ico\');
         insert into webapps (name,url,iconUrl) values (\'Twitter\',\'https://mobile.twitter.com\',\'https://twitter.com/favicon.ico\');
         insert into webapps (name,url,iconUrl) values (\'Google News\',\'https://news.google.com\',\'https://news.google.com/favicon.ico\');
-        insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://pay.reddit.com\',\'https://pay.reddit.com/favicon.ico\');
-        insert into webapps (name,url,iconUrl) values (\'LinkedIn\',\'https://touch.www.linkedin.com\',\'https://touch.www.linkedin.com/favicon.ico\');
+        insert into webapps (name,url,iconUrl) values (\'Hacker News\',\'https://news.ycombinator.com/\',\'https://news.ycombinator.com/favicon.ico\');
+        insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://m.reddit.com\',\'https://m.reddit.com/favicon.ico\');
+        insert into webapps (name,url,iconUrl) values (\'Voat\',\'https://voat.co\',\'https://voat.co/favicon.ico\');
     </string>
     
     <string name="dbGetWebapps">
