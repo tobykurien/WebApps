@@ -1,4 +1,4 @@
-package com.tobykurien.webapps;
+package com.tobykurien.webapps.activity;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +24,7 @@ import android.webkit.WebSettings.TextSize;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+import com.tobykurien.webapps.R;
 import com.tobykurien.webapps.db.DbService;
 import com.tobykurien.webapps.utils.Dependencies;
 import com.tobykurien.webapps.utils.Settings;

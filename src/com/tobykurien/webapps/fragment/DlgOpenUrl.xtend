@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.tobykurien.webapps.R
-import com.tobykurien.webapps.WebAppActivity
+import com.tobykurien.webapps.activity.WebAppActivity
 
 import static extension org.xtendroid.utils.AlertUtils.*
 

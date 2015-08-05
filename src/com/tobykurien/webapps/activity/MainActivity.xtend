@@ -1,4 +1,4 @@
-package com.tobykurien.webapps
+package com.tobykurien.webapps.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
 import android.widget.ListView
+import com.tobykurien.webapps.R
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgOpenUrl

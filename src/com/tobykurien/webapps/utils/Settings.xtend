@@ -10,6 +10,7 @@ import org.xtendroid.utils.BasePreferences
    String userAgent = ""
    boolean fullscreen = false
    boolean hideActionbar = true
+   boolean loadImages = true
    
    def getIntFontSize() {
       try {

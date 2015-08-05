@@ -1,4 +1,4 @@
-package com.tobykurien.webapps;
+package com.tobykurien.webapps.activity;
 
 import java.util.HashMap;
 
@@ -19,6 +19,10 @@ import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.tobykurien.webapps.R;
+import com.tobykurien.webapps.R.id;
+import com.tobykurien.webapps.R.layout;
+import com.tobykurien.webapps.R.string;
 import com.tobykurien.webapps.db.DbService;
 import com.tobykurien.webapps.utils.Dependencies;
 import com.tobykurien.webapps.utils.Settings;

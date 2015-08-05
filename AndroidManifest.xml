@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.tobykurien.webapps.MainActivity"
+            android:name="com.tobykurien.webapps.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tobykurien.webapps.WebAppActivity"
+            android:name="com.tobykurien.webapps.activity.WebAppActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tobykurien.webapps.Preferences"
+            android:name="com.tobykurien.webapps.activity.Preferences"
             android:label="@string/app_name" />
     </application>
 
