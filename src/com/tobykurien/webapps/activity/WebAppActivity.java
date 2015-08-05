@@ -40,7 +40,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 	protected float startX;
 	protected float startY;
 	Settings settings;
+
 	private MenuItem stopMenu = null;
+	private MenuItem imageMenu = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 		inflater.inflate(R.menu.webapps_menu, menu);
 		
 		stopMenu = menu.findItem(R.id.menu_stop);
+		imageMenu = menu.findItem(R.id.menu_image);
+		imageMenu.setChecked(Settings.getSettings(this).isLoadImages());
+		updateImageMenu();
 		
 		return true;
 	}
@@ -95,13 +100,21 @@ public class WebAppActivity extends BaseWebAppActivity {
 			return true;
 
 		case R.id.menu_stop:
-			if (stopMenu != null && stopMenu.getTitle().equals(getString(R.string.menu_refresh))) {
+			if (stopMenu != null && !stopMenu.isChecked()) {
 				wv.reload();
 			} else {
 				wv.stopLoading();
 			}
 			return true;
 
+		case R.id.menu_image:
+			if (imageMenu != null) {
+				imageMenu.setChecked(!imageMenu.isChecked());
+				updateImageMenu();
+				setupWebView();
+			}
+			return true;
+			
 		case R.id.menu_settings:
 			Intent i = new Intent(this, Preferences.class);
 			startActivity(i);
@@ -115,12 +128,20 @@ public class WebAppActivity extends BaseWebAppActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void updateImageMenu() {
+		Settings.getSettings(this).setLoadImages(imageMenu.isChecked());
+		imageMenu.setIcon((imageMenu.isChecked() ?
+				R.drawable.ic_action_image: 
+			    R.drawable.ic_action_image_broken));
+	}
+
 	@Override
 	public void onPageLoadStarted() {
 		super.onPageLoadStarted();
 		if (stopMenu != null) {
 			stopMenu.setTitle(R.string.menu_stop);
 			stopMenu.setIcon(R.drawable.ic_action_stop);
+			stopMenu.setChecked(true);
 		}
 	}
 	
@@ -130,6 +151,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		if (stopMenu != null) {
 			stopMenu.setTitle(R.string.menu_refresh);
 			stopMenu.setIcon(R.drawable.ic_action_refresh);
+			stopMenu.setChecked(false);
 		}
 	}
 	

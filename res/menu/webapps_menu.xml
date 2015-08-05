@@ -6,7 +6,13 @@
         android:icon="@drawable/ic_action_stop"
         android:title="@string/menu_stop"
         android:showAsAction="always"/>
-
+    
+    <item
+        android:id="@+id/menu_image"
+        android:icon="@drawable/ic_action_image"
+        android:title="@string/menu_toggle_image"
+        android:showAsAction="ifRoom"/>
+    
     <item
         android:id="@+id/menu_3rd_party"
         android:icon="@drawable/ic_action_3rd_party"

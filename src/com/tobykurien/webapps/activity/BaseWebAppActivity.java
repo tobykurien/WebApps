@@ -112,6 +112,8 @@ public class BaseWebAppActivity extends Activity {
       settings.setJavaScriptCanOpenWindowsAutomatically(false);
       settings.setSaveFormData(false);
       settings.setSavePassword(false);
+      settings.setLoadsImagesAutomatically(Settings.getSettings(this)
+				.isLoadImages());
 
       // set preferred text size
       setTextSize();
