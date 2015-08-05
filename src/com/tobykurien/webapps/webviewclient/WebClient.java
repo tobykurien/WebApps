@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -23,17 +22,18 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.tobykurien.webapps.activity.BaseWebAppActivity;
 import com.tobykurien.webapps.utils.Dependencies;
 import com.tobykurien.webapps.utils.Settings;
 
 public class WebClient extends WebViewClient {
-   Activity activity;
+   BaseWebAppActivity activity;
    WebView wv;
    View pd;
    public String[] domainUrls;
    HashMap<String,Boolean> blockedHosts = new HashMap<String,Boolean>();
 
-   public WebClient(Activity activity, WebView wv, View pd, String[] domainUrls) {
+   public WebClient(BaseWebAppActivity activity, WebView wv, View pd, String[] domainUrls) {
       this.activity = activity;
       this.wv = wv;
       this.pd = pd;
@@ -66,6 +66,7 @@ public class WebClient extends WebViewClient {
    @Override
    public void onPageFinished(WebView view, String url) {
       if (pd != null) pd.setVisibility(View.GONE);
+      activity.onPageLoadDone();
 
       // Google+ workaround to prevent opening of blank window
       wv.loadUrl("javascript:_window=function(url){ location.href=url; }");
@@ -79,6 +80,7 @@ public class WebClient extends WebViewClient {
       Log.d("webclient", "loading " + url);
 
       if (pd != null) pd.setVisibility(View.VISIBLE);
+      activity.onPageLoadStarted();
       super.onPageStarted(view, url, favicon);
    }
 

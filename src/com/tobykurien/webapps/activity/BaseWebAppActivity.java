@@ -150,6 +150,14 @@ public class BaseWebAppActivity extends Activity {
       openSite(siteUrl.toString());
    }
 
+   public void onPageLoadStarted() {
+	   
+   }
+   
+   public void onPageLoadDone() {
+	   
+   }
+   
    /**
     * Return the title bar progress bar to indicate progress
     * 
@@ -230,30 +238,5 @@ public class BaseWebAppActivity extends Activity {
          return true;
       }
       return super.onKeyDown(keyCode, event);
-   }
-
-   @Override
-   public boolean onCreateOptionsMenu(Menu menu) {
-      super.onCreateOptionsMenu(menu);
-      MenuInflater inflater = getMenuInflater();
-      inflater.inflate(R.menu.webapps_menu, menu);
-      return true;
-   }
-
-   @Override
-   public boolean onOptionsItemSelected(MenuItem item) {
-      switch (item.getItemId()) {
-         case R.id.menu_stop:
-            wv.stopLoading();
-            return true;
-         case R.id.menu_settings:
-            Intent i = new Intent(this, Preferences.class);
-            startActivity(i);
-            return true;
-         case R.id.menu_exit:
-            finish();
-            return true;
-      }
-      return false;
    }
 }
