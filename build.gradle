@@ -5,8 +5,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0+'
-        classpath 'org.xtend:xtend-android-gradle-plugin:0.3.4'
+        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'org.xtend:xtend-android-gradle-plugin:0.4.5'
     }
 }
 
@@ -21,14 +21,18 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(org.xtend.gradle.tasks.XtendCompile) {
+   sourceCompatibility "1.7"
+}
+
 android {
-    compileSdkVersion 17
-    buildToolsVersion "21.1.1"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     dependencies {
-      compile 'com.android.support:support-v4:20.0.0'
-      compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.7.3'
-      compile 'com.github.tobykurien:xtendroid:0.11.0'
+      compile 'com.android.support:support-v4:22.0.0'
+      compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.8.3'
+      compile 'com.github.tobykurien:xtendroid:0.12.1'
     }
 
     sourceSets {
@@ -41,22 +45,12 @@ android {
       }
     }
 
-   signingConfigs {
-       release {
-            storeFile file("release.keystore")
-            storePassword "******"
-            keyAlias "******"
-            keyPassword "******"
-       }
-   }
-
     buildTypes {
         release {
             dependencies {
                compile 'com.google.code.findbugs:jsr305:2.0.2' // needed for proguard
             }
             
-            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFile file('proguard-project.txt')
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
@@ -66,20 +60,4 @@ android {
     packagingOptions {
          exclude 'META-INF/eclipse.inf'
     }
-
-   allprojects {
-       afterEvaluate { project ->
-           def propsFile = rootProject.file('keystore.properties')
-           def configName = 'release'
-
-           if (propsFile.exists() && android.signingConfigs.hasProperty(configName)) {
-               def props = new Properties()
-               props.load(new FileInputStream(propsFile))
-               android.signingConfigs[configName].storeFile = file(props['storeFile'])
-               android.signingConfigs[configName].storePassword = props['storePassword']
-               android.signingConfigs[configName].keyAlias = props['keyAlias']
-               android.signingConfigs[configName].keyPassword = props['keyPassword']
-           }
-       }
-   }
 }

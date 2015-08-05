@@ -21,6 +21,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.TextSize;
+import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
@@ -102,9 +103,8 @@ public class BaseWebAppActivity extends Activity {
       settings.setAppCacheEnabled(true);
       settings.setAppCacheMaxSize(1024 * 1024 * 8);
       settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-
       settings.setAllowFileAccess(false);
-      settings.setPluginsEnabled(false);
+      settings.setPluginState(PluginState.OFF);
       settings.setAllowContentAccess(false);
       settings.setDomStorageEnabled(false);
       settings.setBuiltInZoomControls(true);
