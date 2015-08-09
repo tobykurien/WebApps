@@ -45,18 +45,6 @@ android {
       }
     }
 
-    buildTypes {
-        release {
-            dependencies {
-               compile 'com.google.code.findbugs:jsr305:2.0.2' // needed for proguard
-            }
-            
-            minifyEnabled true
-            proguardFile file('proguard-project.txt')
-            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
-        }
-    }
-
     packagingOptions {
          exclude 'META-INF/eclipse.inf'
     }
