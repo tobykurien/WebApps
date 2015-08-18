@@ -9,7 +9,7 @@
     <string name="menu_toggle_image">Toggle Images</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_3rd_party">Blocked 3rd party domains</string>
-    <string name="menu_open_url">Open Url</string>
+    <string name="menu_open_url">Open URL</string>
     <string name="open_url_hint">site.com</string>
     <string name="open_url">Open URL</string>
     <string name="menu_save">Save as Webapp</string>
