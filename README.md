@@ -35,7 +35,7 @@ Referer information is not send on any request (as per default behaviour of Webv
 Storage
 =======
 
-Plugins, local file access, and DOM storage are all disabled, to prevent them storing super-cookies or tracking information. Also, password saving and form data asaving have been disabled.
+Plugins, and local file access are disabled, however DOM storage and app caching is allowed.
 
 Location
 ========
