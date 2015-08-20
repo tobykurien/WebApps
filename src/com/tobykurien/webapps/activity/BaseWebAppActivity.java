@@ -114,7 +114,7 @@ public class BaseWebAppActivity extends AppCompatActivity {
 		settings.setAllowFileAccess(false);
 		settings.setPluginState(PluginState.OFF);
 		settings.setAllowContentAccess(false);
-		settings.setDomStorageEnabled(false);
+		settings.setDomStorageEnabled(true);
 		settings.setBuiltInZoomControls(false);
 		settings.setGeolocationEnabled(false);
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
