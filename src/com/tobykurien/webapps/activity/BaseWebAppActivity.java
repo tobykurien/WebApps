@@ -189,7 +189,7 @@ public class BaseWebAppActivity extends AppCompatActivity {
          unblock = new HashSet<String>();
          unblock.add(siteUrl.getHost());
          
-         if (webappId > 0) {
+         if (webappId >= 0) {
             // load saved unblock list
             DbService db = Dependencies.getDb(this);
             HashMap<String,Object> params = new HashMap<String,Object>();

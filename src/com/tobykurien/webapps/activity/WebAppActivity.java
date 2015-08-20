@@ -1,6 +1,6 @@
 package com.tobykurien.webapps.activity;
 
-import java.util.HashMap;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,11 +19,9 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.tobykurien.webapps.R;
-import com.tobykurien.webapps.db.DbService;
-import com.tobykurien.webapps.utils.Dependencies;
+import com.tobykurien.webapps.fragment.DlgSaveWebapp;
 import com.tobykurien.webapps.utils.Settings;
 
 /**
@@ -156,46 +153,17 @@ public class WebAppActivity extends BaseWebAppActivity {
 	}
 	
 	private void dlgSave() {
-		final View dlgView = LayoutInflater.from(this).inflate(
-				R.layout.dlg_save, null);
-		final TextView name = (TextView) dlgView.findViewById(R.id.txtName);
-		name.setText(wv.getTitle());
+		DlgSaveWebapp dlg = new DlgSaveWebapp(webappId, wv.getTitle(), wv.getUrl(), unblock);
+		
+		dlg.setOnSaveListener(new Function1<Long, Void>() {
+			@Override
+			public Void apply(Long p) {
+				webappId = p;
+				return null;
+			}
+		});
 
-		new AlertDialog.Builder(this).setTitle(R.string.title_save_webapp)
-				.setView(dlgView)
-				.setPositiveButton(R.string.btn_save, new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface d, int pos) {
-						DbService db = Dependencies.getDb(WebAppActivity.this);
-						HashMap<String, Object> values = new HashMap<String, Object>();
-						values.put("name", name.getText());
-						values.put("url", wv.getUrl());
-						values.put("iconUrl", "");
-
-						if (webappId > 0) {
-							db.update(DbService.TABLE_WEBAPPS, values,
-									String.valueOf(webappId));
-						} else {
-							db.insert(DbService.TABLE_WEBAPPS, values);
-						}
-
-						// save the unblock list
-						if (unblock.size() > 0) {
-							// clear current list
-							HashMap<String, Object> params = new HashMap<String, Object>();
-							params.put("webappId", webappId);
-							db.execute(R.string.dbDeleteDomains, params);
-
-							// add new items
-							for (String domain : unblock) {
-								params.put("domain", domain);
-								db.insert(DbService.TABLE_DOMAINS, params);
-							}
-						}
-
-						d.dismiss();
-					}
-				}).create().show();
+		dlg.show(getSupportFragmentManager(), "save");
 	}
 
 	private void dlg3rdParty() {
