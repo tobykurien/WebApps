@@ -20,6 +20,7 @@ import com.tobykurien.webapps.fragment.DlgSaveWebapp
 import com.tobykurien.webapps.utils.Settings
 import org.xtendroid.utils.AsyncBuilder
 import com.tobykurien.webapps.utils.FaviconHandler
+import com.tobykurien.webapps.adapter.WebappsAdapter
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -53,7 +54,11 @@ public class WebAppActivity extends BaseWebAppActivity {
 		ab.setDisplayShowCustomEnabled(true);
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setCustomView(R.layout.actionbar_favicon);
-
+      
+      // load a favico if it already exists
+      var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
+      WebappsAdapter.loadFavicon(this, new FaviconHandler(this).getFavIcon(webappId), iconImg)     
+		
 		autohideActionbar();
 	}
 

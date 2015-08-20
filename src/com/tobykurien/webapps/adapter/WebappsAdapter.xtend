@@ -1,11 +1,14 @@
 package com.tobykurien.webapps.adapter
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.utils.FaviconHandler
+import java.io.File
 import java.util.List
 import org.xtendroid.adapter.AndroidAdapter
 import org.xtendroid.adapter.AndroidViewHolder
@@ -32,15 +35,22 @@ import org.xtendroid.adapter.AndroidViewHolder
       
       if (favicoHandler == null) favicoHandler = new FaviconHandler(context)
       var favico = favicoHandler.getFavIcon(app.id)
+      loadFavicon(context, favico, vh.favicon)
+      
+      return vh.view
+   }
+   
+   /**
+    * Load a favicon into an imageview
+    */
+   def static loadFavicon(Context context, File favico, ImageView view) {
       if (favico.exists) {
          Glide.with(context)
            .load(favico)
            .centerCrop()
            .placeholder(R.drawable.ic_action_site)
            .crossFade()
-           .into(vh.favicon);
+           .into(view);
       }
-      
-      return vh.view
    }
 }
