@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +32,7 @@ import com.tobykurien.webapps.utils.Dependencies;
 import com.tobykurien.webapps.utils.Settings;
 import com.tobykurien.webapps.webviewclient.WebClient;
 
-public class BaseWebAppActivity extends Activity {
+public class BaseWebAppActivity extends AppCompatActivity {
    public static boolean reload = false;
    public static String EXTRA_WEBAPP_ID = "webapp_id";
 

@@ -1,37 +1,34 @@
 package com.tobykurien.webapps.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
-import android.widget.ListView
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgOpenUrl
 import java.util.List
 import org.xtendroid.adapter.BeanAdapter
-import org.xtendroid.annotations.AndroidView
+import org.xtendroid.app.AndroidActivity
+import org.xtendroid.app.OnCreate
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import com.tobykurien.webapps.adapter.WebappsAdapter
 
-class MainActivity extends Activity {
-   @AndroidView ListView mainList
+@AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
    var List<Webapp> webapps
 
-   override protected onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState)
-      
+   @OnCreate
+   def init(Bundle savedInstanceState) {
       if (settings.isFullscreen()) {
          getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                  WindowManager.LayoutParams.FLAG_FULLSCREEN);
       }      
-      
-      setContentView(R.layout.main)
    }
 
    override protected onStart() {
@@ -80,7 +77,7 @@ class MainActivity extends Activity {
  
    def loadWebapps() {
       webapps = db.getWebapps
-      var adapter = new BeanAdapter<Webapp>(this, R.layout.row_webapp, webapps) 
+      var adapter = new WebappsAdapter(this, webapps) 
       mainList.setAdapter(adapter)
    }  
 }

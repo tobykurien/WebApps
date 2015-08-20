@@ -1,7 +1,0 @@
-<resources>
-
-    <style name="AppBaseTheme" parent="@android:style/Theme.Holo.Light">
-        <!--  item name="android:windowActionBarOverlay">true</item -->
-    </style>
-
-</resources>
