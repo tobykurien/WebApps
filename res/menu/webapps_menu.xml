@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_stop"
         android:icon="@drawable/ic_action_stop"
         android:title="@string/menu_stop"
-        android:showAsAction="always"/>
-    
-    <item
-        android:id="@+id/menu_image"
-        android:icon="@drawable/ic_action_image"
-        android:title="@string/menu_toggle_image"
-        android:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
     
     <item
         android:id="@+id/menu_3rd_party"
         android:icon="@drawable/ic_action_3rd_party"
         android:title="@string/menu_3rd_party"
-        android:showAsAction="ifRoom"/>
-        
+        app:showAsAction="always"/>
+    
     <item
         android:id="@+id/menu_save"
         android:icon="@drawable/ic_action_save"
         android:title="@string/menu_save"
-        android:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
     
+    <item
+        android:id="@+id/menu_image"
+        android:icon="@drawable/ic_action_image"
+        android:title="@string/menu_toggle_image"
+        app:showAsAction="always"/>
+        
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/menu_settings"
-        android:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

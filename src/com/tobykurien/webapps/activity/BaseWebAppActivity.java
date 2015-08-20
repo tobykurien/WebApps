@@ -108,7 +108,7 @@ public class BaseWebAppActivity extends AppCompatActivity {
       settings.setPluginState(PluginState.OFF);
       settings.setAllowContentAccess(false);
       settings.setDomStorageEnabled(false);
-      settings.setBuiltInZoomControls(true);
+      settings.setBuiltInZoomControls(false);
       settings.setGeolocationEnabled(false);
       settings.setJavaScriptCanOpenWindowsAutomatically(false);
       settings.setSaveFormData(false);

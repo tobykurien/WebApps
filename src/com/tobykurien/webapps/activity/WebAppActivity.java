@@ -246,9 +246,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 						if (Math.abs(startY - event.getY()) > new ViewConfiguration()
 								.getScaledTouchSlop() * 5) {
 							if (startY < event.getY())
-								getActionBar().show();
+								getSupportActionBar().show();
 							else
-								getActionBar().hide();
+								getSupportActionBar().hide();
 						}
 					}
 				}
