@@ -46,7 +46,7 @@ import org.xtendroid.annotations.AndroidDialogFragment
       val Uri uri = try {
          Uri.parse("https://" + url)
       } catch (Exception e) {
-         txtOpenUrl.setError("!!", null)
+         txtOpenUrl.setError(getString(R.string.err_invalid_url), null)
          return false
       }
 
