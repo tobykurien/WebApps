@@ -21,7 +21,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 import android.util.Log
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
-   var List<Webapp> webapps
+   var protected List<Webapp> webapps
 
    @OnCreate
    def init(Bundle savedInstanceState) {

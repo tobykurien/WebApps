@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -23,7 +24,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebSettings.TextSize;
 import android.webkit.WebView;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.tobykurien.webapps.R;
@@ -61,6 +61,10 @@ public class BaseWebAppActivity extends AppCompatActivity {
 				&& Intent.ACTION_VIEW.equals(getIntent().getAction())) {
 			siteUrl = getIntent().getData();
 			webappId = getIntent().getLongExtra(EXTRA_WEBAPP_ID, -1);
+		} else {
+			// didn't get any intent data
+			finish();
+			return;
 		}
 
 		CookieSyncManager.createInstance(this);
