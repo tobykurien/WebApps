@@ -18,6 +18,7 @@ import org.xtendroid.app.OnCreate
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import android.util.Log
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
    var List<Webapp> webapps
@@ -40,7 +41,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
          var intent = new Intent(activity, typeof(WebAppActivity))
          intent.action = Intent.ACTION_VIEW
          intent.data = Uri.parse(webapps.get(pos).url)
-         intent.putExtra(BaseWebAppActivity.EXTRA_WEBAPP_ID, id)
+         intent.putExtra(BaseWebAppActivity.EXTRA_WEBAPP_ID, webapps.get(pos).id)
          startActivity(intent)
       ])
       
@@ -76,6 +77,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
  
    def loadWebapps() {
       webapps = db.getWebapps
+      Log.d("main", webapps.toString)
       var adapter = new WebappsAdapter(this, webapps) 
       mainList.setAdapter(adapter)
    }  
