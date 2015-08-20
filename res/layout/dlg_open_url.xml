@@ -26,10 +26,10 @@
         </EditText>
     </LinearLayout>
 
-    <Button
+    <!-- Button
         android:id="@+id/btnOpenUrl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/open_url" />
+        android:text="@string/open_url" /-->
 
 </LinearLayout>

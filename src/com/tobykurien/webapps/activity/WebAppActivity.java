@@ -3,14 +3,14 @@ package com.tobykurien.webapps.activity;
 import java.util.HashMap;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,7 +55,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		}
 
 		// setup actionbar
-		ActionBar ab = getActionBar();
+		ActionBar ab = getSupportActionBar();
 		ab.setDisplayShowTitleEnabled(false);
 		ab.setDisplayHomeAsUpEnabled(true);
 

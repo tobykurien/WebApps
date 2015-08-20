@@ -1,9 +1,13 @@
 package com.tobykurien.webapps.utils
 
 import org.xtendroid.annotations.AndroidPreference
-import org.xtendroid.utils.BasePreferences
 
-@AndroidPreference class Settings extends BasePreferences {
+/**
+ * Class to get and set shared preferences, which are also editable from the Preference activity.
+ * Uses Xtendroid's @AndroidPreference to manage the preferehces, making the class appear as a POJO.
+ * NOTE: Default values here must also match up with the default values in settings.xml
+ */
+@AndroidPreference class Settings {
    boolean block3rdParty = true
    boolean blockHttp = true
    String fontSize = "2"

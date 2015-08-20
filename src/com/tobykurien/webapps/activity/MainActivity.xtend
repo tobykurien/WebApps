@@ -8,17 +8,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
 import com.tobykurien.webapps.R
+import com.tobykurien.webapps.adapter.WebappsAdapter
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgOpenUrl
 import java.util.List
-import org.xtendroid.adapter.BeanAdapter
 import org.xtendroid.app.AndroidActivity
 import org.xtendroid.app.OnCreate
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import com.tobykurien.webapps.adapter.WebappsAdapter
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
    var List<Webapp> webapps
@@ -64,7 +63,7 @@ import com.tobykurien.webapps.adapter.WebappsAdapter
       switch (item.itemId) {
          case R.id.menu_open: {
             var dlg = new DlgOpenUrl()
-            dlg.show(fragmentManager, "open_url")
+            dlg.show(supportFragmentManager, "open_url")
          }
          case R.id.menu_settings: {
             var i = new Intent(this, typeof(Preferences))

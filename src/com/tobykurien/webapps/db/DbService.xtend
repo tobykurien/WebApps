@@ -6,6 +6,9 @@ import com.tobykurien.webapps.data.Webapp
 import java.util.List
 import org.xtendroid.db.BaseDbService
 
+/**
+ * Class to manage database queries. Uses Xtendroid's BaseDbService
+ */
 class DbService extends BaseDbService {
    public static val TABLE_WEBAPPS = "webapps"
    public static val TABLE_DOMAINS = "domain_names"
@@ -19,6 +22,6 @@ class DbService extends BaseDbService {
    }   
    
    def List<Webapp> getWebapps() {
-      executeForBeanList(R.string.dbGetWebapps, null, typeof(Webapp))      
+      findAll(TABLE_WEBAPPS, "name", Webapp)      
    }
 }
