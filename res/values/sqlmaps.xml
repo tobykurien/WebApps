@@ -1,5 +1,5 @@
 <resources>
-    <string name="dbInitialize">
+    <string translatable="false" name="dbInitialize">
         create table webapps (
            id integer primary key,
            name text not null,
@@ -21,17 +21,17 @@
         insert into webapps (name,url,iconUrl) values (\'Voat\',\'https://voat.co\',\'https://voat.co/Graphics/Icons/touch-icon-192x192.png\');
     </string>
     
-    <string name="dbGetWebapps">
+    <string translatable="false" name="dbGetWebapps">
         select * from webapps
         order by name asc
     </string>
     
-    <string name="dbGetDomainNames">
+    <string translatable="false" name="dbGetDomainNames">
         select * from domain_names
         where webappId = #webappId#
     </string>
 
-    <string name="dbDeleteDomains">
+    <string translatable="false" name="dbDeleteDomains">
         delete from domain_names
         where webappId = #webappId#
     </string>

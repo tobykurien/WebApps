@@ -1,5 +1,5 @@
 <resources>
-    <string-array name="user_agents">
+    <string-array translatable="false" name="user_agents">
         <item>Default</item>
         <item>Desktop</item>
         <item>Android 4.4.2 - Chrome</item>
@@ -11,7 +11,7 @@
         <item>iPad - Safari</item>
     </string-array>
     
-    <string-array name="user_agent_strings">
+    <string-array translatable="false" name="user_agent_strings">
         <item></item>
         <item>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2166.2 Safari/537.36</item>
         <item>Mozilla/5.0 (Linux; Android 4.4.2; SAMSUNG-SM-T537A Build/KOT49H) AppleWebKit/537.36 (KHTML like Gecko) Chrome/35.0.1916.141 Safari/537.36</item>
@@ -31,7 +31,7 @@
         <item>Largest</item>
     </string-array>
     
-    <string-array name="text_size_values">
+    <string-array translatable="false" name="text_size_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>

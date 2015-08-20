@@ -30,4 +30,16 @@
     <string name="webapp_name">Nom de la WebApp</string>
     <string name="open_site">Ouvrir le site web</string>
     <string name="delete_webapp">Supprimer la WebApp ?</string>
+    
+    <string-array name="text_sizes">
+        <item>Smallest</item>
+        <item>Smaller</item>
+        <item>Normal</item>
+        <item>Larger</item>
+        <item>Largest</item>
+    </string-array>
+
+    <string name="err_invalid_url">Invalid URL</string>
+    <string name="msg_saving_webapp">Saving webapp</string>
+    <string name="shortcut_label">Webapp shortcut</string>
 </resources>
