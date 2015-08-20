@@ -50,6 +50,7 @@ android {
       compile 'com.android.support:appcompat-v7:22.1.0'      
       compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.8.3'
       compile 'com.github.tobykurien:xtendroid:0.12.1'
+      compile 'com.github.bumptech.glide:glide:3.6.1'
     }
 
     sourceSets {

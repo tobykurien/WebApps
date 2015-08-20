@@ -13,12 +13,12 @@
            domain text not null
         );
         
-        insert into webapps (name,url,iconUrl) values (\'Facebook\',\'https://m.facebook.com\',\'/favicon.ico\');
+        insert into webapps (name,url,iconUrl) values (\'Facebook\',\'https://m.facebook.com\',\'/apple-touch-icon.png\');
         insert into webapps (name,url,iconUrl) values (\'Twitter\',\'https://mobile.twitter.com\',\'/favicon.ico\');
-        insert into webapps (name,url,iconUrl) values (\'Google News\',\'https://news.google.com\',\'/favicon.ico\');
+        insert into webapps (name,url,iconUrl) values (\'Google News\',\'https://news.google.com\',\'https://ssl.gstatic.com/news-static/img/favicon.ico\');
         insert into webapps (name,url,iconUrl) values (\'Hacker News\',\'https://news.ycombinator.com/\',\'/favicon.ico\');
-        insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://m.reddit.com\',\'/favicon.ico\');
-        insert into webapps (name,url,iconUrl) values (\'Voat\',\'https://voat.co\',\'/favicon.ico\');
+        insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://m.reddit.com\',\'https://www.redditstatic.com/mobile-web/favicon/64x64.png\');
+        insert into webapps (name,url,iconUrl) values (\'Voat\',\'https://voat.co\',\'https://voat.co/Graphics/Icons/touch-icon-192x192.png\');
     </string>
     
     <string name="dbGetWebapps">
