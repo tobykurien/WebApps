@@ -15,12 +15,12 @@
     <string name="menu_text_size">Taille de police</string>
     <string name="menu_stop">Arrêter</string>
     <string name="menu_refresh">Rafraichir</string>
-    <string name="menu_toggle_image">Changer d'image</string>
+    <string name="menu_toggle_image">Changer d\'image</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_3rd_party">Bloquer les domaines tiers</string>
-    <string name="menu_open_url">Ouvrir l'URL</string>
+    <string name="menu_open_url">Ouvrir l\'URL</string>
     <string name="open_url_hint">site-web.fr</string>
-    <string name="open_url">Ouvrir l'URL</string>
+    <string name="open_url">Ouvrir l\'URL</string>
     <string name="menu_save">Sauvegarder comme WebApp</string>
     <string name="blocked_root_domains">Bloqué les domaines racines</string>
     <string name="unblock">Débloquer</string>
