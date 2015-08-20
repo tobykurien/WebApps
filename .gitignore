@@ -4,3 +4,5 @@
 /build
 /xtend-gen
 keystore.properties
+/aarDependencies/
+/libs/
