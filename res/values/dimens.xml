@@ -1,4 +1,5 @@
 <resources>
     <dimen name="small_padding">8dp</dimen>
     <dimen name="large_padding">16dp</dimen>
+    <dimen name="keyline">72dp</dimen>
 </resources>

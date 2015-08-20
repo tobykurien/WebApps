@@ -39,7 +39,7 @@ import org.xtendroid.annotations.AndroidDialogFragment
    def boolean onOpenUrlClick() {
       var url = txtOpenUrl.text.toString;
       if (url.trim.length == 0 || url.indexOf("://") >= 0) {
-         txtOpenUrl.setError("!!", null)
+         txtOpenUrl.setError(getString(R.string.err_invalid_url), null)
          return false
       }
 

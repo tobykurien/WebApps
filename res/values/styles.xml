@@ -1,6 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light" />
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar" />
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
@@ -26,7 +26,7 @@
     </style>
 
     <style name="MyActionBarStyle"
-           parent="@style/Widget.AppCompat.ActionBar">
+           parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="background">@color/primary</item>
     </style>
     
