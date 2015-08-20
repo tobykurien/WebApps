@@ -57,7 +57,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
  
    def void onSaveClick() {
       val pd = new ProgressDialog(activity)
-      pd.message = getString(R.string.msg_save_webapp)
+      pd.message = getString(R.string.msg_saving_webapp)
       
       AsyncBuilder.async(pd) [builder, params|
          val values = #{

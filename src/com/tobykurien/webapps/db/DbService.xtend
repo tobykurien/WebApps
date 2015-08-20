@@ -22,6 +22,6 @@ class DbService extends BaseDbService {
    }   
    
    def List<Webapp> getWebapps() {
-      findAll(TABLE_WEBAPPS, "name", Webapp)      
+      findAll(TABLE_WEBAPPS, "lower(name) asc", Webapp)      
    }
 }

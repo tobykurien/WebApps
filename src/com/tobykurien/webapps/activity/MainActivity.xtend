@@ -35,7 +35,7 @@ import android.util.Log
       super.onStart()
     
       val activity = this
-      loadWebapps
+      loadWebapps()
       
       mainList.setOnItemClickListener([av, v, pos, id|
          var intent = new Intent(activity, typeof(WebAppActivity))
@@ -76,8 +76,7 @@ import android.util.Log
    }
  
    def loadWebapps() {
-      webapps = db.getWebapps
-      Log.d("main", webapps.toString)
+      webapps = db.getWebapps()
       var adapter = new WebappsAdapter(this, webapps) 
       mainList.setAdapter(adapter)
    }  

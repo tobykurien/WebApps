@@ -20,6 +20,7 @@
     <string name="unblock">Unblock</string>
     <string name="title_save_webapp">Save Webapp</string>
     <string name="msg_save_webapp">Save current site as a Webapp?</string>
+    <string name="msg_saving_webapp">Saving webapp</string>
     <string name="btn_save">Save</string>
     <string name="webapp_name">Webapp Name</string>
     <string name="open_site">Open Site</string>
