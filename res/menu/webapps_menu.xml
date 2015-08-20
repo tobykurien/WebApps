@@ -15,21 +15,21 @@
         app:showAsAction="always"/>
     
     <item
-        android:id="@+id/menu_save"
-        android:icon="@drawable/ic_action_save"
-        android:title="@string/menu_save"
-        app:showAsAction="always"/>
-    
-    <item
         android:id="@+id/menu_image"
         android:icon="@drawable/ic_action_image"
         android:title="@string/menu_toggle_image"
         app:showAsAction="always"/>
         
     <item
+        android:id="@+id/menu_save"
+        android:icon="@drawable/ic_action_save"
+        android:title="@string/menu_save"
+        app:showAsAction="ifRoom|collapseActionView"/>
+    
+    <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/menu_settings"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom|collapseActionView"/>
 
 </menu>
