@@ -1,0 +1,9 @@
+<resources>
+    <string-array name="text_sizes">
+        <item>Smallest</item>
+        <item>Smaller</item>
+        <item>Normal</item>
+        <item>Larger</item>
+        <item>Largest</item>
+    </string-array>    
+</resources>    
