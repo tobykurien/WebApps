@@ -19,8 +19,8 @@ HTTPS links and open them in their own sandbox.
 You can download the latest release here: 
 https://github.com/tobykurien/WebApps/tree/master/apk
 
-This app is available from the Google Play Store:
-https://play.google.com/store/apps/details?id=com.tobykurien.webapps
+This app is available from the [Google Play Store](https://play.google.com/store/apps/details?id=com.tobykurien.webapps) and 
+the [F-Droid app store](https://f-droid.org/repository/browse/?fdfilter=webapps&fdid=com.tobykurien.webapps) 
 
 Cookies
 =======
@@ -50,3 +50,14 @@ This project makes use of the following libraries/tools:
 - Xtend compiler: http://xtend-lang.org
 - Xtendroid library: http://github.com/tobykurien/xtendroid
 
+Development
+===========
+
+In order to develop in Eclipse:
+
+- Clone the git repository to your local machine (```git clone ...```)
+- Inside the checked-out folder, run: ```gradle generateEclipseDependencies```. This will download all the required 3rd party libraries and create Eclipse projects for them (if they are AAR dependencies).
+- Open Eclipse and import all projects *and sub-projects* within the checked-out folder
+- The project should now compile in Eclipse
+
+The app can be built either using Eclipse or using ```gradle assembleDebug```.
