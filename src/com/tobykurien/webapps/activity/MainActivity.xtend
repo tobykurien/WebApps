@@ -66,7 +66,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
             dlg.show(supportFragmentManager, "open_url")
          }
          case R.id.menu_settings: {
-            var i = new Intent(this, typeof(Preferences))
+            var i = new Intent(this, Preferences)
             startActivity(i)
          }
          case R.id.menu_exit: finish()

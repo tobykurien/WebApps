@@ -132,7 +132,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		Settings.getSettings(this).setLoadImages(imageMenu.isChecked());
 		imageMenu.setIcon((imageMenu.isChecked() ?
 				R.drawable.ic_action_image: 
-			    R.drawable.ic_action_image_broken));
+			    R.drawable.ic_action_broken_image));
 	}
 
 	@Override

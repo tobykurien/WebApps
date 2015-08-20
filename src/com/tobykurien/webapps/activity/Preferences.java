@@ -7,12 +7,13 @@ import com.tobykurien.webapps.R.xml;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.v7.app.AppCompatActivity;
 
-public class Preferences extends PreferenceActivity {
+public class Preferences extends AppCompatActivity {
    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      addPreferencesFromResource(R.xml.settings);
+      setContentView(R.layout.preferences);
    }
    
    @Override
