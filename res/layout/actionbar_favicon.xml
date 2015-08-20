@@ -1,0 +1,6 @@
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/favicon"
+    android:src="@drawable/ic_action_site"
+    android:layout_width="48dp"
+    android:layout_height="48dp"/>

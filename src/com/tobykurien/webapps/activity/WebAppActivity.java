@@ -8,10 +8,10 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.widget.ImageView;
 
 import com.tobykurien.webapps.R;
 import com.tobykurien.webapps.fragment.DlgSaveWebapp;
@@ -55,7 +57,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 		// setup actionbar
 		ActionBar ab = getSupportActionBar();
 		ab.setDisplayShowTitleEnabled(false);
+		ab.setDisplayShowCustomEnabled(true);
 		ab.setDisplayHomeAsUpEnabled(true);
+		ab.setCustomView(R.layout.actionbar_favicon);
 
 		autohideActionbar();
 	}
@@ -125,6 +129,12 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+	public void onReceivedFavicon(WebView view, Bitmap icon) {
+		ImageView iconImg = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.favicon);
+		iconImg.setImageBitmap(icon);
+	}
 
 	private void updateImageMenu() {
 		Settings.getSettings(this).setLoadImages(imageMenu.isChecked());
@@ -146,6 +156,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 	@Override
 	public void onPageLoadDone() {
 		super.onPageLoadDone();
+		
 		if (stopMenu != null) {
 			stopMenu.setTitle(R.string.menu_refresh);
 			stopMenu.setIcon(R.drawable.ic_action_refresh);

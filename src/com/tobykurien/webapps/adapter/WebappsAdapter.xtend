@@ -8,6 +8,7 @@ import com.tobykurien.webapps.data.Webapp
 import java.util.List
 import org.xtendroid.adapter.AndroidAdapter
 import org.xtendroid.adapter.AndroidViewHolder
+import android.util.Log
 
 /**
  * Android adapter to display webapps using the row_webapp layout
@@ -32,7 +33,11 @@ import org.xtendroid.adapter.AndroidViewHolder
          var url = app.iconUrl.trim
          if (url.indexOf("://") < 0) {
             url = app.url + app.iconUrl
+            if (url.indexOf("://") < 0) {
+               url = "https://" + url
+            }
          }
+         Log.d("glide", "loading " + url)
          
          Glide.with(context)
            .load(url)
@@ -43,6 +48,8 @@ import org.xtendroid.adapter.AndroidViewHolder
       } else {
          // find favicon using http://icons.better-idea.org
          // e.g. http://icons.better-idea.org/api/icons?pretty=yes&url=mobile.twitter.com
+         Glide.with(context)
+            .load("http://icons.better-idea.org/api/icons?pretty=yes&url=" + app.url)
       }
       
       return vh.view

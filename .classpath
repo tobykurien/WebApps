@@ -18,4 +18,5 @@
 	<classpathentry kind="lib" path="libs/com.google.guava-guava-14.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/org.eclipse.xtext-org.eclipse.xtext.xbase.lib-2.8.3.jar"/>
 	<classpathentry kind="lib" path="libs/org.eclipse.xtend-org.eclipse.xtend.lib.macro-2.8.3.jar"/>
+	<classpathentry kind="lib" path="libs/org.jsoup-jsoup-1.8.1.jar"/>
 </classpath>
