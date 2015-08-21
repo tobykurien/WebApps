@@ -24,12 +24,12 @@
         android:id="@+id/menu_save"
         android:icon="@drawable/ic_action_save"
         android:title="@string/menu_save"
-        app:showAsAction="ifRoom|collapseActionView"/>
+        app:showAsAction="ifRoom"/>
     
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/menu_settings"
-        app:showAsAction="ifRoom|collapseActionView"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

@@ -1,6 +1,5 @@
 - when exit webapp: clear cookies/cache? 
 - when exit webapp: delete whole webapp if not saved
-- a hint to the user that they can create shortcuts, or an option to
 - tablet layout: use gridview or narrower listview
 
 Done
@@ -16,3 +15,4 @@ Done
 - 3rd party dialog must immediately save to database
 - when changing unblock: clear cache
 - themeing of ok/cancel buttons in the alert dialogs
+- a hint to the user that they can create shortcuts, or an option to
