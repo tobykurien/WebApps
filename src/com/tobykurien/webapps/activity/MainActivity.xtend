@@ -19,6 +19,8 @@ import org.xtendroid.app.OnCreate
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 import android.util.Log
+import android.support.v7.app.AlertDialog
+import android.text.Html
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
    var protected List<Webapp> webapps
@@ -52,7 +54,13 @@ import android.util.Log
             loadWebapps
          ])
          true
-      ])      
+      ])     
+      
+      // show tips on first load
+      if (settings.firstLoaded < 1) {
+         settings.firstLoaded = 1
+         showTips()
+      } 
    }
    
    override onCreateOptionsMenu(Menu menu) {
@@ -66,13 +74,28 @@ import android.util.Log
             var dlg = new DlgOpenUrl()
             dlg.show(supportFragmentManager, "open_url")
          }
+         
+         case R.id.menu_tips: {
+            showTips()
+         }
+         
          case R.id.menu_settings: {
             var i = new Intent(this, Preferences)
             startActivity(i)
          }
+         
          case R.id.menu_exit: finish()
       }
       super.onOptionsItemSelected(item)
+   }
+   
+   def showTips() {
+      new AlertDialog.Builder(this)
+         .setTitle(R.string.action_tips)
+         .setMessage(Html.fromHtml(getString(R.string.tips)))
+         .setPositiveButton(android.R.string.ok, null)
+         .create()
+         .show()
    }
  
    def loadWebapps() {

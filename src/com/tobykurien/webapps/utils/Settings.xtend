@@ -15,6 +15,7 @@ import org.xtendroid.annotations.AndroidPreference
    boolean fullscreen = false
    boolean hideActionbar = true
    boolean loadImages = true
+   int firstLoaded = 0
    
    def getIntFontSize() {
       try {

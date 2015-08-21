@@ -31,7 +31,15 @@
     <string name="open_site">Ouvrir le site web</string>
     <string name="delete_webapp">Supprimer la WebApp ?</string>
 
+    <!-- TODO: translate these: -->
     <string name="err_invalid_url">Invalid URL</string>
     <string name="msg_saving_webapp">Saving webapp</string>
     <string name="shortcut_label">Webapp shortcut</string>
+    
+    <string name="action_tips">Tips</string>
+    <string name="tips"><![CDATA[
+        <p><b>3rd party domains</b>: if a site looks broken, try enabling some 3rd party domains that the site may rely on, e.g. <i>akamaihd.net</i> for <i>Facebook</i></p>
+        <p><b>Homescreen shortcuts</b>: Long-press your homescreen and access the widgets page to add a webapp shortcut to your homescreen</p>
+        <p><b>Long-press links</b>: Long-press a link on a website to be able to choose how to open it</p>
+]]></string>
 </resources>
