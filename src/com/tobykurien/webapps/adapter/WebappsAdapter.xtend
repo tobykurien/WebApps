@@ -12,18 +12,37 @@ import java.io.File
 import java.util.List
 import org.xtendroid.adapter.AndroidAdapter
 import org.xtendroid.adapter.AndroidViewHolder
+import android.widget.BaseAdapter
 
 /**
  * Android adapter to display webapps using the row_webapp layout
  */
-@AndroidAdapter class WebappsAdapter {
+class WebappsAdapter extends BaseAdapter {
+   Context context
    List<Webapp> webapps
-   var FaviconHandler favicoHandler
+   FaviconHandler favicoHandler
 
    /**
     * ViewHolder class to save references to UI widgets in each row
     */
    @AndroidViewHolder(R.layout.row_webapp) static class ViewHolder {      
+   }
+
+   new(Context context, List<Webapp> data) {
+      this.context = context
+      webapps = data
+   }
+
+   override getCount() {
+      webapps.size
+   }
+   
+   override Webapp getItem(int row) {
+      webapps.get(row)
+   }
+   
+   override long getItemId(int row) {
+      getItem(row).id
    }
    
    override getView(int row, View cv, ViewGroup parent) {

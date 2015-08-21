@@ -41,7 +41,7 @@ import android.util.Log
          var intent = new Intent(activity, typeof(WebAppActivity))
          intent.action = Intent.ACTION_VIEW
          intent.data = Uri.parse(webapps.get(pos).url)
-         intent.putExtra(BaseWebAppActivity.EXTRA_WEBAPP_ID, webapps.get(pos).id)
+         intent.putExtra(BaseWebAppActivity.EXTRA_WEBAPP_ID, id)
          startActivity(intent)
       ])
       
