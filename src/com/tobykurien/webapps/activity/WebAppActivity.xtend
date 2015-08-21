@@ -80,6 +80,15 @@ public class WebAppActivity extends BaseWebAppActivity {
 		settings = Settings.getSettings(this);
 	}
 
+   override protected onPause() {
+      super.onPause()
+      
+      if (webappId < 0) {
+         // clean up data left behind by this webapp
+         clearWebviewCache(wv)
+      }
+   }
+
 	override onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		var inflater = getMenuInflater();

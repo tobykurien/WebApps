@@ -13,6 +13,7 @@ import java.util.List
 import org.xtendroid.adapter.AndroidAdapter
 import org.xtendroid.adapter.AndroidViewHolder
 import android.widget.BaseAdapter
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 /**
  * Android adapter to display webapps using the row_webapp layout
@@ -66,6 +67,7 @@ class WebappsAdapter extends BaseAdapter {
       if (favico.exists) {
          Glide.with(context)
            .load(favico)
+           .diskCacheStrategy(DiskCacheStrategy.NONE)
            .centerCrop()
            .placeholder(R.drawable.ic_action_site)
            .crossFade()

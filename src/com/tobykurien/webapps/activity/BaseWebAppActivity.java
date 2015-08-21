@@ -103,22 +103,28 @@ public class BaseWebAppActivity extends AppCompatActivity {
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
 
 		// Enable local database per site
+		// NOTE: No longer works on API 18+
 		settings.setDatabaseEnabled(true);
 		String databasePath = this.getApplicationContext().getCacheDir()
 				+ "db-" + siteUrl.getHost();
 		settings.setDatabasePath(databasePath);
 
 		// Enable caching each site individually
+		// NOTE: No longer works on API 18+
 		String cachePath = this.getApplicationContext().getCacheDir()
 				+ "/cache-" + siteUrl.getHost();
+		
 		settings.setAppCachePath(cachePath);
 		settings.setAppCacheEnabled(true);
 		settings.setAppCacheMaxSize(1024 * 1024 * 8);
 		settings.setCacheMode(WebSettings.LOAD_DEFAULT);
 		settings.setAllowFileAccess(false);
+		settings.setAllowUniversalAccessFromFileURLs(false);
+		settings.setAllowFileAccessFromFileURLs(false);
 		settings.setPluginState(PluginState.OFF);
 		settings.setAllowContentAccess(false);
 		settings.setDomStorageEnabled(true);
+		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(false);
 		settings.setGeolocationEnabled(false);
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
