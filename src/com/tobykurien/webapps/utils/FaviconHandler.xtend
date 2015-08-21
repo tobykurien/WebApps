@@ -25,10 +25,10 @@ class FaviconHandler {
    def saveFavIcon(long webappId, Bitmap icon) {
       val f = getFile(webappId)
       val os = new FileOutputStream(f)
-      icon.compress(Bitmap.CompressFormat.PNG, 85, os);
+      icon.compress(Bitmap.CompressFormat.PNG, 100, os);
    }
    
    def private File getFile(long webappId) {
-      new File(context.cacheDir.path + "favicon-" + webappId + ".bmp")
+      new File(context.cacheDir.path + "/favicon-" + webappId + ".png")
    }
 }

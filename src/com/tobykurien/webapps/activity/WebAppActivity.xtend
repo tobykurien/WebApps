@@ -38,6 +38,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 	var private MenuItem stopMenu = null;
 	var private MenuItem imageMenu = null;
+	var private Bitmap unsavedFavicon = null;
 
 	override onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,6 +58,7 @@ public class WebAppActivity extends BaseWebAppActivity {
       
       // load a favico if it already exists
       var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
+      iconImg.imageResource = R.drawable.ic_action_site
       WebappsAdapter.loadFavicon(this, new FaviconHandler(this).getFavIcon(webappId), iconImg)     
 		
 		autohideActionbar();
@@ -167,9 +169,13 @@ public class WebAppActivity extends BaseWebAppActivity {
       iconImg.setImageBitmap(icon);
       
       // also save favicon
-      AsyncBuilder.async [builder, params|
-         new FaviconHandler(this).saveFavIcon(webappId, icon)
-      ].start()
+      if (webappId >= 0) {
+         AsyncBuilder.async [builder, params|
+            new FaviconHandler(this).saveFavIcon(webappId, icon)
+         ].start()
+      } else {
+         unsavedFavicon = icon
+      }
    }
 
 	def private void dlgSave() {
@@ -177,6 +183,13 @@ public class WebAppActivity extends BaseWebAppActivity {
 		
 		dlg.setOnSaveListener [id |
 		   webappId = id
+		   
+		   // if we have unsaved icon, save it
+		   if (unsavedFavicon != null) {
+		      onReceivedFavicon(wv, unsavedFavicon)
+		      unsavedFavicon = null
+		   }
+		   
 		   return null
       ]
       
