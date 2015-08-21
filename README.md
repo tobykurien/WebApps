@@ -16,9 +16,6 @@ By default, all HTTP requests are blocked (only HTTPS allowed). This
 improves security, especially on untrusted networks. The app can also handle 
 HTTPS links and open them in their own sandbox.
 
-You can download the latest release here: 
-https://github.com/tobykurien/WebApps/tree/master/apk
-
 This app is available from the [Google Play Store](https://play.google.com/store/apps/details?id=com.tobykurien.webapps) and 
 the [F-Droid app store](https://f-droid.org/repository/browse/?fdfilter=webapps&fdid=com.tobykurien.webapps) 
 
