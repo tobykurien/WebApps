@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -16,11 +17,19 @@ import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.ImageView
 import com.tobykurien.webapps.R
-import com.tobykurien.webapps.fragment.DlgSaveWebapp
-import com.tobykurien.webapps.utils.Settings
-import org.xtendroid.utils.AsyncBuilder
-import com.tobykurien.webapps.utils.FaviconHandler
 import com.tobykurien.webapps.adapter.WebappsAdapter
+import com.tobykurien.webapps.data.ThirdPartyDomain
+import com.tobykurien.webapps.db.DbService
+import com.tobykurien.webapps.fragment.DlgSaveWebapp
+import com.tobykurien.webapps.utils.FaviconHandler
+import com.tobykurien.webapps.utils.Settings
+import java.util.ArrayList
+import java.util.List
+import org.xtendroid.utils.AsyncBuilder
+
+import static extension com.tobykurien.webapps.utils.Dependencies.*
+import static extension org.xtendroid.utils.AlertUtils.*
+import java.util.Set
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -178,11 +187,19 @@ public class WebAppActivity extends BaseWebAppActivity {
       }
    }
 
+   /**
+    * Show a dialog to the user to allow saving a webapp
+    */
 	def private void dlgSave() {
 		var dlg = new DlgSaveWebapp(webappId, wv.getTitle(), wv.getUrl(), unblock);
+
+      val isNewWebapp = if (webappId < 0) true else false;
 		
 		dlg.setOnSaveListener [id |
 		   webappId = id
+		   
+		   // save any unblocked domains
+		   if (isNewWebapp) saveWebappUnblockList(webappId, unblock)
 		   
 		   // if we have unsaved icon, save it
 		   if (unsavedFavicon != null) {
@@ -196,25 +213,80 @@ public class WebAppActivity extends BaseWebAppActivity {
 		dlg.show(getSupportFragmentManager(), "save");
 	}
 
+   /**
+    * Show a dialog to allow user to unblock or re-block third party domains
+    */
 	def private void dlg3rdParty() {
-		// show blocked 3rd party domains and allow user to allow them
-		new AlertDialog.Builder(this)
-				.setTitle(R.string.blocked_root_domains)
-				.setMultiChoiceItems(wc.getBlockedHosts(), null, [DialogInterface d, int pos, boolean checked|
-					if (checked) {
-						unblock.add(wc.getBlockedHosts().get(pos).intern());
-					} else {
-						unblock.remove(wc.getBlockedHosts().get(pos).intern());
-					}
-				])
-				.setPositiveButton(R.string.unblock, [DialogInterface d, int pos|
-					wc.unblockDomains(unblock);
-					wv.reload();
-					d.dismiss();
-				])
-				.create()
-				.show();
+	   AsyncBuilder.async [builder, params|
+	      // get the saved list of whitelisted domains
+         db.findByFields(DbService.TABLE_DOMAINS, #{
+               "webappId" -> webappId         
+            }, null, ThirdPartyDomain)
+	   ].then [List<ThirdPartyDomain> whitelisted|
+         // add all whitelisted domains
+         val domains = new ArrayList(whitelisted.map [ domain ])
+         val whitelist = new ArrayList(domains.map[true])
+         
+         // add all blocked domains
+         wc.getBlockedHosts().forEach[d|
+            if (!domains.contains(d)) {
+               domains.add(d)
+               whitelist.add(false)
+            }
+         ] 
+         
+         // show blocked 3rd party domains and allow user to allow them
+         new AlertDialog.Builder(this)
+            .setTitle(R.string.blocked_root_domains)
+            .setMultiChoiceItems(domains, whitelist, [DialogInterface d, int pos, boolean checked|
+               if (checked) {
+                  unblock.add(domains.get(pos).intern());
+               } else {
+                  unblock.remove(domains.get(pos).intern());
+               }
+               Log.d("unblock", unblock.toString)
+            ])
+            .setPositiveButton(R.string.unblock, [DialogInterface d, int pos|
+               saveWebappUnblockList(webappId, unblock) 
+               wc.unblockDomains(unblock);
+               clearWebviewCache(wv)
+               d.dismiss();
+            ])
+            .create()
+            .show();
+	   ].onError[ Exception e|
+	      toast(e.class.name + " " + e.message)
+	   ].start()
 	}
+   
+   def clearWebviewCache(WebView wv) {
+      wv.clearCache(true);
+      deleteDatabase("webview.db");
+      deleteDatabase("webviewCache.db");
+      wv.reload();
+   }
+   
+   def void saveWebappUnblockList(long webappId, Set<String> unblock) {
+      if (webappId >= 0) {
+         AsyncBuilder.async [builder, params|
+            // save the unblock list
+            // clear current list
+            db.execute(R.string.dbDeleteDomains, #{ "webappId" -> webappId });
+      
+            if (unblock != null && unblock.size() > 0) {
+               // add new items
+               for (domain : unblock) {
+                  db.insert(DbService.TABLE_DOMAINS, #{
+                     "webappId" -> webappId,
+                     "domain" -> domain
+                  });
+               }
+            }
+            
+            return null
+         ].start()
+      }
+   }
 
 	/**
 	 * Attempt to make the actionBar auto-hide and auto-reveal based on drag

@@ -1,0 +1,18 @@
+- themeing of ok/cancel buttons in the alert dialogs
+- tablet layout: use gridview or narrower listview
+- when exit webapp: clear cookies/cache? 
+- when exit webapp: delete whole webapp if not saved
+- when changing unblock: clear cache
+- a hint to the user that they can create shortcuts, or an option to
+
+Done
+====
+
+- reset favicon when switching webapps
+- if webapp not saved -> no webappid -> don't save favicon using -1
+- when saving, also save favicon if we have it and it's a new app
+- delete not working correctly (pos vs id issue)
+- unblock list not saving
+- reddit icon not loading, unblock list not saving
+- show previously-saved unblock list in 3rd party list, not just those for the current page
+- 3rd party dialog must immediately save to database

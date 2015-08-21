@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tobykurien.webapps"
     android:versionCode="5"
-    android:versionName="v1.5" >
+    android:versionName="v2.0" >
 
     <uses-sdk
         android:minSdkVersion="11"

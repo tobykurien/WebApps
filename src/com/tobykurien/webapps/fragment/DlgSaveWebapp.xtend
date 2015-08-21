@@ -73,20 +73,8 @@ import static extension org.xtendroid.utils.AlertUtils.*
             webappId = activity.db.insert(DbService.TABLE_WEBAPPS, values);
          }
    
-         // save the unblock list
-         // clear current list
-         activity.db.execute(R.string.dbDeleteDomains, #{ "webappId" -> webappId });
+         // NOTE: saving of unblock list moved to the 3rdparty dialog
    
-         if (unblock != null && unblock.size() > 0) {
-            // add new items
-            var vals = new HashMap<String,Object>()
-            vals.put("webappId", webappId)
-            for (domain : unblock) {
-               vals.put("domain", domain);
-            }
-            activity.db.insert(DbService.TABLE_DOMAINS, vals);
-         }
-         
          return webappId
       ].then[long result|
          dismiss
