@@ -13,6 +13,7 @@
            domain text not null
         );
         
+        insert into webapps (name,url,iconUrl) values (\'DuckDuckGo\',\'https://duckduckgo.com\',\'/favicon.ico\');
         insert into webapps (name,url,iconUrl) values (\'Facebook\',\'https://m.facebook.com\',\'/apple-touch-icon.png\');
         insert into webapps (name,url,iconUrl) values (\'Twitter\',\'https://mobile.twitter.com\',\'/favicon.ico\');
         insert into webapps (name,url,iconUrl) values (\'Google News\',\'https://news.google.com\',\'https://ssl.gstatic.com/news-static/img/favicon.ico\');
