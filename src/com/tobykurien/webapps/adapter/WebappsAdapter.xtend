@@ -72,6 +72,8 @@ class WebappsAdapter extends BaseAdapter {
            .placeholder(R.drawable.ic_action_site)
            .crossFade()
            .into(view);
+      } else {
+         view.imageResource = R.drawable.ic_action_site
       }
    }
 }
