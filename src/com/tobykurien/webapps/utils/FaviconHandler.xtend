@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import java.io.File
 import java.io.FileOutputStream
 
+import static extension org.xtendroid.utils.TimeUtils.*
+
 class FaviconHandler {
    val Context context
    
@@ -20,12 +22,19 @@ class FaviconHandler {
    }
 
    /**
-    * Saves bitmap as favicon for specified webapp. Runs on current thread!
+    * Saves bitmap as favicon for specified webapp, if it hasn't been modified in the last 24 hours. 
+    * NOTE: Runs on current thread!
     */   
    def saveFavIcon(long webappId, Bitmap icon) {
-      val f = getFile(webappId)
+      val f = getFile(webappId)      
+      if (System.currentTimeMillis - f.lastModified < 24.hours) return;
+            
       val os = new FileOutputStream(f)
-      icon.compress(Bitmap.CompressFormat.PNG, 100, os);
+      try {
+         icon.compress(Bitmap.CompressFormat.PNG, 100, os);
+      } finally  {
+         os.close()
+      }
    }
    
    def private File getFile(long webappId) {
