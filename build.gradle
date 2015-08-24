@@ -1,11 +1,11 @@
 buildscript {
     repositories {
-	     jcenter()
+     jcenter()
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'org.xtend:xtend-android-gradle-plugin:0.4.5'
+        classpath 'org.xtend:xtend-android-gradle-plugin:0.4.7'
         
         // eclipse AAR plugin: https://github.com/ksoichiro/gradle-eclipse-aar-plugin
         classpath 'com.github.ksoichiro:gradle-eclipse-aar-plugin:0.1.2'        
@@ -43,10 +43,11 @@ android {
     buildToolsVersion "22.0.1"
 
     dependencies {
-      compile 'com.android.support:appcompat-v7:22.2.1'      
+      compile 'com.android.support:appcompat-v7:22.2.1'
       compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.8.3'
       compile 'com.github.tobykurien:xtendroid:0.12.1'
       compile 'com.github.bumptech.glide:glide:3.6.1'
+      compile fileTree(dir: 'gradle-libs', includes: ['*.jar'])
     }
 
     sourceSets {
