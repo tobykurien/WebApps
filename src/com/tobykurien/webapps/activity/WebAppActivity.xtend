@@ -190,6 +190,9 @@ public class WebAppActivity extends BaseWebAppActivity {
       if (webappId >= 0) {
          AsyncBuilder.async [builder, params|
             new FaviconHandler(this).saveFavIcon(webappId, icon)
+            return true
+         ].onError[ex|
+            Log.e("favicon", "error saving icon", ex)
          ].start()
       } else {
          unsavedFavicon = icon

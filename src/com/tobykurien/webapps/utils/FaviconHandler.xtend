@@ -25,7 +25,7 @@ class FaviconHandler {
     * Saves bitmap as favicon for specified webapp, if it hasn't been modified in the last 24 hours. 
     * NOTE: Runs on current thread!
     */   
-   def saveFavIcon(long webappId, Bitmap icon) {
+   def void saveFavIcon(long webappId, Bitmap icon) {
       val f = getFile(webappId)      
       if (System.currentTimeMillis - f.lastModified < 24.hours) return;
             
