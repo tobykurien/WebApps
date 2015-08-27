@@ -6,3 +6,5 @@
 keystore.properties
 /aarDependencies/
 /libs/
+/.settings
+*~
