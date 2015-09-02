@@ -1,9 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="text_sizes">
-        <item>Smallest</item>
-        <item>Smaller</item>
-        <item>Normal</item>
-        <item>Larger</item>
-        <item>Largest</item>
-    </string-array>    
-</resources>    
+	<!--
+		Copying and distribution of this file, with or without modification,
+		are permitted in any medium without royalty provided this notice is
+		preserved.  This file is offered as-is, without any warrant.
+	-->
+	
+	<string-array name="text_sizes">
+		<item>Le plut petit</item>
+		<item>Plus petit</item>
+		<item>Normal</item>
+		<item>Plus grand</item>
+		<item>Le plus grand</item>
+	</string-array>	
+</resources>	
