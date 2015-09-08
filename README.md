@@ -35,7 +35,7 @@ Features
 Cookies
 =======
 
-Currently, as per [this issue](https://github.com/tobykurien/WebApps/issues/3), cookies are passed between sandboxes, because WebView uses a single cookie store for the app, and does not provide a way to specify different cookie storage locations within the app.
+[Since Android KitKat][cookies], cookies are passed between sandboxes, because WebView uses a single cookie store for the app. [Work-arounds][sandbox_workaround] are in progress.
 
 Referer
 =======
@@ -73,4 +73,5 @@ In order to develop in Eclipse:
 The app can be built either using Eclipse or using ```gradle assembleDebug```.
 
    [gapps]: https://github.com/tobykurien/GoogleNews
-	
+   [cookies]: https://developer.android.com/reference/android/webkit/WebSettings.html#setDatabasePath%28java.lang.String%29
+   [sandbox_workaround]: https://github.com/tobykurien/WebApps/issues/3
