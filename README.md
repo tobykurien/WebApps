@@ -1,23 +1,36 @@
 WebApps Sandboxed browser Android app
 =====================================
 
-This Android app is a fork of the GoogleApps Sandboxed browser 
-(see https://github.com/tobykurien/GoogleNews). The idea behind 
-it is to provide a secure way to browse popular webapps by eliminating 
-referrers, 3rd party requests, insecure HTTP requests, etc.
+![screenshot 1](images/webapps1.png) ![screenshot 2](images/webapps2.png) ![screenshot 3](images/webapps3.png)
 
-It accomplishes this by providing a sandbox for multiple webapps (like Google's apps,
-Facebook, Twitter, etc.). Each webapp will run in it's own sandbox, 
-with 3rd party requests (images, scripts, iframes, etc.) blocked, 
-and all external links opening in an external default web browser 
-(which should have cookies, plug-ins, flash, etc. disabled).
+This Android app is a fork of the [GoogleApps Sandboxed browser][gapps]. The idea behind it is to provide a secure way to browse popular webapps by eliminating referrers, 3rd party requests, insecure HTTP requests, etc.
 
-By default, all HTTP requests are blocked (only HTTPS allowed). This 
-improves security, especially on untrusted networks. The app can also handle 
+It accomplishes this by providing a sandbox for multiple webapps (like Google's apps, Facebook, Twitter, etc.). Each webapp will run in it's own sandbox, with 3rd party requests (images, scripts, iframes, etc.) blocked, and all external links opening in an external default web browser (which should have cookies, plug-ins, flash, etc. disabled). Homescreen (launcher) shortcuts can be created to any of the saved webapps.
+
+By default, all HTTP requests are blocked (only HTTPS allowed). This improves security, especially on untrusted networks. The app can also handle 
 HTTPS links and open them in their own sandbox.
 
-This app is available from the [Google Play Store](https://play.google.com/store/apps/details?id=com.tobykurien.webapps) and 
-the [F-Droid app store](https://f-droid.org/repository/browse/?fdfilter=webapps&fdid=com.tobykurien.webapps) 
+For using Google's suite of apps, try the [GApps Sandboxed Browser app][gapps], which works the same as this app but contains specific handling for Google's web apps.
+
+[![Google Play Store](images/google_play.png)](https://play.google.com/store/apps/details?id=com.tobykurien.webapps) [![F-Droid app store](images/fdroid.png)](https://f-droid.org/repository/browse/?fdfilter=webapps&fdid=com.tobykurien.webapps) 
+
+Features
+========
+
+- Works like Mozilla Prism on the desktop. This is a mostly chrome-less browser that gets out of your way.
+- Completely full-screen browsing (auto-hiding actionbar)
+- Securely browse mobile sites (uses HTTPS)
+- Blocks 3rd party requests (images/scripts/iframes) like the NoScript and NotScripts plugins on the desktop
+- Blocks requests to non-HTTPS URLs to maintain security (avoid wire-tapping)
+- Allows self-signed SSL certificates to be temporarily accepted
+- User agent setting allows more rich mobile experience (depending on site)
+- External links open in your default browser
+- Long-press links to choose how to open them
+- Create shortcuts to your webapps on the homescreen
+- Uses much less bandwidth than native apps (like Google+ app). No background sync'ing.
+- Features local data storage and caching for reduced bandwidth usage and better speed.
+- Fully open source software.
+
 
 Cookies
 =======
@@ -58,3 +71,6 @@ In order to develop in Eclipse:
 - The project should now compile in Eclipse
 
 The app can be built either using Eclipse or using ```gradle assembleDebug```.
+
+	[gapps]: https://github.com/tobykurien/GoogleNews
+	
