@@ -72,5 +72,5 @@ In order to develop in Eclipse:
 
 The app can be built either using Eclipse or using ```gradle assembleDebug```.
 
-	[gapps]: https://github.com/tobykurien/GoogleNews
+   [gapps]: https://github.com/tobykurien/GoogleNews
 	
