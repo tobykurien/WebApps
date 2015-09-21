@@ -8,3 +8,4 @@ keystore.properties
 /libs/
 /.settings
 *~
+/local.properties
