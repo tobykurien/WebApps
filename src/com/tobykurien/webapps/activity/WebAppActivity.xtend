@@ -162,10 +162,19 @@ public class WebAppActivity extends BaseWebAppActivity {
 		new AlertDialog.Builder(this)
 			.setTitle(R.string.menu_text_size)
 			.setSingleChoiceItems(R.array.text_sizes, fontSize, [dlg, value|
-				// save new font size
 				setTextSize(value)
+				webapp.fontSize = value
 			])
-			.setPositiveButton(android.R.string.ok, [dlg, i| dlg.dismiss ])
+			.setPositiveButton(android.R.string.ok, [dlg, i|
+				// save font size
+				if (webappId > 0) {
+					db.update(DbService.TABLE_WEBAPPS, #{
+						'fontSize' -> webapp.fontSize
+					}, webappId)
+				}
+				 
+				dlg.dismiss
+			])
 			.create()
 			.show()
 	}

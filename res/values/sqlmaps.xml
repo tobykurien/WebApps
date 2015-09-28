@@ -5,7 +5,7 @@
            id integer primary key,
            name text not null,
            url text not null,
-           iconUrl text not null
+           fontSize integer default -1
         );
         
         create table domain_names (
@@ -14,13 +14,13 @@
            domain text not null
         );
         
-        insert into webapps (name,url,iconUrl) values (\'DuckDuckGo\',\'https://duckduckgo.com\',\'/favicon.ico\');
-        insert into webapps (name,url,iconUrl) values (\'Facebook\',\'https://m.facebook.com\',\'/apple-touch-icon.png\');
-        insert into webapps (name,url,iconUrl) values (\'Twitter\',\'https://mobile.twitter.com\',\'/favicon.ico\');
-        insert into webapps (name,url,iconUrl) values (\'Google News\',\'https://news.google.com\',\'https://ssl.gstatic.com/news-static/img/favicon.ico\');
-        insert into webapps (name,url,iconUrl) values (\'Hacker News\',\'https://news.ycombinator.com/\',\'/favicon.ico\');
-        insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://m.reddit.com\',\'https://www.redditstatic.com/mobile-web/favicon/64x64.png\');
-        insert into webapps (name,url,iconUrl) values (\'Voat\',\'https://voat.co\',\'https://voat.co/Graphics/Icons/touch-icon-192x192.png\');
+        insert into webapps (name,url) values (\'DuckDuckGo\',\'https://duckduckgo.com\');
+        insert into webapps (name,url) values (\'Facebook\',\'https://m.facebook.com\');
+        insert into webapps (name,url) values (\'Twitter\',\'https://mobile.twitter.com\');
+        insert into webapps (name,url) values (\'Google News\',\'https://news.google.com\');
+        insert into webapps (name,url) values (\'Hacker News\',\'https://news.ycombinator.com/\');
+        insert into webapps (name,url) values (\'Reddit\',\'https://m.reddit.com\');
+        insert into webapps (name,url) values (\'Voat\',\'https://voat.co\');
     </string>
     
     <string translatable="false" name="dbGetWebapps">

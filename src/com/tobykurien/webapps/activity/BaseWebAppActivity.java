@@ -20,6 +20,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebIconDatabase;
 import android.webkit.WebSettings;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebSettings.TextSize;
 import android.webkit.WebView;
@@ -66,6 +67,8 @@ public class BaseWebAppActivity extends AppCompatActivity {
 			if (webappId >= 0) {
 				webapp = Dependencies.getDb(this)
 						.findById(DbService.TABLE_WEBAPPS, webappId, Webapp.class);
+			} else {
+				webapp = new Webapp();
 			}
 		} else {
 			// didn't get any intent data
@@ -138,9 +141,9 @@ public class BaseWebAppActivity extends AppCompatActivity {
 		settings.setSavePassword(false);
 		settings.setLoadsImagesAutomatically(Settings.getSettings(this)
 				.isLoadImages());
-
+		
 		// set preferred text size
-		if (webapp != null && webapp.getFontSize() > 0) {
+		if (webapp.getFontSize() >= 0) {
 			setTextSize(webapp.getFontSize());
 		} else {
 			setTextSize(Settings.getSettings(this).getIntFontSize());
