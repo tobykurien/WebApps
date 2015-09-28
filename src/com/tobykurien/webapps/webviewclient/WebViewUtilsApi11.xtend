@@ -69,8 +69,8 @@ class WebViewUtilsApi11 extends WebViewUtils {
 			wv.getSettings().setUserAgentString(userAgent);
 		}
 
-		wv.addJavascriptInterface([String url, String stuff, String otherstuff,
-					String morestuff, String yetmorestuff, String yetevenmore|
+		wv.addJavascriptInterface([
+			throw new IllegalStateException("not supported");
 		], "window");
 
 		wv.onLongClickListener = [view|
