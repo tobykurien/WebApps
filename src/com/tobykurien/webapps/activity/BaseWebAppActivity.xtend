@@ -42,11 +42,13 @@ class BaseWebAppActivity extends AppCompatActivity {
 	override void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout::webapp)
+		
 		wv = getWebView()
 		if (wv === null) {
 			finish()
 			return;
 		}
+		
 		if (getIntent() !== null && getIntent().getData() !== null &&
 			Intent::ACTION_VIEW.equals(getIntent().getAction())) {
 			siteUrl = getIntent().getData()
@@ -61,8 +63,10 @@ class BaseWebAppActivity extends AppCompatActivity {
 			finish()
 			return;
 		}
+		
 		val ProgressBar pb = getProgressBar()
 		if(pb !== null) pb.setVisibility(View::VISIBLE)
+		
 		setupWebView()
 		wv.setWebViewClient(getWebViewClient(pb)) // save the favicon for later use if we get one
 		wv.setWebChromeClient(new WebChromeClient() {
@@ -139,7 +143,7 @@ class BaseWebAppActivity extends AppCompatActivity {
 				}
 
 			}
-			wc = new WebClient(this, wv, pb, unblock.toArray(newArrayOfSize(0)))
+			wc = new WebClient(this, wv, pb, unblock)
 		}
 		return wc
 	}

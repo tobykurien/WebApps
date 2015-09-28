@@ -18,19 +18,17 @@ import com.tobykurien.webapps.activity.BaseWebAppActivity
 import com.tobykurien.webapps.utils.Dependencies
 import com.tobykurien.webapps.utils.Settings
 import java.io.ByteArrayInputStream
-import java.util.ArrayList
 import java.util.HashMap
-import java.util.List
 import java.util.Set
 
 class WebClient extends WebViewClient {
 	package BaseWebAppActivity activity
 	package WebView wv
 	package View pd
-	public String[] domainUrls
+	public Set<String> domainUrls
 	package HashMap<String, Boolean> blockedHosts = new HashMap<String, Boolean>()
 
-	new(BaseWebAppActivity activity, WebView wv, View pd, String[] domainUrls) {
+	new(BaseWebAppActivity activity, WebView wv, View pd, Set<String> domainUrls) {
 		this.activity = activity
 		this.wv = wv
 		this.pd = pd
@@ -38,12 +36,20 @@ class WebClient extends WebViewClient {
 	}
 
 	override void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-		new AlertDialog.Builder(activity).setTitle("Untrusted SSL Cert").
-			setMessage('''Issued by: «error.getCertificate().getIssuedBy().getDName()»
+		new AlertDialog.Builder(activity)
+			.setTitle("Untrusted SSL Cert")
+			.setMessage('''Issued by: «error.getCertificate().getIssuedBy().getDName()»
 Issued to: «error.getCertificate().getIssuedTo().getDName()»
 Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
-''').setPositiveButton("Add exception", [DialogInterface arg0, int arg1|handler.proceed()]).
-			setNegativeButton("Cancel", [DialogInterface dialog, int which|handler.cancel()]).create().show()
+''')
+			.setPositiveButton("Add exception", [DialogInterface arg0, int arg1|
+				handler.proceed()
+			])
+			.setNegativeButton("Cancel", [DialogInterface dialog, int which|
+				handler.cancel()
+			])
+			.create()
+			.show()
 	}
 
 	override void onPageFinished(WebView view, String url) {
@@ -166,12 +172,8 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 		return false
 	}
 
-	def String[] getBlockedHosts() {
-		var List<String> ret = new ArrayList<String>()
-		for (String key : blockedHosts.keySet()) {
-			ret.add(key)
-		}
-		return ret.toArray(#[]) as String[]
+	def Set<String> getBlockedHosts() {
+		blockedHosts.keySet()
 	}
 
 	/** 
@@ -182,7 +184,7 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 		for (String s : domainUrls) {
 			unblock.add(s)
 		}
-		domainUrls = unblock.toArray(#[])
+		domainUrls = unblock
 	}
 
 }

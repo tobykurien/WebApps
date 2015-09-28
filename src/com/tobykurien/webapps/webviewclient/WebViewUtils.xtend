@@ -9,8 +9,12 @@ import com.tobykurien.webapps.data.Webapp
 
 abstract class WebViewUtils {
 	def static WebViewUtils getInstance() {
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			return new WebViewUtilsApi21();
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			return new WebViewUtilsApi16();
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+			return new WebViewUtilsApi12();
 		} else {
 			return new WebViewUtilsApi11();
 		}		
