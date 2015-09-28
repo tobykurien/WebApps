@@ -23,6 +23,7 @@ import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgSaveWebapp
 import com.tobykurien.webapps.utils.FaviconHandler
 import com.tobykurien.webapps.utils.Settings
+import com.tobykurien.webapps.webviewclient.WebViewUtils
 import java.util.ArrayList
 import java.util.List
 import java.util.Set
@@ -55,7 +56,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		settings = Settings.getSettings(this);
 		if (settings.isFullscreen()) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 
 		// setup actionbar
@@ -64,12 +65,12 @@ public class WebAppActivity extends BaseWebAppActivity {
 		ab.setDisplayShowCustomEnabled(true);
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setCustomView(R.layout.actionbar_favicon);
-      
-      // load a favico if it already exists
-      var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
-      iconImg.imageResource = R.drawable.ic_action_site
-      WebappsAdapter.loadFavicon(this, new FaviconHandler(this).getFavIcon(webappId), iconImg)     
-		
+
+		// load a favico if it already exists
+		var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
+		iconImg.imageResource = R.drawable.ic_action_site
+		WebappsAdapter.loadFavicon(this, new FaviconHandler(this).getFavIcon(webappId), iconImg)
+
 		autohideActionbar();
 	}
 
@@ -80,25 +81,25 @@ public class WebAppActivity extends BaseWebAppActivity {
 		settings = Settings.getSettings(this);
 	}
 
-   override protected onPause() {
-      super.onPause()
-      
-      if (webappId < 0) {
-         // clean up data left behind by this webapp
-         clearWebviewCache(wv)
-      }
-   }
+	override protected onPause() {
+		super.onPause()
+
+		if (webappId < 0) {
+			// clean up data left behind by this webapp
+			clearWebviewCache(wv)
+		}
+	}
 
 	override onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		var inflater = getMenuInflater();
 		inflater.inflate(R.menu.webapps_menu, menu);
-		
+
 		stopMenu = menu.findItem(R.id.menu_stop);
 		imageMenu = menu.findItem(R.id.menu_image);
 		imageMenu.setChecked(Settings.getSettings(this).isLoadImages());
 		updateImageMenu();
-		
+
 		return true;
 	}
 
@@ -108,17 +109,14 @@ public class WebAppActivity extends BaseWebAppActivity {
 				finish();
 				return true;
 			}
-			
 			case R.id.menu_3rd_party: {
 				dlg3rdParty();
 				return true;
 			}
-			
 			case R.id.menu_save: {
 				dlgSave();
 				return true;
 			}
-			
 			case R.id.menu_stop: {
 				if (stopMenu != null && !stopMenu.isChecked()) {
 					wv.reload();
@@ -127,7 +125,6 @@ public class WebAppActivity extends BaseWebAppActivity {
 				}
 				return true;
 			}
-			
 			case R.id.menu_image: {
 				if (imageMenu != null) {
 					imageMenu.setChecked(!imageMenu.isChecked());
@@ -136,18 +133,15 @@ public class WebAppActivity extends BaseWebAppActivity {
 				}
 				return true;
 			}
-			
 			case R.id.menu_font_size: {
 				showFontSizeDialog()
 				return true;
 			}
-			
 			case R.id.menu_settings: {
 				var i = new Intent(this, Preferences);
 				startActivity(i);
 				return true;
 			}
-			
 			case R.id.menu_exit: {
 				finish();
 				return true;
@@ -156,37 +150,33 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	def showFontSizeDialog() {
-		val int fontSize = if (webappId < 0) webapp.fontSize else wv.settings.textSize.ordinal
-		new AlertDialog.Builder(this)
-			.setTitle(R.string.menu_text_size)
-			.setSingleChoiceItems(R.array.text_sizes, fontSize, [dlg, value|
-				setTextSize(value)
+		val int fontSize = if(webappId < 0) webapp.fontSize else wv.settings.textSize.ordinal
+		new AlertDialog.Builder(this).setTitle(R.string.menu_text_size).setSingleChoiceItems(R.array.text_sizes,
+			fontSize, [ dlg, value |
+				WebViewUtils.instance.setTextSize(wv, value)
 				webapp.fontSize = value
-			])
-			.setPositiveButton(android.R.string.ok, [dlg, i|
-				// save font size
-				if (webappId > 0) {
-					db.update(DbService.TABLE_WEBAPPS, #{
-						'fontSize' -> webapp.fontSize
-					}, webappId)
-				}
-				 
-				dlg.dismiss
-			])
-			.create()
-			.show()
+			]).setPositiveButton(android.R.string.ok, [ dlg, i |
+			// save font size
+			if (webappId > 0) {
+				db.update(DbService.TABLE_WEBAPPS, #{
+					'fontSize' -> webapp.fontSize
+				}, webappId)
+			}
+
+			dlg.dismiss
+		]).create().show()
 	}
-	
+
 	def void updateImageMenu() {
 		Settings.getSettings(this).setLoadImages(imageMenu.isChecked());
 		imageMenu.setIcon(
-		   if (imageMenu.isChecked()) 
-		    R.drawable.ic_action_image
-		   else 
-			 R.drawable.ic_action_broken_image
-	   );
+			if (imageMenu.isChecked())
+				R.drawable.ic_action_image
+			else
+				R.drawable.ic_action_broken_image
+		);
 	}
 
 	override onPageLoadStarted() {
@@ -197,135 +187,131 @@ public class WebAppActivity extends BaseWebAppActivity {
 			stopMenu.setChecked(true);
 		}
 	}
-	
+
 	override onPageLoadDone() {
 		super.onPageLoadDone();
-		
+
 		if (stopMenu != null) {
 			stopMenu.setTitle(R.string.menu_refresh);
 			stopMenu.setIcon(R.drawable.ic_action_refresh);
 			stopMenu.setChecked(false);
 		}
 	}
-	
-   override onReceivedFavicon(WebView view, Bitmap icon) {
-      super.onReceivedFavicon(view, icon)
-      var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
-      iconImg.setImageBitmap(icon);
-      
-      // also save favicon
-      if (webappId >= 0) {
-         AsyncBuilder.async [builder, params|
-            new FaviconHandler(this).saveFavIcon(webappId, icon)
-            return true
-         ].onError[ex|
-            Log.e("favicon", "error saving icon", ex)
-         ].start()
-      } else {
-         unsavedFavicon = icon
-      }
-   }
 
-   /**
-    * Show a dialog to the user to allow saving a webapp
-    */
+	override onReceivedFavicon(WebView view, Bitmap icon) {
+		super.onReceivedFavicon(view, icon)
+		var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
+		iconImg.setImageBitmap(icon);
+
+		// also save favicon
+		if (webappId >= 0) {
+			AsyncBuilder.async [ builder, params |
+				new FaviconHandler(this).saveFavIcon(webappId, icon)
+				return true
+			].onError [ ex |
+				Log.e("favicon", "error saving icon", ex)
+			].start()
+		} else {
+			unsavedFavicon = icon
+		}
+	}
+
+	/**
+	 * Show a dialog to the user to allow saving a webapp
+	 */
 	def private void dlgSave() {
 		var dlg = new DlgSaveWebapp(webappId, wv.getTitle(), wv.getUrl(), unblock);
 
-      val isNewWebapp = if (webappId < 0) true else false;
-		
-		dlg.setOnSaveListener [id |
-		   webappId = id
-		   
-		   // save any unblocked domains
-		   if (isNewWebapp) saveWebappUnblockList(webappId, unblock)
-		   
-		   // if we have unsaved icon, save it
-		   if (unsavedFavicon != null) {
-		      onReceivedFavicon(wv, unsavedFavicon)
-		      unsavedFavicon = null
-		   }
-		   
-		   return null
-      ]
-      
+		val isNewWebapp = if(webappId < 0) true else false;
+
+		dlg.setOnSaveListener [ id |
+			webappId = id
+
+			// save any unblocked domains
+			if(isNewWebapp) saveWebappUnblockList(webappId, unblock)
+
+			// if we have unsaved icon, save it
+			if (unsavedFavicon != null) {
+				onReceivedFavicon(wv, unsavedFavicon)
+				unsavedFavicon = null
+			}
+
+			return null
+		]
+
 		dlg.show(getSupportFragmentManager(), "save");
 	}
 
-   /**
-    * Show a dialog to allow user to unblock or re-block third party domains
-    */
+	/**
+	 * Show a dialog to allow user to unblock or re-block third party domains
+	 */
 	def private void dlg3rdParty() {
-	   AsyncBuilder.async [builder, params|
-	      // get the saved list of whitelisted domains
-         db.findByFields(DbService.TABLE_DOMAINS, #{
-               "webappId" -> webappId         
-            }, null, ThirdPartyDomain)
-	   ].then [List<ThirdPartyDomain> whitelisted|
-         // add all whitelisted domains
-         val domains = new ArrayList(whitelisted.map [ domain ])
-         val whitelist = new ArrayList(domains.map[true])
-         
-         // add all blocked domains
-         wc.getBlockedHosts().forEach[d|
-            if (!domains.contains(d)) {
-               domains.add(d)
-               whitelist.add(false)
-            }
-         ] 
-         
-         // show blocked 3rd party domains and allow user to allow them
-         new AlertDialog.Builder(this)
-            .setTitle(R.string.blocked_root_domains)
-            .setMultiChoiceItems(domains, whitelist, [DialogInterface d, int pos, boolean checked|
-               if (checked) {
-                  unblock.add(domains.get(pos).intern());
-               } else {
-                  unblock.remove(domains.get(pos).intern());
-               }
-               Log.d("unblock", unblock.toString)
-            ])
-            .setPositiveButton(R.string.unblock, [DialogInterface d, int pos|
-               saveWebappUnblockList(webappId, unblock) 
-               wc.unblockDomains(unblock);
-               clearWebviewCache(wv)
-               d.dismiss();
-            ])
-            .create()
-            .show();
-	   ].onError[ Exception e|
-	      toast(e.class.name + " " + e.message)
-	   ].start()
+		AsyncBuilder.async [ builder, params |
+			// get the saved list of whitelisted domains
+			db.findByFields(DbService.TABLE_DOMAINS, #{
+				"webappId" -> webappId
+			}, null, ThirdPartyDomain)
+		].then [ List<ThirdPartyDomain> whitelisted |
+			// add all whitelisted domains
+			val domains = new ArrayList(whitelisted.map[domain])
+			val whitelist = new ArrayList(domains.map[true])
+
+			// add all blocked domains
+			wc.getBlockedHosts().forEach [ d |
+				if (!domains.contains(d)) {
+					domains.add(d)
+					whitelist.add(false)
+				}
+			]
+
+			// show blocked 3rd party domains and allow user to allow them
+			new AlertDialog.Builder(this).setTitle(R.string.blocked_root_domains).setMultiChoiceItems(domains,
+				whitelist, [ DialogInterface d, int pos, boolean checked |
+					if (checked) {
+						unblock.add(domains.get(pos).intern());
+					} else {
+						unblock.remove(domains.get(pos).intern());
+					}
+					Log.d("unblock", unblock.toString)
+				]).setPositiveButton(R.string.unblock, [ DialogInterface d, int pos |
+				saveWebappUnblockList(webappId, unblock)
+				wc.unblockDomains(unblock);
+				clearWebviewCache(wv)
+				d.dismiss();
+			]).create().show();
+		].onError [ Exception e |
+			toast(e.class.name + " " + e.message)
+		].start()
 	}
-   
-   def clearWebviewCache(WebView wv) {
-      wv.clearCache(true);
-      deleteDatabase("webview.db");
-      deleteDatabase("webviewCache.db");
-      wv.reload();
-   }
-   
-   def void saveWebappUnblockList(long webappId, Set<String> unblock) {
-      if (webappId >= 0) {
-         AsyncBuilder.async [builder, params|
-            // save the unblock list
-            // clear current list
-            db.execute(R.string.dbDeleteDomains, #{ "webappId" -> webappId });
-      
-            if (unblock != null && unblock.size() > 0) {
-               // add new items
-               for (domain : unblock) {
-                  db.insert(DbService.TABLE_DOMAINS, #{
-                     "webappId" -> webappId,
-                     "domain" -> domain
-                  });
-               }
-            }
-            
-            return null
-         ].start()
-      }
-   }
+
+	def clearWebviewCache(WebView wv) {
+		wv.clearCache(true);
+		deleteDatabase("webview.db");
+		deleteDatabase("webviewCache.db");
+		wv.reload();
+	}
+
+	def void saveWebappUnblockList(long webappId, Set<String> unblock) {
+		if (webappId >= 0) {
+			AsyncBuilder.async [ builder, params |
+				// save the unblock list
+				// clear current list
+				db.execute(R.string.dbDeleteDomains, #{"webappId" -> webappId});
+
+				if (unblock != null && unblock.size() > 0) {
+					// add new items
+					for (domain : unblock) {
+						db.insert(DbService.TABLE_DOMAINS, #{
+							"webappId" -> webappId,
+							"domain" -> domain
+						});
+					}
+				}
+
+				return null
+			].start()
+		}
+	}
 
 	/**
 	 * Attempt to make the actionBar auto-hide and auto-reveal based on drag
@@ -334,26 +320,25 @@ public class WebAppActivity extends BaseWebAppActivity {
 	 * @param wv
 	 */
 	def void autohideActionbar() {
-		wv.setOnTouchListener [View arg0, MotionEvent event|
-				if (settings.isHideActionbar()) {
-					if (event.getAction() == MotionEvent.ACTION_DOWN) {
-						startY = event.getY();
-					}
+		wv.setOnTouchListener [ View arg0, MotionEvent event |
+			if (settings.isHideActionbar()) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					startY = event.getY();
+				}
 
-					if (event.getAction() == MotionEvent.ACTION_MOVE) {
-						// avoid juddering by waiting for large-ish drag
-						if (Math.abs(startY - event.getY()) > 
-						      new ViewConfiguration().getScaledTouchSlop() * 5) {
-							if (startY < event.getY()) {
-							   supportActionBar.show();
-							} else {
-								supportActionBar.hide();
-							}
+				if (event.getAction() == MotionEvent.ACTION_MOVE) {
+					// avoid juddering by waiting for large-ish drag
+					if (Math.abs(startY - event.getY()) > new ViewConfiguration().getScaledTouchSlop() * 5) {
+						if (startY < event.getY()) {
+							supportActionBar.show();
+						} else {
+							supportActionBar.hide();
 						}
 					}
 				}
+			}
 
-				return false;
-      ]
+			return false;
+		]
 	}
 }

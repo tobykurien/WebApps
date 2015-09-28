@@ -13,16 +13,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
-import android.webkit.WebIconDatabase;
-import android.webkit.WebSettings;
-import android.webkit.WebSettings.LayoutAlgorithm;
-import android.webkit.WebSettings.PluginState;
-import android.webkit.WebSettings.TextSize;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
@@ -32,6 +25,7 @@ import com.tobykurien.webapps.db.DbService;
 import com.tobykurien.webapps.utils.Dependencies;
 import com.tobykurien.webapps.utils.Settings;
 import com.tobykurien.webapps.webviewclient.WebClient;
+import com.tobykurien.webapps.webviewclient.WebViewUtils;
 
 public class BaseWebAppActivity extends AppCompatActivity {
 	public static boolean reload = false;
@@ -49,8 +43,6 @@ public class BaseWebAppActivity extends AppCompatActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		WebIconDatabase.getInstance().open(
-				getDir("icons", MODE_PRIVATE).getPath());
 		setContentView(R.layout.webapp);
 
 		wv = getWebView();
@@ -76,11 +68,28 @@ public class BaseWebAppActivity extends AppCompatActivity {
 			return;
 		}
 
-		CookieSyncManager.createInstance(this);
-		// CookieManager.setAcceptFileSchemeCookies(false); // needs API min
-		// level = 12
-		CookieManager.getInstance().setAcceptCookie(true);
+		final ProgressBar pb = getProgressBar();
+		if (pb != null)
+			pb.setVisibility(View.VISIBLE);
+
 		setupWebView();
+		wv.setWebViewClient(getWebViewClient(pb));
+
+		// save the favicon for later use if we get one
+		wv.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public void onReceivedIcon(WebView view, Bitmap icon) {
+				super.onReceivedIcon(view, icon);
+				onReceivedFavicon(view, icon);
+			}
+		});
+		
+		openSite(siteUrl.toString());
+	}
+
+	protected void setupWebView() {
+		WebViewUtils.getInstance().setupWebView(this, wv, siteUrl, webapp, 
+				Settings.getSettings(this).getIntFontSize());
 	}
 
 	@Override
@@ -99,99 +108,6 @@ public class BaseWebAppActivity extends AppCompatActivity {
 	protected void onPause() {
 		super.onPause();
 		CookieSyncManager.getInstance().stopSync();
-	}
-
-	protected void setupWebView() {
-		final ProgressBar pb = getProgressBar();
-		if (pb != null)
-			pb.setVisibility(View.VISIBLE);
-
-		// WebView.enablePlatformNotifications();
-		WebSettings settings = wv.getSettings();
-		settings.setJavaScriptEnabled(true);
-		settings.setJavaScriptCanOpenWindowsAutomatically(false);
-
-		// Enable local database per site
-		// NOTE: No longer works on API 18+
-		settings.setDatabaseEnabled(true);
-		String databasePath = this.getApplicationContext().getCacheDir()
-				+ "db-" + siteUrl.getHost();
-		settings.setDatabasePath(databasePath);
-
-		// Enable caching each site individually
-		// NOTE: No longer works on API 18+
-		String cachePath = this.getApplicationContext().getCacheDir()
-				+ "/cache-" + siteUrl.getHost();
-		
-		settings.setAppCachePath(cachePath);
-		settings.setAppCacheEnabled(true);
-		settings.setAppCacheMaxSize(1024 * 1024 * 8);
-		settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-		settings.setAllowFileAccess(false);
-		//settings.setAllowUniversalAccessFromFileURLs(false);
-		//settings.setAllowFileAccessFromFileURLs(false);
-		settings.setPluginState(PluginState.OFF);
-		settings.setAllowContentAccess(false);
-		settings.setDomStorageEnabled(true);
-		settings.setSupportZoom(true);
-		settings.setBuiltInZoomControls(false);
-		settings.setGeolocationEnabled(false);
-		settings.setJavaScriptCanOpenWindowsAutomatically(false);
-		settings.setSaveFormData(false);
-		settings.setSavePassword(false);
-		settings.setLoadsImagesAutomatically(Settings.getSettings(this)
-				.isLoadImages());
-		
-		// set preferred text size
-		if (webapp.getFontSize() >= 0) {
-			setTextSize(webapp.getFontSize());
-		} else {
-			setTextSize(Settings.getSettings(this).getIntFontSize());
-		}
-
-		String userAgent = Settings.getSettings(this).getUserAgent();
-		if (!userAgent.equals("")) {
-			wv.getSettings().setUserAgentString(userAgent);
-		}
-
-		wv.setWebViewClient(getWebViewClient(pb));
-
-		// save the favicon for later use if we get one
-		wv.setWebChromeClient(new WebChromeClient() {
-			@Override
-			public void onReceivedIcon(WebView view, Bitmap icon) {
-				super.onReceivedIcon(view, icon);
-				onReceivedFavicon(view, icon);
-			}
-		});
-
-		wv.addJavascriptInterface(new Object() {
-			@JavascriptInterface
-			// attempt to override the _window function used by Google+ mobile
-			// app
-			public void open(String url, String stuff, String otherstuff,
-					String morestuff, String yetmorestuff, String yetevenmore) {
-				throw new IllegalStateException(url); // to indicate success
-			}
-		}, "window");
-
-		wv.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View arg0) {
-				String url = wv.getHitTestResult().getExtra();
-				if (url != null) {
-					Intent i = new Intent(android.content.Intent.ACTION_VIEW);
-					i.setData(Uri.parse(url));
-					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					startActivity(i);
-					return true;
-				}
-
-				return false;
-			}
-		});
-
-		openSite(siteUrl.toString());
 	}
 
 	public void onReceivedFavicon(WebView view, Bitmap icon) {
@@ -253,30 +169,6 @@ public class BaseWebAppActivity extends AppCompatActivity {
 
 	public void openSite(String url) {
 		wv.loadUrl(url);
-	}
-
-	public void setTextSize(int size) {
-		TextSize textSize = TextSize.NORMAL;
-
-		switch (size) {
-		case 0:
-			textSize = TextSize.SMALLEST;
-			break;
-		case 1:
-			textSize = TextSize.SMALLER;
-			break;
-		case 2:
-			textSize = TextSize.NORMAL;
-			break;
-		case 3:
-			textSize = TextSize.LARGER;
-			break;
-		case 4:
-			textSize = TextSize.LARGEST;
-			break;
-		}
-
-		wv.getSettings().setTextSize(textSize);
 	}
 
 	@Override
