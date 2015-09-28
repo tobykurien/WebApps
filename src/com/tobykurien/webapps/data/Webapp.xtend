@@ -10,5 +10,5 @@ import org.eclipse.xtend.lib.annotations.ToString
    long id
    String name
    String url
-   String iconUrl
+   int fontSize = -1
 }

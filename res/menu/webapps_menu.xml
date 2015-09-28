@@ -21,6 +21,12 @@
         app:showAsAction="always"/>
         
     <item
+        android:id="@+id/menu_font_size"
+        android:icon="@drawable/ic_format_size"
+        android:title="@string/menu_text_size"
+        app:showAsAction="ifRoom"/>
+    
+    <item
         android:id="@+id/menu_save"
         android:icon="@drawable/ic_action_save"
         android:title="@string/menu_save"

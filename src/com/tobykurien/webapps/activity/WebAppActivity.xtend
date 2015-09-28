@@ -25,11 +25,11 @@ import com.tobykurien.webapps.utils.FaviconHandler
 import com.tobykurien.webapps.utils.Settings
 import java.util.ArrayList
 import java.util.List
+import java.util.Set
 import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import java.util.Set
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -104,52 +104,70 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 	override onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home: {
-			finish();
-			return true;
-		}
-
-		case R.id.menu_3rd_party: {
-			dlg3rdParty();
-			return true;
-		}
-
-		case R.id.menu_save: {
-			dlgSave();
-			return true;
-		}
-
-		case R.id.menu_stop: {
-         if (stopMenu != null && !stopMenu.isChecked()) {
-            wv.reload();
-         } else {
-            wv.stopLoading();
-         }
-         return true;
-		}
-
-		case R.id.menu_image: {
-         if (imageMenu != null) {
-            imageMenu.setChecked(!imageMenu.isChecked());
-            updateImageMenu();
-            setupWebView();
-         }
-         return true;
-		}
+			case android.R.id.home: {
+				finish();
+				return true;
+			}
 			
-		case R.id.menu_settings: {
-			var i = new Intent(this, Preferences);
-			startActivity(i);
-			return true;
-      }
-
-		case R.id.menu_exit: {
-			finish();
-			return true;
-		}
+			case R.id.menu_3rd_party: {
+				dlg3rdParty();
+				return true;
+			}
+			
+			case R.id.menu_save: {
+				dlgSave();
+				return true;
+			}
+			
+			case R.id.menu_stop: {
+				if (stopMenu != null && !stopMenu.isChecked()) {
+					wv.reload();
+				} else {
+					wv.stopLoading();
+				}
+				return true;
+			}
+			
+			case R.id.menu_image: {
+				if (imageMenu != null) {
+					imageMenu.setChecked(!imageMenu.isChecked());
+					updateImageMenu();
+					setupWebView();
+				}
+				return true;
+			}
+			
+			case R.id.menu_font_size: {
+				showFontSizeDialog()
+				return true;
+			}
+			
+			case R.id.menu_settings: {
+				var i = new Intent(this, Preferences);
+				startActivity(i);
+				return true;
+			}
+			
+			case R.id.menu_exit: {
+				finish();
+				return true;
+			}
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+	
+	def showFontSizeDialog() {
+		val int fontSize = if (webappId < 0) webapp.fontSize else wv.settings.textSize.ordinal
+		new AlertDialog.Builder(this)
+			.setTitle(R.string.menu_text_size)
+			.setSingleChoiceItems(R.array.text_sizes, fontSize, [dlg, value|
+				// save new font size
+				setTextSize(value)
+			])
+			.setPositiveButton(android.R.string.ok, [dlg, i| dlg.dismiss ])
+			.create()
+			.show()
 	}
 	
 	def void updateImageMenu() {

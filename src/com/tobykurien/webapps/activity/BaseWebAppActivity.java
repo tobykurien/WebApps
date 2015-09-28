@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -27,6 +26,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.tobykurien.webapps.R;
+import com.tobykurien.webapps.data.Webapp;
 import com.tobykurien.webapps.db.DbService;
 import com.tobykurien.webapps.utils.Dependencies;
 import com.tobykurien.webapps.utils.Settings;
@@ -40,6 +40,7 @@ public class BaseWebAppActivity extends AppCompatActivity {
 	Uri siteUrl = null;
 	WebClient wc = null;
 	long webappId = -1;
+	Webapp webapp = null;
 	Set<String> unblock = new HashSet<String>();
 
 	/** Called when the activity is first created. */
@@ -61,6 +62,11 @@ public class BaseWebAppActivity extends AppCompatActivity {
 				&& Intent.ACTION_VIEW.equals(getIntent().getAction())) {
 			siteUrl = getIntent().getData();
 			webappId = getIntent().getLongExtra(EXTRA_WEBAPP_ID, -1);
+			
+			if (webappId >= 0) {
+				webapp = Dependencies.getDb(this)
+						.findById(DbService.TABLE_WEBAPPS, webappId, Webapp.class);
+			}
 		} else {
 			// didn't get any intent data
 			finish();
@@ -119,8 +125,8 @@ public class BaseWebAppActivity extends AppCompatActivity {
 		settings.setAppCacheMaxSize(1024 * 1024 * 8);
 		settings.setCacheMode(WebSettings.LOAD_DEFAULT);
 		settings.setAllowFileAccess(false);
-		settings.setAllowUniversalAccessFromFileURLs(false);
-		settings.setAllowFileAccessFromFileURLs(false);
+		//settings.setAllowUniversalAccessFromFileURLs(false);
+		//settings.setAllowFileAccessFromFileURLs(false);
 		settings.setPluginState(PluginState.OFF);
 		settings.setAllowContentAccess(false);
 		settings.setDomStorageEnabled(true);
@@ -134,7 +140,11 @@ public class BaseWebAppActivity extends AppCompatActivity {
 				.isLoadImages());
 
 		// set preferred text size
-		setTextSize();
+		if (webapp != null && webapp.getFontSize() > 0) {
+			setTextSize(webapp.getFontSize());
+		} else {
+			setTextSize(Settings.getSettings(this).getIntFontSize());
+		}
 
 		String userAgent = Settings.getSettings(this).getUserAgent();
 		if (!userAgent.equals("")) {
@@ -242,10 +252,9 @@ public class BaseWebAppActivity extends AppCompatActivity {
 		wv.loadUrl(url);
 	}
 
-	public void setTextSize() {
+	public void setTextSize(int size) {
 		TextSize textSize = TextSize.NORMAL;
 
-		int size = Settings.getSettings(this).getIntFontSize();
 		switch (size) {
 		case 0:
 			textSize = TextSize.SMALLEST;
