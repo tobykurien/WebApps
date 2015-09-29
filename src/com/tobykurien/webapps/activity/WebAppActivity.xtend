@@ -222,13 +222,14 @@ public class WebAppActivity extends BaseWebAppActivity {
 	def private void dlgSave() {
 		var dlg = new DlgSaveWebapp(webappId, wv.getTitle(), wv.getUrl(), unblock);
 
-		val isNewWebapp = if(webappId < 0) true else false;
+		val isNewWebapp = if (webappId < 0) true else false;
 
 		dlg.setOnSaveListener [ id |
 			webappId = id
+			webapp.id = id
 
 			// save any unblocked domains
-			if(isNewWebapp) saveWebappUnblockList(webappId, unblock)
+			if (isNewWebapp) saveWebappUnblockList(webappId, unblock)
 
 			// if we have unsaved icon, save it
 			if (unsavedFavicon != null) {
