@@ -62,7 +62,8 @@ import static extension org.xtendroid.utils.AlertUtils.*
       AsyncBuilder.async(pd) [builder, params|
          val values = #{
             "name" -> name.text.toString,
-            "url" -> this.url  
+            "url" -> this.url,
+            "iconUrl" -> ""  // for backwards compatability
          }
          
          if (webappId >= 0) {
