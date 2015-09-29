@@ -62,8 +62,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
       AsyncBuilder.async(pd) [builder, params|
          val values = #{
             "name" -> name.text.toString,
-            "url" -> this.url,
-            "iconUrl" -> "/favicon.ico"       // or "apple-touch-icon.png"  
+            "url" -> this.url  
          }
          
          if (webappId >= 0) {
