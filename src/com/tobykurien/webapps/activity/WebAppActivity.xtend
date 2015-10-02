@@ -278,6 +278,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 				saveWebappUnblockList(webappId, unblock)
 				wc.unblockDomains(unblock);
 				clearWebviewCache(wv)
+				wv.reload();
 				d.dismiss();
 			]).create().show();
 		].onError [ Exception e |
@@ -289,7 +290,6 @@ public class WebAppActivity extends BaseWebAppActivity {
 		wv.clearCache(true);
 		deleteDatabase("webview.db");
 		deleteDatabase("webviewCache.db");
-		wv.reload();
 	}
 
 	def void saveWebappUnblockList(long webappId, Set<String> unblock) {
