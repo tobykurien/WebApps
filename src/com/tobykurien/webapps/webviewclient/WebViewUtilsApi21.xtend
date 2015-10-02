@@ -8,7 +8,7 @@ import com.tobykurien.webapps.data.Webapp
 import android.webkit.CookieManager
 
 @TargetApi(21)
-class WebViewUtilsApi21 extends WebViewUtilsApi16 {
+class WebViewUtilsApi21 extends WebViewUtilsApi19 {
 	
 	override setupWebView(Context context, WebView wv, Uri siteUrl, Webapp webapp, int defaultFontSize) {
 		super.setupWebView(context, wv, siteUrl, webapp, defaultFontSize)

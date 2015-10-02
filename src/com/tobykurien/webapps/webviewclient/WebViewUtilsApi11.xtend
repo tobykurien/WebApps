@@ -29,21 +29,21 @@ class WebViewUtilsApi11 extends WebViewUtils {
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
 
 		// Enable local database per site
-		// NOTE: No longer works on API 18+
+		// NOTE: No longer works on API 19+
 		settings.setDatabaseEnabled(true);
 		var databasePath = context.getApplicationContext().getCacheDir()
 				+ "db-" + siteUrl.getHost();
 		settings.setDatabasePath(databasePath);
 
 		// Enable caching each site individually
-		// NOTE: No longer works on API 18+
+		// NOTE: No longer works on API 19+
 		var cachePath = context.getApplicationContext().getCacheDir()
-				+ "/cache-" + siteUrl.getHost();
-		
+				+ "/cache-" + siteUrl.getHost();		
 		settings.setAppCachePath(cachePath);
-		settings.setAppCacheEnabled(true);
-		settings.setAppCacheMaxSize(1024 * 1024 * 8);
+		settings.setAppCacheEnabled(true);		
+		settings.setAppCacheMaxSize(1024 * 1024 * 8);		
 		settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+		
 		settings.setAllowFileAccess(false);
 		settings.setPluginState(PluginState.OFF);
 		settings.setAllowContentAccess(false);

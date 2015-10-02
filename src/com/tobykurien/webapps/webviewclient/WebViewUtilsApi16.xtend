@@ -18,4 +18,15 @@ class WebViewUtilsApi16 extends WebViewUtilsApi12 {
 		settings.setAllowFileAccessFromFileURLs(false);		
 	}
 	
+	override setTextSize(WebView wv, int size) {
+		wv.settings.textZoom = switch(size) {
+			case 0: 50
+			case 1: 75
+			case 2: 100
+			case 3: 125
+			case 4: 150
+			default: 100
+		}
+	}
+	
 }
