@@ -41,6 +41,8 @@ import static extension org.xtendroid.utils.AlertUtils.*
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class WebAppActivity extends BaseWebAppActivity {
+	val static DEFAULT_FONT_SIZE = 2 // "normal" font size value from arrays.xml 
+
 	// variables to track dragging for actionbar auto-hide
 	var protected float startX;
 	var protected float startY;
@@ -152,7 +154,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 	}
 
 	def showFontSizeDialog() {
-		val int fontSize = if(webappId < 0) webapp.fontSize else wv.settings.textSize.ordinal
+		val int fontSize = if (webapp.fontSize >= 0) webapp.fontSize else DEFAULT_FONT_SIZE
 		new AlertDialog.Builder(this).setTitle(R.string.menu_text_size).setSingleChoiceItems(R.array.text_sizes,
 			fontSize, [ dlg, value |
 				WebViewUtils.instance.setTextSize(wv, value)
