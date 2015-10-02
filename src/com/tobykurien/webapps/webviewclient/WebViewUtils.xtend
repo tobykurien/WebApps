@@ -38,4 +38,8 @@ abstract class WebViewUtils {
 	
 	def abstract void setupWebView(Context context, WebView wv, 
 		Uri siteUrl, Webapp webapp, int defaultFontSize);
+		
+	// override this if cleanup of app data needs to be done
+	def void deleteWebappData(Context context, long webappId) {		
+	}
 }

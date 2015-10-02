@@ -17,6 +17,8 @@ import org.xtendroid.annotations.AndroidPreference
    boolean loadImages = true
    int firstLoaded = 0
    
+   long lastWebappId = -1
+   
    def getIntFontSize() {
       try {
          Integer.parseInt(getFontSize())

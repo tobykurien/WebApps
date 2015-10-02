@@ -3,7 +3,9 @@ package com.tobykurien.webapps.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
@@ -12,15 +14,14 @@ import com.tobykurien.webapps.adapter.WebappsAdapter
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgOpenUrl
+import com.tobykurien.webapps.webviewclient.WebViewUtils
 import java.util.List
 import org.xtendroid.app.AndroidActivity
 import org.xtendroid.app.OnCreate
+import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import android.util.Log
-import android.support.v7.app.AlertDialog
-import android.text.Html
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
    var protected List<Webapp> webapps
@@ -49,9 +50,14 @@ import android.text.Html
       
       mainList.setOnItemLongClickListener([av, v, pos, id|
          confirm(getString(R.string.delete_webapp), [|
-            db.execute(R.string.dbDeleteDomains, #{'webappId' -> id})
-            db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
-            loadWebapps
+         	AsyncBuilder.async[p1, p2|
+	            db.execute(R.string.dbDeleteDomains, #{'webappId' -> id})
+	            db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
+	            WebViewUtils.instance.deleteWebappData(this, id)
+	            null
+         	].then [
+	            loadWebapps
+         	].start
          ])
          true
       ])     

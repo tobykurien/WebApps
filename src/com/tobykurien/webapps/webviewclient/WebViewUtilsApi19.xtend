@@ -3,9 +3,12 @@ package com.tobykurien.webapps.webviewclient
 import android.annotation.TargetApi
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.webkit.WebView
 import com.tobykurien.webapps.data.Webapp
 import java.io.File
+
+import static extension com.tobykurien.webapps.utils.Dependencies.*
 
 /**
  * In API 19+, many things changed with the Webview, rendering previous sandboxing useless.
@@ -13,28 +16,83 @@ import java.io.File
  */
 @TargetApi(19)
 class WebViewUtilsApi19 extends WebViewUtilsApi16 {
-	val static CACHE_DIR = "org.chromium.android_webview"
-	val static WEBAPP_DIR = "app_webview"
+	val static CACHE_DIR = "/org.chromium.android_webview"
+	val static WEBAPP_DIR = "/app_webview"
 
 	override setupWebView(Context context, WebView wv, Uri siteUrl, Webapp webapp, int defaultFontSize) {
 		super.setupWebView(context, wv, siteUrl, webapp, defaultFontSize)
 
 		saveWebappData(context)
-
-		//wv.clearCache(true);
-		//trimCache(context);
-
-		if (webapp != null && webapp.id > 0) {
-			restoreWebappData(webapp)
-		}
+		wv.clearCache(true)
+		restoreWebappData(context, webapp)
 	}
 	
 	// Restore the webapp cache and webview data for sandboxing
-	def restoreWebappData(Webapp webapp) {
+	def restoreWebappData(Context context, Webapp webapp) {
+		trimCache(context)				
+		if (webapp == null || webapp.id < 0) {
+			context.settings.lastWebappId = -1
+			return
+		}
+				
+		var appDataDir = WEBAPP_DIR + "_" + webapp.id
+		var f = new File(context.appDir + appDataDir)
+		if (f.exists) {
+			f.renameTo(new File(context.appDir + WEBAPP_DIR))
+			var cache = new File(context.appDir + WEBAPP_DIR + CACHE_DIR)
+			if (cache.exists) {
+				cache.renameTo(new File(context.cacheDir.absolutePath + CACHE_DIR))
+			}
+		} 
+		
+		// write the webapp id into a file for saveWebappData to use
+		context.settings.lastWebappId = webapp.id
 	}
 	
 	// Save the webapp cache and webview data for sandboxing
 	def saveWebappData(Context context) {
+		// figure out the last webapp id
+		var webappId = context.settings.lastWebappId
+		if (webappId < 0) return
+		
+		// save the webview data
+		var appDataDir = WEBAPP_DIR + "_" + webappId
+		var f = new File(context.appDir + appDataDir)
+		if (f.exists) deleteDir(f)	// how did that happen?
+		var dataDir = new File(context.appDir + WEBAPP_DIR)
+		if (dataDir.exists) {
+			dataDir.renameTo(f)			
+			
+			// also save cache data
+			var cacheDir = new File(context.cacheDir.absolutePath + CACHE_DIR)
+			if (cacheDir.exists) {
+				cacheDir.renameTo(new File(context.appDir + appDataDir + CACHE_DIR))
+			}
+		}
+	}
+	
+	override deleteWebappData(Context context, long webappId) {
+		super.deleteWebappData(context, webappId)
+		
+		// delete the saved webview data
+		var appDataDir = WEBAPP_DIR + "_" + webappId
+		var f = new File(context.appDir + appDataDir)
+		if (f.exists) {
+			deleteDir(f)
+		}
+		
+		if (context.settings.lastWebappId == webappId) {
+			// delete the last viewed data
+			f = new File(context.appDir + WEBAPP_DIR)
+			if (f.exists) {
+				deleteDir(f)
+			}
+			context.settings.lastWebappId == -1
+		}
+	}
+	
+	def getAppDir(Context context) {
+		context.filesDir.parent
 	}
 
 	def private static boolean deleteDir(File dir) {
@@ -54,13 +112,19 @@ class WebViewUtilsApi19 extends WebViewUtilsApi16 {
 
 	def void trimCache(Context context) {
 		try {
-			var pathadmob = context.getFilesDir().getParent() + "/" + WEBAPP_DIR;
+			var pathadmob = context.appDir + "/" + WEBAPP_DIR;
 			var dir = new File(pathadmob);
 			if (dir.isDirectory()) {
 				deleteDir(dir);
 			}
+
+			pathadmob = context.cacheDir + "/" + CACHE_DIR;
+			dir = new File(pathadmob);
+			if (dir.isDirectory()) {
+				deleteDir(dir);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("webviewutils", "Error deleting cache directories", e)
 		}
 	}
 }
