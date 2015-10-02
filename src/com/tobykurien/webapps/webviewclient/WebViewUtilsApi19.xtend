@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.webkit.CookieManager
 import android.webkit.WebView
 import com.tobykurien.webapps.data.Webapp
 import java.io.File
@@ -16,20 +17,30 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
  */
 @TargetApi(19)
 class WebViewUtilsApi19 extends WebViewUtilsApi16 {
-	val static CACHE_DIR = "/org.chromium.android_webview"
-	val static WEBAPP_DIR = "/app_webview"
+	val static CACHE_DIR = "/org.chromium.android_webview"	// where webview stores cache data (inside cache dir)
+	val static WEBAPP_DIR = "/app_webview"	// where webview stores cookies, etc. (inside app's root directory)
 
 	override setupWebView(Context context, WebView wv, Uri siteUrl, Webapp webapp, int defaultFontSize) {
+		// save previously-viewed webapp's data
+		saveWebappData(context)
+
+		// set up the webview
 		super.setupWebView(context, wv, siteUrl, webapp, defaultFontSize)
 
-		saveWebappData(context)
+		// clear all caches
 		wv.clearCache(true)
+		wv.clearFormData
+		wv.clearHistory
+		var cookieManager = CookieManager.getInstance();
+		cookieManager.removeAllCookie();
+		trimCache(context)				
+		 
+		// restore data for the current webapp, if any
 		restoreWebappData(context, webapp)
 	}
 	
 	// Restore the webapp cache and webview data for sandboxing
 	def restoreWebappData(Context context, Webapp webapp) {
-		trimCache(context)				
 		if (webapp == null || webapp.id < 0) {
 			context.settings.lastWebappId = -1
 			return
@@ -118,7 +129,7 @@ class WebViewUtilsApi19 extends WebViewUtilsApi16 {
 				deleteDir(dir);
 			}
 
-			pathadmob = context.cacheDir + "/" + CACHE_DIR;
+			pathadmob = context.cacheDir.absolutePath + "/" + CACHE_DIR;
 			dir = new File(pathadmob);
 			if (dir.isDirectory()) {
 				deleteDir(dir);
