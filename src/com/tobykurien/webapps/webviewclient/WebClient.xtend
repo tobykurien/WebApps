@@ -152,7 +152,7 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 	}
 
 	/** 
-	 * Returns true if the site is within the Google domains
+	 * Returns true if the  linked site is within the Webapp's domain
 	 * @param uri
 	 * @return
 	 */
@@ -162,7 +162,7 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 		var String host = uri.getHost()
 		for (String sites : domainUrls) {
 			for (String site : sites.split(" ")) {
-				if (host.toLowerCase().endsWith(site.toLowerCase())) {
+				if (site != null && host.toLowerCase().endsWith(site.toLowerCase())) {
 					return true
 				}
 

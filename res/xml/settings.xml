@@ -7,12 +7,6 @@
         android:defaultValue="true"
         android:key="block3rd_party"/>    
 
-    <CheckBoxPreference
-        android:title="Block insecure requests"
-        android:summary="Don't load HTTP requests, only HTTPS"
-        android:defaultValue="true"
-        android:key="block_http"/>
-    
     <ListPreference
         android:title="Font Size"
         android:summary="Change the rendered font size"

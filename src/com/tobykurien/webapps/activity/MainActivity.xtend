@@ -24,89 +24,89 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
-   var protected List<Webapp> webapps
+    var protected List<Webapp> webapps
 
-   @OnCreate
-   def init(Bundle savedInstanceState) {
-      if (settings.isFullscreen()) {
-         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-      }      
-   }
+    @OnCreate
+    def init(Bundle savedInstanceState) {
+        if(settings.isFullscreen()) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+    }
 
-   override protected onStart() {
-      super.onStart()
-    
-      val activity = this
-      loadWebapps()
-      
-      mainList.setOnItemClickListener([av, v, pos, id|
-         var intent = new Intent(activity, typeof(WebAppActivity))
-         intent.action = Intent.ACTION_VIEW
-         intent.data = Uri.parse(webapps.get(pos).url)
-         intent.putExtra(BaseWebAppActivity.EXTRA_WEBAPP_ID, id)
-         startActivity(intent)
-      ])
-      
-      mainList.setOnItemLongClickListener([av, v, pos, id|
-         confirm(getString(R.string.delete_webapp), [|
-         	AsyncBuilder.async[p1, p2|
-	            db.execute(R.string.dbDeleteDomains, #{'webappId' -> id})
-	            db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
-	            WebViewUtils.instance.deleteWebappData(this, id)
-	            null
-         	].then [
-	            loadWebapps
-         	].start
-         ])
-         true
-      ])     
-      
-      // show tips on first load
-      if (settings.firstLoaded < 1) {
-         settings.firstLoaded = 1
-         showTips()
-      } 
-   }
-   
-   override onCreateOptionsMenu(Menu menu) {
-      menuInflater.inflate(R.menu.main_menu, menu)
-      true
-   }
-   
-   override onOptionsItemSelected(MenuItem item) {
-      switch (item.itemId) {
-         case R.id.menu_open: {
-            var dlg = new DlgOpenUrl()
-            dlg.show(supportFragmentManager, "open_url")
-         }
-         
-         case R.id.menu_tips: {
+    override protected onStart() {
+        super.onStart()
+
+        val activity = this
+        loadWebapps()
+
+        mainList.setOnItemClickListener([av, v, pos, id|
+            var intent = new Intent(activity, typeof(WebAppActivity))
+            intent.action = Intent.ACTION_VIEW
+            intent.data = Uri.parse(webapps.get(pos).url)
+            intent.putExtra(BaseWebAppActivity.EXTRA_WEBAPP_ID, id)
+            startActivity(intent)
+        ])
+
+        mainList.setOnItemLongClickListener([av, v, pos, id|
+            confirm(getString(R.string.delete_webapp), [|
+                AsyncBuilder.async[p1, p2|
+                    db.execute(R.string.dbDeleteDomains, # {'webappId' -> id})
+                    db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
+                    WebViewUtils.instance.deleteWebappData(this, id)
+                    null
+                ].then [
+                    loadWebapps
+                ].start
+            ])
+            true
+        ])
+
+        // show tips on first load
+        if(settings.firstLoaded < 1) {
+            settings.firstLoaded = 1
             showTips()
-         }
-         
-         case R.id.menu_settings: {
-            var i = new Intent(this, Preferences)
-            startActivity(i)
-         }
-         
-         case R.id.menu_exit: finish()
-      }
-      super.onOptionsItemSelected(item)
-   }
-   
-   def showTips() {
-      new AlertDialog.Builder(this)
-         .setTitle(R.string.action_tips)
-         .setMessage(Html.fromHtml(getString(R.string.tips)))
-         .setPositiveButton(android.R.string.ok, null)
-         .create()
-         .show()
-   }
- 
-   def loadWebapps() {
-      webapps = db.getWebapps()
-      var adapter = new WebappsAdapter(this, webapps) 
-      mainList.setAdapter(adapter)
-   }  
+        }
+    }
+
+    override onCreateOptionsMenu(Menu menu) {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        true
+    }
+
+    override onOptionsItemSelected(MenuItem item) {
+        switch (item.itemId) {
+            case R.id.menu_open: {
+                var dlg = new DlgOpenUrl()
+                dlg.show(supportFragmentManager, "open_url")
+            }
+
+            case R.id.menu_tips: {
+                showTips()
+            }
+
+            case R.id.menu_settings: {
+                var i = new Intent(this, Preferences)
+                startActivity(i)
+            }
+
+            case R.id.menu_exit: finish()
+        }
+        super.onOptionsItemSelected(item)
+    }
+
+    def showTips() {
+        new AlertDialog.Builder(this)
+        .setTitle(R.string.action_tips)
+        .setMessage(Html.fromHtml(getString(R.string.tips)))
+        .setPositiveButton(android.R.string.ok, null)
+        .create()
+        .show()
+    }
+
+    def loadWebapps() {
+        webapps = db.getWebapps()
+        var adapter = new WebappsAdapter(this, webapps)
+        mainList.setAdapter(adapter)
+    }
 }

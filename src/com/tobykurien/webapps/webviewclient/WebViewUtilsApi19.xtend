@@ -21,22 +21,24 @@ class WebViewUtilsApi19 extends WebViewUtilsApi16 {
 	val static WEBAPP_DIR = "/app_webview"	// where webview stores cookies, etc. (inside app's root directory)
 
 	override setupWebView(Context context, WebView wv, Uri siteUrl, Webapp webapp, int defaultFontSize) {
-		// save previously-viewed webapp's data
-		saveWebappData(context)
-
 		// set up the webview
 		super.setupWebView(context, wv, siteUrl, webapp, defaultFontSize)
 
-		// clear all caches
-		wv.clearCache(true)
-		wv.clearFormData
-		wv.clearHistory
-		var cookieManager = CookieManager.getInstance();
-		cookieManager.removeAllCookie();
-		trimCache(context)				
-		 
-		// restore data for the current webapp, if any
-		restoreWebappData(context, webapp)
+		if (false) {
+			// save previously-viewed webapp's data
+			saveWebappData(context)
+
+			// clear all caches
+			wv.clearCache(true)
+			wv.clearFormData
+			wv.clearHistory
+			var cookieManager = CookieManager.getInstance();
+			cookieManager.removeAllCookie();
+			trimCache(context)				
+			 
+			// restore data for the current webapp, if any
+			restoreWebappData(context, webapp)
+		}
 	}
 	
 	// Restore the webapp cache and webview data for sandboxing

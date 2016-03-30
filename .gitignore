@@ -9,3 +9,4 @@ keystore.properties
 /.settings
 *~
 /local.properties
+.idea

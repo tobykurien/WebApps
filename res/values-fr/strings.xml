@@ -41,4 +41,8 @@
         <p><b>Raccourcis de l\'écran d\'accueil</b> : Faites un appui long sur l\'écran d\'accueil pour accéder aux widgets pour ajouter un raccourci vers une webapp sur l\'écran d\'accueil</p>
         <p><b>Appui long sur les liens</b> : Faites un appui long sur un lien sur un site web pour choisir comment l\'ouvrir</p>
 ]]></string>
+    <string name="err_webapp_not_found">Webapp pas trouvé</string>
+    <string name="menu_share">Partager l\'URL</string>
+    <string name="menu_shortcut">Raccourci</string>
+    <string name="msg_shortcut_added">Raccourci ajouté</string>
 </resources>

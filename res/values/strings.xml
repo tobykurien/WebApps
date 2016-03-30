@@ -10,22 +10,26 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_3rd_party">Blocked 3rd party domains</string>
     <string name="menu_open_url">Open URL</string>
-    
+    <string name="menu_save">Save as Webapp</string>
+    <string name="menu_share">Share URL</string>
+    <string name="menu_shortcut">Homescreen shortcut</string>
+
     <string name="open_url_hint">site.com</string>
     <string name="open_url">Open URL</string>
     <string name="err_invalid_url">Invalid URL</string>
     
-    <string name="menu_save">Save as Webapp</string>
     <string name="blocked_root_domains">Blocked root domains</string>
     <string name="unblock">Unblock</string>
     <string name="title_save_webapp">Save Webapp</string>
     <string name="msg_save_webapp">Save current site as a Webapp?</string>
     <string name="msg_saving_webapp">Saving webapp</string>
+    <string name="msg_shortcut_added">Shortcut added</string>
     <string name="btn_save">Save</string>
     <string name="webapp_name">Webapp Name</string>
     <string name="open_site">Open Site</string>
     <string name="delete_webapp">Delete Webapp?</string>
     <string name="shortcut_label">Webapp shortcut</string>
+    <string name="err_webapp_not_found">Webapp not found</string>
     
     <string name="action_tips">Tips</string>
     <string name="tips"><![CDATA[

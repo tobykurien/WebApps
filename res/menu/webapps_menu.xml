@@ -31,11 +31,28 @@
         android:icon="@drawable/ic_action_save"
         android:title="@string/menu_save"
         app:showAsAction="ifRoom"/>
-    
+
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_action_share"
+        android:title="@string/menu_share"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_shortcut"
+        android:icon="@drawable/ic_action_shortcut"
+        android:title="@string/menu_shortcut"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/menu_settings"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/menu_exit"
+        android:icon="@drawable/ic_action_exit"
+        android:title="@string/menu_exit"
+        app:showAsAction="ifRoom"/>
 </menu>
