@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tobykurien.webapps"
     android:versionCode="8"
-    android:versionName="v2.3_beta" >
+    android:versionName="v2.3" >
 
     <uses-sdk
         android:minSdkVersion="11"
