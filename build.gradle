@@ -8,7 +8,7 @@ buildscript {
         classpath 'org.xtext:xtext-android-gradle-plugin:1.0.3'
         
         // eclipse AAR plugin: https://github.com/ksoichiro/gradle-eclipse-aar-plugin
-        classpath 'com.github.ksoichiro:gradle-eclipse-aar-plugin:0.1.3'        
+        classpath 'com.github.ksoichiro:gradle-eclipse-aar-plugin:0.2.0'
     }
 }
 
@@ -32,6 +32,7 @@ eclipseAar {
     aarDependenciesDir = 'aarDependencies'
     jarDependenciesDir = 'jarDependencies'
     cleanLibsDirectoryEnabled = true
+    andmore = true
 }
 
 android {
