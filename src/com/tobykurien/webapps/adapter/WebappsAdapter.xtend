@@ -14,6 +14,7 @@ import org.xtendroid.adapter.AndroidAdapter
 import org.xtendroid.adapter.AndroidViewHolder
 import android.widget.BaseAdapter
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import java.net.URL
 
 /**
  * Android adapter to display webapps using the row_webapp layout
@@ -51,7 +52,7 @@ class WebappsAdapter extends BaseAdapter {
       var app = getItem(row)
       
       vh.name.text = app.name
-      vh.url.text = app.url
+      vh.url.text = new URL(app.url).host
       
       if (favicoHandler == null) favicoHandler = new FaviconHandler(context)
       var favico = favicoHandler.getFavIcon(app.id)
