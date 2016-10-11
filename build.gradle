@@ -9,6 +9,7 @@ buildscript {
         
         // eclipse AAR plugin: https://github.com/ksoichiro/gradle-eclipse-aar-plugin
         classpath 'com.github.ksoichiro:gradle-eclipse-aar-plugin:0.2.0'
+        classpath 'org.xtext:xtext-android-gradle-plugin:1.0.2'
     }
 }
 
@@ -67,4 +68,8 @@ android {
         exclude 'META-INF/ECLIPSE_.SF'
         exclude 'META-INF/ECLIPSE_.RSA'
     }
+}
+
+dependencies {
+    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.2'
 }
