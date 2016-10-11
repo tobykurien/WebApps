@@ -63,6 +63,8 @@ class BaseWebAppActivity extends AppCompatActivity {
                 }
             } else {
                 webapp = new Webapp()
+                webapp.url = siteUrl.toString
+                webapp.name = webapp.url
             }
         } else {
             // didn't get any intent data
@@ -81,7 +83,8 @@ class BaseWebAppActivity extends AppCompatActivity {
                 onReceivedFavicon(view, icon)
             }
         })
-        openSite(siteUrl.toString())
+        
+        openSite(webapp.url)
     }
 
     def protected void setupWebView() {

@@ -15,6 +15,7 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import com.tobykurien.webapps.data.Webapp
 
 /**
  * Dialog to save a Webapp.
@@ -24,7 +25,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
    var String title
    var String url
    var Set<String> unblock
-   var Function1<Long, Void> onSave
+   var Function1<Webapp, Void> onSave
    
    public new(long webappId, String title, String url, Set<String> unblock) {
       this.webappId = webappId
@@ -75,8 +76,8 @@ import static extension org.xtendroid.utils.AlertUtils.*
    
          // NOTE: saving of unblock list moved to the 3rdparty dialog
    
-         return webappId
-      ].then[long result|
+         return activity.db.findById(DbService.TABLE_WEBAPPS, webappId, Webapp);
+      ].then[ result |
          dismiss
          if (onSave != null) {
             onSave.apply(result)
@@ -87,7 +88,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
       ].start()
   }  
   
-  def void setOnSaveListener(Function1<Long, Void> listener) {
+  def void setOnSaveListener(Function1<Webapp, Void> listener) {
      onSave = listener
   }
 }

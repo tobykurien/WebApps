@@ -52,6 +52,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 
     var private MenuItem stopMenu = null;
     var private MenuItem imageMenu = null;
+    var private MenuItem shortcutMenu = null;
     var private Bitmap unsavedFavicon = null;
 
     override onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,7 @@ public class WebAppActivity extends BaseWebAppActivity {
     }
 
     override onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
+        //super.onCreateOptionsMenu(menu);
         var inflater = getMenuInflater();
         inflater.inflate(R.menu.webapps_menu, menu);
 
@@ -104,6 +105,11 @@ public class WebAppActivity extends BaseWebAppActivity {
         imageMenu.setChecked(Settings.getSettings(this).isLoadImages());
         updateImageMenu();
 
+        shortcutMenu = menu.findItem(R.id.menu_shortcut);
+        if (webappId < 0) {
+        	shortcutMenu.enabled = false;
+		}
+		
         return true;
     }
 
@@ -146,7 +152,7 @@ public class WebAppActivity extends BaseWebAppActivity {
                 share.setType("text/plain")
                 share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
                 share.putExtra(Intent.EXTRA_SUBJECT, webapp.name);
-                share.putExtra(Intent.EXTRA_TEXT, webapp.url);
+	            share.putExtra(Intent.EXTRA_TEXT, webapp.url);
 
                 startActivity(Intent.createChooser(share, getString(R.string.menu_share)));
                 return true;
@@ -242,9 +248,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 
         val isNewWebapp = if(webappId < 0) true else false;
 
-        dlg.setOnSaveListener [ id |
-            webappId = id
-            webapp.id = id
+        dlg.setOnSaveListener [ wapp |
+            webappId = wapp.id
+            webapp = wapp
 
             // save any unblocked domains
             if(isNewWebapp) saveWebappUnblockList(webappId, unblock)
@@ -254,6 +260,9 @@ public class WebAppActivity extends BaseWebAppActivity {
                 onReceivedFavicon(wv, unsavedFavicon)
                 unsavedFavicon = null
             }
+
+        	shortcutMenu.enabled = true;
+        	shortcutMenu.visible = true;
 
             return null
         ]

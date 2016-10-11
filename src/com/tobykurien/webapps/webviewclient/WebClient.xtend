@@ -94,11 +94,11 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 			}
 		} catch (ActivityNotFoundException e) {
 			Log.e("webclient", "Error starting activity", e)
-			activity.toast("No activity found to handle URL " + url)
+			//activity.toast("No activity found to handle URL " + url)
 			return true
 		} catch (Exception e2) {
 			Log.e("webclient", "Error starting activity", e2)
-			activity.toast("Error opening URL " + url)
+			//activity.toast("Error opening URL " + url)
 			return true
 		}
 		
