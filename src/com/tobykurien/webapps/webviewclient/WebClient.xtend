@@ -20,6 +20,9 @@ import com.tobykurien.webapps.utils.Settings
 import java.io.ByteArrayInputStream
 import java.util.HashMap
 import java.util.Set
+import android.content.ActivityNotFoundException
+
+import static extension org.xtendroid.utils.AlertUtils.*
 
 class WebClient extends WebViewClient {
 	package BaseWebAppActivity activity
@@ -69,24 +72,36 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 
 	override boolean shouldOverrideUrlLoading(WebView view, String url) {
 		var Uri uri = getLoadUri(Uri.parse(url))
-		if (!uri.getScheme().equals("https") || !isInSandbox(uri)) {
-			var Intent i = new Intent(Intent.ACTION_VIEW)
-			i.setData(uri)
-			activity.startActivity(i)
+		
+		try {
+			if (!uri.getScheme().equals("https") || !isInSandbox(uri)) {
+				var Intent i = new Intent(Intent.ACTION_VIEW)
+				i.setData(uri)
+				activity.startActivity(i)
+				return true
+			} else if (uri.getScheme().equals("mailto")) {
+				var Intent i = new Intent(Intent.ACTION_SEND)
+				i.putExtra(Intent.EXTRA_EMAIL, url)
+				i.setType("text/html")
+				activity.startActivity(i)
+				return true
+			} else if (uri.getScheme().equals("market")) {
+				var Intent i = new Intent(Intent.ACTION_VIEW)
+				i.setData(uri)
+				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+				activity.startActivity(i)
+				return true
+			}
+		} catch (ActivityNotFoundException e) {
+			Log.e("webclient", "Error starting activity", e)
+			activity.toast("No activity found to handle URL " + url)
 			return true
-		} else if (uri.getScheme().equals("mailto")) {
-			var Intent i = new Intent(Intent.ACTION_SEND)
-			i.putExtra(Intent.EXTRA_EMAIL, url)
-			i.setType("text/html")
-			activity.startActivity(i)
-			return true
-		} else if (uri.getScheme().equals("market")) {
-			var Intent i = new Intent(Intent.ACTION_VIEW)
-			i.setData(uri)
-			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-			activity.startActivity(i)
+		} catch (Exception e2) {
+			Log.e("webclient", "Error starting activity", e2)
+			activity.toast("Error opening URL " + url)
 			return true
 		}
+		
 		return super.shouldOverrideUrlLoading(view, url)
 	}
 
