@@ -5,7 +5,8 @@ import android.content.Context
 import android.net.Uri
 import android.webkit.WebView
 import com.tobykurien.webapps.data.Webapp
-import android.webkit.CookieManager
+import android.webkit.*
+import android.util.Log
 
 @TargetApi(21)
 class WebViewUtilsApi21 extends WebViewUtilsApi19 {
@@ -15,5 +16,4 @@ class WebViewUtilsApi21 extends WebViewUtilsApi19 {
 		
 		CookieManager.instance.setAcceptThirdPartyCookies(wv, false)
 	}
-
 }

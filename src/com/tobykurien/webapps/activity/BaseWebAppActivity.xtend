@@ -23,10 +23,14 @@ import java.util.HashSet
 import java.util.List
 import java.util.Map
 import java.util.Set
+import android.annotation.TargetApi
+import android.webkit.*
+import android.util.Log
 
 import static extension org.xtendroid.utils.AlertUtils.*
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 
+@TargetApi(21)
 class BaseWebAppActivity extends AppCompatActivity {
     public static boolean reload = false
     public static String EXTRA_WEBAPP_ID = "webapp_id"
@@ -81,6 +85,22 @@ class BaseWebAppActivity extends AppCompatActivity {
             override void onReceivedIcon(WebView view, Bitmap icon) {
                 super.onReceivedIcon(view, icon)
                 onReceivedFavicon(view, icon)
+            }
+
+            // openFileChooser for Android < 3.0
+            def void openFileChooser(ValueCallback<Uri> uploadMsg) {
+                openFileChooser(uploadMsg, "");
+            }
+
+            // openFileChooser for other Android versions
+            def void openFileChooser(ValueCallback<Uri> uploadMsg,
+                    String acceptType, String capture) {
+                openFileChooser(uploadMsg, acceptType);
+            }
+
+            override onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+                Log.i("WebChromeClient", "onShowFileChooser() called.");
+                return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
             }
         })
         
@@ -169,4 +189,10 @@ class BaseWebAppActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event)
     }
 
+    def void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+        Log.i("WebChromeClient", "openFileChooser() called.");
+        if (uploadMsg == null) {
+            Log.d("UPLOAD MESSAGE", "NULL");
+        }
+    }
 }
