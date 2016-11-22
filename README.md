@@ -7,8 +7,7 @@ This Android app is a fork of the [GoogleApps Sandboxed browser][gapps]. The ide
 
 It accomplishes this by providing a sandbox for multiple webapps (like Google's apps, Facebook, Twitter, etc.). Each webapp will run in it's own sandbox, with 3rd party requests (images, scripts, iframes, etc.) blocked, and all external links opening in an external default web browser (which should have cookies, plug-ins, flash, etc. disabled). Homescreen (launcher) shortcuts can be created to any of the saved webapps.
 
-By default, all HTTP requests are blocked (only HTTPS allowed). This improves security, especially on untrusted networks. The app can also handle 
-HTTPS links and open them in their own sandbox.
+By default, all HTTP requests are blocked (only HTTPS allowed). This improves security, especially on untrusted networks.
 
 For using Google's suite of apps, try the [GApps Sandboxed Browser app][gapps], which works the same as this app but contains specific handling for Google's web apps.
 
