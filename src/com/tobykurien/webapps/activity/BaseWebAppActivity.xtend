@@ -228,7 +228,7 @@ class BaseWebAppActivity extends AppCompatActivity {
 			var File photoFile = null;
 			try {
 				photoFile = createImageFile();
-				takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
+				takePictureIntent.putExtra("PhotoPath", photoFile.absolutePath);
 			} catch (IOException ex) {
 				// Error occurred while creating the File
 				Log.e("base webapp activity", "Unable to create Image File", ex);
@@ -263,16 +263,16 @@ class BaseWebAppActivity extends AppCompatActivity {
 	}
 
 	override protected onActivityResult(int requestCode, int resultCode, Intent intent) {
-		if (requestCode == FILECHOOSER_RESULTCODE && resultCode == RESULT_OK) {
+		if (requestCode == FILECHOOSER_RESULTCODE) {
 			if (null == mUploadMessage) return;
 			var result = if (intent == null || resultCode != RESULT_OK) null else intent.getData()
 			mUploadMessage.onReceiveValue(result);
 			mUploadMessage = null;
-		} else if (requestCode == REQUEST_SELECT_FILE && resultCode == RESULT_OK) {
+		} else if (requestCode == REQUEST_SELECT_FILE) {
 			// Check that the response is a good one
 			var Uri[] results = null;
 	        if (resultCode == RESULT_OK) {
-	            if (intent == null) {
+	            if (intent == null || intent.getDataString() == null) {
 	                // If there is not data, then we may have taken a photo
 	                if (mCameraPhotoPath != null) {
 	                    results = newArrayList(Uri.parse(mCameraPhotoPath));
@@ -287,6 +287,7 @@ class BaseWebAppActivity extends AppCompatActivity {
 			
 	        mUploadMessage2.onReceiveValue(results);
 			mUploadMessage2 = null;
+			mCameraPhotoPath = null
 		} else {
 			super.onActivityResult(requestCode, resultCode, intent)
 		}
