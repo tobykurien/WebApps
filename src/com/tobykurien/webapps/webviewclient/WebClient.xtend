@@ -173,8 +173,11 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 	 */
 	def protected boolean isInSandbox(Uri uri) {
 		// String url = uri.toString();
-		if("data".equals(uri.getScheme())) return true
+		//Log.e("uri", uri.toString)
+		if("data".equals(uri.getScheme()) || "blob".equals(uri.getScheme())) return true
 		var String host = uri.getHost()
+		if (host == null) return true;
+		
 		for (String sites : domainUrls) {
 			for (String site : sites.split(" ")) {
 				if (site != null && host.toLowerCase().endsWith(site.toLowerCase())) {

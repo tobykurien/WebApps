@@ -275,16 +275,16 @@ class BaseWebAppActivity extends AppCompatActivity {
 	            if (intent == null || intent.getDataString() == null) {
 	                // If there is not data, then we may have taken a photo
 	                if (mCameraPhotoPath != null) {
-	                    results = newArrayList(Uri.parse(mCameraPhotoPath));
+	                    results = #[ Uri.parse(mCameraPhotoPath) ];
 	                }
 	            } else {
 	                var String dataString = intent.getDataString();
 	                if (dataString != null) {
-	                    results = newArrayList(Uri.parse(dataString));
+	                    results = #[ Uri.parse(dataString) ];
 	                }
 	            }
 	        }
-			
+
 	        mUploadMessage2.onReceiveValue(results);
 			mUploadMessage2 = null;
 			mCameraPhotoPath = null
