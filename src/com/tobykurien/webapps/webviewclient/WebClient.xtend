@@ -15,14 +15,13 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import com.tobykurien.webapps.activity.BaseWebAppActivity
-import com.tobykurien.webapps.utils.Dependencies
-import com.tobykurien.webapps.utils.Settings
 import java.io.ByteArrayInputStream
 import java.util.HashMap
 import java.util.Set
 import android.content.ActivityNotFoundException
 
 import static extension org.xtendroid.utils.AlertUtils.*
+import static extension com.tobykurien.webapps.utils.Dependencies.*
 
 class WebClient extends WebViewClient {
 	package BaseWebAppActivity activity
@@ -109,19 +108,23 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 		// Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
 		// and also any unencrypted connections
 		var Uri uri = Uri.parse(url)
+		
 		var boolean isBlocked = false
-		var Settings settings = Dependencies.getSettings(activity)
-		if (settings.isBlock3rdParty() && !isInSandbox(uri)) {
+		if (activity.settings.isBlock3rdParty() && !isInSandbox(uri)) {
 			isBlocked = true
 		}
-		if (settings.isBlockHttp() && !uri.getScheme().equals("https")) {
+		
+		if (activity.settings.isBlockHttp() && !uri.getScheme().equals("https") &&
+			!isInSandbox(uri)) {
 			isBlocked = true
-		}
+		}			
+		
 		if (isBlocked) {
 			// Log.d("webclient", "Blocking " + url);
 			blockedHosts.put(getRootDomain(url), true)
 			return new WebResourceResponse("text/plain", "utf-8", new ByteArrayInputStream("[blocked]".getBytes()))
 		}
+		
 		return super.shouldInterceptRequest(view, url)
 	}
 
