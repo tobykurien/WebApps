@@ -26,7 +26,6 @@ import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
 import java.io.File
 import java.io.IOException
-import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.HashMap
@@ -114,8 +113,6 @@ class BaseWebAppActivity extends AppCompatActivity {
 
 				override onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback,
 					WebChromeClient.FileChooserParams fileChooserParams) {
-					Log.i("WebChromeClient", "onShowFileChooser() called.");
-					super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
 					openFileChooserLollipop(filePathCallback, fileChooserParams)
 				}
 			})
@@ -237,7 +234,7 @@ class BaseWebAppActivity extends AppCompatActivity {
 
 			// Continue only if the File was successfully created
 			if (photoFile != null) {
-				mCameraPhotoPath = "file://" + photoFile.getAbsolutePath();
+				mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
 				takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
 			} else {
 				takePictureIntent = null;
@@ -260,6 +257,7 @@ class BaseWebAppActivity extends AppCompatActivity {
 		chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
 		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
 		startActivityForResult(chooserIntent, REQUEST_SELECT_FILE);
+		
 		return true
 	}
 
@@ -281,12 +279,18 @@ class BaseWebAppActivity extends AppCompatActivity {
 	            } else {
 	                var String dataString = intent.getDataString();
 	                if (dataString != null) {
-	                    results = #[ Uri.parse(URLDecoder.decode(dataString, "UTF-8")) ];
+	                	val uri = Uri.parse(dataString);
+	                    results = #[ uri ];
+	                    
+	                    // as per https://developer.android.com/guide/topics/providers/document-provider.html#permissions
+						val int takeFlags = intent.getFlags().bitwiseAnd(
+									Intent.FLAG_GRANT_READ_URI_PERMISSION)
+						// Check for the freshest data.
+						getContentResolver().takePersistableUriPermission(uri, takeFlags);	                    
 	                }
 	            }
 	        }
 
-			toast(results?.toString)
 	        mUploadMessage2.onReceiveValue(results);
 			mUploadMessage2 = null;
 			mCameraPhotoPath = null
