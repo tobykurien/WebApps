@@ -43,14 +43,16 @@ class WebViewUtilsApi11 extends WebViewUtils {
 		settings.setAppCacheEnabled(true);		
 		settings.setAppCacheMaxSize(1024 * 1024 * 8);		
 		settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-		
-		settings.setAllowFileAccess(false);
+
+		// allow access to documents for upload		
+		settings.allowContentAccess = true
+		settings.allowFileAccess = true
+
 		settings.setPluginState(PluginState.OFF);
-		settings.setAllowContentAccess(false);
 		settings.setDomStorageEnabled(true);
 		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(false);
-		settings.setGeolocationEnabled(false);
+		settings.setGeolocationEnabled(true); // allow maps, etc. to work
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
 		settings.setSaveFormData(false);
 		settings.setSavePassword(false);

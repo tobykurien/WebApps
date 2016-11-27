@@ -14,8 +14,10 @@ class WebViewUtilsApi16 extends WebViewUtilsApi12 {
 		super.setupWebView(context, wv, siteUrl, webapp, defaultFontSize)
 		
 		var settings = wv.getSettings();		
-		settings.setAllowUniversalAccessFromFileURLs(false);
-		settings.setAllowFileAccessFromFileURLs(false);		
+		settings.allowContentAccess = true
+		settings.allowFileAccess = true
+		settings.allowFileAccessFromFileURLs = true
+		settings.allowUniversalAccessFromFileURLs = true
 	}
 	
 	override setTextSize(WebView wv, int size) {

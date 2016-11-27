@@ -26,6 +26,7 @@ import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
 import java.io.File
 import java.io.IOException
+import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.HashMap
@@ -236,7 +237,7 @@ class BaseWebAppActivity extends AppCompatActivity {
 
 			// Continue only if the File was successfully created
 			if (photoFile != null) {
-				mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
+				mCameraPhotoPath = "file://" + photoFile.getAbsolutePath();
 				takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
 			} else {
 				takePictureIntent = null;
@@ -280,11 +281,12 @@ class BaseWebAppActivity extends AppCompatActivity {
 	            } else {
 	                var String dataString = intent.getDataString();
 	                if (dataString != null) {
-	                    results = #[ Uri.parse(dataString) ];
+	                    results = #[ Uri.parse(URLDecoder.decode(dataString, "UTF-8")) ];
 	                }
 	            }
 	        }
 
+			toast(results?.toString)
 	        mUploadMessage2.onReceiveValue(results);
 			mUploadMessage2 = null;
 			mCameraPhotoPath = null

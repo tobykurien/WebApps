@@ -18,6 +18,10 @@
         android:theme="@style/AppTheme" 
         android:allowBackup="false"
         android:usesCleartextTraffic="false">
+		
+		<meta-data android:name="android.webkit.WebView.MetricsOptOut" 
+		    android:value="true" />
+        
         <activity
             android:name="com.tobykurien.webapps.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
