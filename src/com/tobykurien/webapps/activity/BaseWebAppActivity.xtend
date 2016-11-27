@@ -176,7 +176,6 @@ class BaseWebAppActivity extends AppCompatActivity {
 			unblock.add(siteUrl.getHost())
 			if (webappId >= 0) {
 				// load saved unblock list
-				var DbService db = Dependencies::getDb(this)
 				var HashMap<String, Object> params = new HashMap<String, Object>()
 				params.put("webappId", webappId)
 				var List<Map<String, Object>> domains = db.executeForMapList(R.string::dbGetDomainNames, params)
