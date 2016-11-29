@@ -11,4 +11,5 @@ import org.eclipse.xtend.lib.annotations.ToString
    String name
    String url
    int fontSize = -1
+   String userAgent
 }

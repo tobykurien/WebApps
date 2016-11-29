@@ -45,6 +45,12 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menu_user_agent"
+        android:icon="@drawable/ic_action_user_agent"
+        android:title="@string/menu_user_agent"
+        app:showAsAction="ifRoom"/>
+    
+    <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/menu_settings"

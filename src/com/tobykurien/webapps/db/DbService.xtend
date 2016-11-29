@@ -14,7 +14,7 @@ class DbService extends BaseDbService {
 	public static val TABLE_DOMAINS = "domain_names"
 
 	protected new(Context context) {
-		super(context, "webapps4", 2)
+		super(context, "webapps4", 3)
 	}
 
 	def static getInstance(Context context) {
@@ -26,6 +26,10 @@ class DbService extends BaseDbService {
 
 		if (oldVersion == 1 && newVersion == 2) {
 			db.execSQL('''alter table «TABLE_WEBAPPS» add column fontSize integer default -1''')
+		}
+		
+		if (oldVersion == 2 && newVersion == 3) {
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column userAgent text''')
 		}
 	}
 

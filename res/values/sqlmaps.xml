@@ -6,7 +6,8 @@
            name text not null,
            url text not null,
            iconUrl text not null,
-           fontSize integer default -1
+           fontSize integer default -1,
+           userAgent text
         );
         
         create table domain_names (

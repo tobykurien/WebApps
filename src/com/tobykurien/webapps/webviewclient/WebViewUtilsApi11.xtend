@@ -66,8 +66,12 @@ class WebViewUtilsApi11 extends WebViewUtils {
 			setTextSize(wv, defaultFontSize);
 		}
 
+		// set preferred user agent
 		var userAgent = Settings.getSettings(context).getUserAgent();
-		if (!userAgent.equals("")) {
+		if (webapp.userAgent != null && webapp.userAgent.trim.length > 0) {
+			userAgent = webapp.userAgent
+		}
+		if (userAgent != null && userAgent.trim.length > 0) {
 			wv.getSettings().setUserAgentString(userAgent);
 		}
 
