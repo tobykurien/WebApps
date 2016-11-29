@@ -1,6 +1,7 @@
 package com.tobykurien.webapps.webviewclient
 
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
@@ -18,9 +19,7 @@ import com.tobykurien.webapps.activity.BaseWebAppActivity
 import java.io.ByteArrayInputStream
 import java.util.HashMap
 import java.util.Set
-import android.content.ActivityNotFoundException
 
-import static extension org.xtendroid.utils.AlertUtils.*
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 
 class WebClient extends WebViewClient {
@@ -38,20 +37,15 @@ class WebClient extends WebViewClient {
 	}
 
 	override void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-		new AlertDialog.Builder(activity)
-			.setTitle("Untrusted SSL Cert")
-			.setMessage('''Issued by: «error.getCertificate().getIssuedBy().getDName()»
+		new AlertDialog.Builder(activity).setTitle("Untrusted SSL Cert").
+			setMessage('''Issued by: «error.getCertificate().getIssuedBy().getDName()»
 Issued to: «error.getCertificate().getIssuedTo().getDName()»
 Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
-''')
-			.setPositiveButton("Add exception", [DialogInterface arg0, int arg1|
+''').setPositiveButton("Add exception", [ DialogInterface arg0, int arg1 |
 				handler.proceed()
-			])
-			.setNegativeButton("Cancel", [DialogInterface dialog, int which|
+			]).setNegativeButton("Cancel", [ DialogInterface dialog, int which |
 				handler.cancel()
-			])
-			.create()
-			.show()
+			]).create().show()
 	}
 
 	override void onPageFinished(WebView view, String url) {
@@ -71,9 +65,11 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 
 	override boolean shouldOverrideUrlLoading(WebView view, String url) {
 		var Uri uri = getLoadUri(Uri.parse(url))
-		
+
 		try {
 			if (!uri.getScheme().equals("https") || !isInSandbox(uri)) {
+				// Only URLs inside our sandbox AND using HTTPS is allowed
+				Log.d("url_loading", "Sending to default app " + uri.toString)
 				var Intent i = new Intent(Intent.ACTION_VIEW)
 				i.setData(uri)
 				activity.startActivity(i)
@@ -93,14 +89,14 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 			}
 		} catch (ActivityNotFoundException e) {
 			Log.e("webclient", "Error starting activity", e)
-			//activity.toast("No activity found to handle URL " + url)
+			// activity.toast("No activity found to handle URL " + url)
 			return true
 		} catch (Exception e2) {
 			Log.e("webclient", "Error starting activity", e2)
-			//activity.toast("Error opening URL " + url)
+			// activity.toast("Error opening URL " + url)
 			return true
 		}
-		
+
 		return super.shouldOverrideUrlLoading(view, url)
 	}
 
@@ -108,23 +104,22 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 		// Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
 		// and also any unencrypted connections
 		var Uri uri = Uri.parse(url)
-		
+
 		var boolean isBlocked = false
 		if (activity.settings.isBlock3rdParty() && !isInSandbox(uri)) {
 			isBlocked = true
 		}
-		
-		if (activity.settings.isBlockHttp() && !uri.getScheme().equals("https") &&
-			!isInSandbox(uri)) {
+
+		if (activity.settings.isBlockHttp() && !uri.getScheme().equals("https") && !isInSandbox(uri)) {
 			isBlocked = true
-		}			
-		
+		}
+
 		if (isBlocked) {
-			// Log.d("webclient", "Blocking " + url);
+			Log.d("webclient", "Blocking " + url);
 			blockedHosts.put(getRootDomain(url), true)
 			return new WebResourceResponse("text/plain", "utf-8", new ByteArrayInputStream("[blocked]".getBytes()))
 		}
-		
+
 		return super.shouldInterceptRequest(view, url)
 	}
 
@@ -137,7 +132,8 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 		var String host = Uri.parse(url).getHost()
 		try {
 			var String[] parts = host.split("\\.")
-			if (parts.length > 1) {
+			if (parts.length >
+				1) {
 				return '''«{val _rdIndx_parts=parts.length - 2 parts.get(_rdIndx_parts)}».«{val _rdIndx_parts=parts.length - 1 parts.get(_rdIndx_parts)}»'''
 			} else {
 				return host
@@ -176,11 +172,11 @@ Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
 	 */
 	def protected boolean isInSandbox(Uri uri) {
 		// String url = uri.toString();
-		//Log.e("uri", uri.toString)
+		// Log.e("uri", uri.toString)
 		if("data".equals(uri.getScheme()) || "blob".equals(uri.getScheme())) return true
 		var String host = uri.getHost()
-		if (host == null) return true;
-		
+		if(host == null) return true;
+
 		for (String sites : domainUrls) {
 			for (String site : sites.split(" ")) {
 				if (site != null && host.toLowerCase().endsWith(site.toLowerCase())) {
