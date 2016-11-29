@@ -9,6 +9,6 @@
 # run "gradle assembleDebug" to make a debug build rather (run it again if it fails
 # the first time).
 
-gradle prepareReleaseDependencies
-gradle assembleRelease
+./gradlew prepareReleaseDependencies
+./gradlew assembleRelease
 
