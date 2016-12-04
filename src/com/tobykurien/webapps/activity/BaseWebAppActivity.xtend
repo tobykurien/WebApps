@@ -214,11 +214,11 @@ class BaseWebAppActivity extends AppCompatActivity {
 
 	def openFileChooserLollipop(ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
 		Log.i("WebChromeClient", "openFileChooserLollipop() called.");
-        if (mUploadMessage2 != null) {
-            mUploadMessage2.onReceiveValue(null);
-        }
-		mUploadMessage2 = filePathCallback;		
-		
+		if (mUploadMessage2 != null) {
+			mUploadMessage2.onReceiveValue(null);
+		}
+		mUploadMessage2 = filePathCallback;
+
 		var takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
 			// Create the File where the photo should go
@@ -256,45 +256,53 @@ class BaseWebAppActivity extends AppCompatActivity {
 		chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
 		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
 		startActivityForResult(chooserIntent, REQUEST_SELECT_FILE);
-		
+
 		return true
 	}
 
 	override protected onActivityResult(int requestCode, int resultCode, Intent intent) {
-		if (requestCode == FILECHOOSER_RESULTCODE) {
-			if (null == mUploadMessage) return;
-			var result = if (intent == null || resultCode != RESULT_OK) null else intent.getData()
-			mUploadMessage.onReceiveValue(result);
-			mUploadMessage = null;
-		} else if (requestCode == REQUEST_SELECT_FILE) {
-			// Check that the response is a good one
-			var Uri[] results = null;
-	        if (resultCode == RESULT_OK) {
-	            if (intent == null || intent.getDataString() == null) {
-	                // If there is not data, then we may have taken a photo
-	                if (mCameraPhotoPath != null) {
-	                    results = #[ Uri.parse(mCameraPhotoPath) ];
-	                }
-	            } else {
-	                var String dataString = intent.getDataString();
-	                if (dataString != null) {
-	                	val uri = Uri.parse(dataString);
-	                    results = #[ uri ];
-	                    
-	                    // as per https://developer.android.com/guide/topics/providers/document-provider.html#permissions
-						val int takeFlags = intent.getFlags().bitwiseAnd(
-									Intent.FLAG_GRANT_READ_URI_PERMISSION)
-						// Check for the freshest data.
-						getContentResolver().takePersistableUriPermission(uri, takeFlags);	                    
-	                }
-	            }
-	        }
+		try {
+			if (requestCode == FILECHOOSER_RESULTCODE) {
+				if(null == mUploadMessage) return;
+				var result = if(intent == null || resultCode != RESULT_OK) null else intent.getData()
+				mUploadMessage.onReceiveValue(result);
+				mUploadMessage = null;
+			} else if (requestCode == REQUEST_SELECT_FILE) {
+				// Check that the response is a good one
+				var Uri[] results = null;
+				if (resultCode == RESULT_OK) {
+					if (intent == null || intent.getDataString() == null) {
+						// If there is not data, then we may have taken a photo
+						if (mCameraPhotoPath != null) {
+							results = #[Uri.parse(mCameraPhotoPath)];
+						}
+					} else {
+						var String dataString = intent.getDataString();
+						if (dataString != null) {
+							val uri = Uri.parse(dataString);
+							results = #[uri];
 
-	        mUploadMessage2.onReceiveValue(results);
-			mUploadMessage2 = null;
-			mCameraPhotoPath = null
-		} else {
-			super.onActivityResult(requestCode, resultCode, intent)
+							try {
+								// as per https://developer.android.com/guide/topics/providers/document-provider.html#permissions
+								val int takeFlags = intent.getFlags().bitwiseAnd(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+								// Check for the freshest data.
+								getContentResolver().takePersistableUriPermission(uri, takeFlags);
+							} catch (Exception e) {
+								// couldn't get persistable permissions, aaah well.
+								Log.e("upload", "error taking persistable permission", e)
+							}
+						}
+					}
+				}
+
+				mUploadMessage2.onReceiveValue(results);
+				mUploadMessage2 = null;
+				mCameraPhotoPath = null
+			} else {
+				super.onActivityResult(requestCode, resultCode, intent)
+			}
+		} catch (Exception e) {
+			toastLong("Unable to process: " + e.class.simpleName + " " + e.message)
 		}
 	}
 
