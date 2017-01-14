@@ -21,6 +21,7 @@ import java.util.HashMap
 import java.util.Set
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
+import com.tobykurien.webapps.fragment.DlgCertificate
 
 class WebClient extends WebViewClient {
 	package BaseWebAppActivity activity
@@ -37,15 +38,26 @@ class WebClient extends WebViewClient {
 	}
 
 	override void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-		new AlertDialog.Builder(activity).setTitle("Untrusted SSL Cert").
-			setMessage('''Issued by: «error.getCertificate().getIssuedBy().getDName()»
-Issued to: «error.getCertificate().getIssuedTo().getDName()»
-Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
-''').setPositiveButton("Add exception", [ DialogInterface arg0, int arg1 |
-				handler.proceed()
-			]).setNegativeButton("Cancel", [ DialogInterface dialog, int which |
-				handler.cancel()
-			]).create().show()
+		var dlg = new DlgCertificate(error.certificate, 
+					"Untrusted Certificate",
+					"Add exception", [
+						handler.proceed()
+						true
+					], [
+						handler.cancel()
+						true
+					])
+		dlg.show(activity.supportFragmentManager, "certificate")
+		
+//		new AlertDialog.Builder(activity).setTitle("Untrusted SSL Cert").
+//			setMessage('''Issued by: «error.getCertificate().getIssuedBy().getDName()»
+//Issued to: «error.getCertificate().getIssuedTo().getDName()»
+//Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
+//''').setPositiveButton("Add exception", [ DialogInterface arg0, int arg1 |
+//				handler.proceed()
+//			]).setNegativeButton("Cancel", [ DialogInterface dialog, int which |
+//				handler.cancel()
+//			]).create().show()
 	}
 
 	override void onPageFinished(WebView view, String url) {

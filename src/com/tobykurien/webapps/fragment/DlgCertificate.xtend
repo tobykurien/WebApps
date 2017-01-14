@@ -10,13 +10,19 @@ import android.net.http.SslCertificate
 
 @AndroidDialogFragment(R.layout.dlg_certificate) class DlgCertificate extends DialogFragment {
 	var SslCertificate certificate = null
+	var String title = null
 	var String okText = null
 	var ()=>boolean onOkClicked = null
+	var ()=>boolean onCancelClicked = null
 	
-	public new(SslCertificate certificate, String okText, ()=>boolean onOkClicked) {
+	public new(SslCertificate certificate, String title, String okText, 
+		()=>boolean onOkClicked, ()=>boolean onCancelClicked
+	) {
 		this.certificate = certificate
+		this.title = title
 		this.okText = okText
 		this.onOkClicked = onOkClicked
+		this.onCancelClicked = onCancelClicked
 	}
 	
 	public new(SslCertificate certificate) {
@@ -33,12 +39,17 @@ import android.net.http.SslCertificate
 			.setPositiveButton(
 				if (okText == null) getString(android.R.string.ok) else okText, 
 				[ if (onOkClicked != null) onOkClicked.apply() ]) // to avoid it closing dialog
-			.setNegativeButton(android.R.string.cancel, null)
+			.setNegativeButton(android.R.string.cancel, [
+				if (onCancelClicked != null) onCancelClicked.apply()
+			])
 			.create()
 	}
 
 	@OnCreate
 	def init() {
-		content.text = certificate.toString
+		issuedBy.text = certificate.issuedBy.DName.split(",").join("\n")
+		issuedTo.text = certificate.issuedTo.DName.split(",").join("\n")
+		expires.text = certificate.validNotBeforeDate.toLocaleString + " to \n" +
+			certificate.validNotAfterDate.toLocaleString
 	}
 }

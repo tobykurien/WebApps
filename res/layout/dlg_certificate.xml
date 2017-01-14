@@ -1,18 +1,63 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent" >
 
-    <LinearLayout
+    <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/small_padding"
-        android:orientation="vertical" >
+        android:padding="@dimen/small_padding" >
 
-        <TextView 
-            android:id="@+id/content"
+        <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_height="wrap_content" 
+            android:padding="@dimen/small_padding">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingRight="@dimen/small_padding"
+                android:textStyle="bold"
+                android:text="Issued By" />
+
+            <TextView
+                android:id="@+id/issued_by"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:padding="@dimen/small_padding">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textStyle="bold"
+                android:text="Issued To" />
+
+            <TextView
+                android:id="@+id/issued_to"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:padding="@dimen/small_padding">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textStyle="bold"
+                android:text="Validity" />
+
+            <TextView
+                android:id="@+id/expires"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+        </TableRow>
+    </TableLayout>
 
 </ScrollView>
