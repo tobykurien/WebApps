@@ -33,6 +33,7 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 import android.graphics.BitmapFactory
 import android.net.Uri
+import com.tobykurien.webapps.fragment.DlgCertificate
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -148,6 +149,10 @@ public class WebAppActivity extends BaseWebAppActivity {
 			}
 			case R.id.menu_user_agent: {
 				showUserAgentDialog()
+				return true;
+			}
+			case R.id.menu_certificate: {
+				showCertificateDetails()
 				return true;
 			}
 			case R.id.menu_share: {
@@ -334,6 +339,11 @@ public class WebAppActivity extends BaseWebAppActivity {
 		].onError [ Exception e |
 			toast(e.class.name + " " + e.message)
 		].start()
+	}
+	
+	def showCertificateDetails() {
+		var dlg = new DlgCertificate(wv.certificate)
+		dlg.show(supportFragmentManager, "certificate")
 	}
 
 	def clearWebviewCache(WebView wv) {
