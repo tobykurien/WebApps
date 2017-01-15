@@ -22,6 +22,8 @@ import java.util.Set
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import com.tobykurien.webapps.fragment.DlgCertificate
+import com.tobykurien.webapps.utils.CertificateUtils
+import com.tobykurien.webapps.R
 
 class WebClient extends WebViewClient {
 	package BaseWebAppActivity activity
@@ -39,8 +41,8 @@ class WebClient extends WebViewClient {
 
 	override void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 		var dlg = new DlgCertificate(error.certificate, 
-					"Untrusted Certificate",
-					"Add exception", [
+					activity.getString(R.string.title_cert_untrusted),
+					activity.getString(R.string.cert_accept), [
 						handler.proceed()
 						true
 					], [
@@ -62,8 +64,7 @@ class WebClient extends WebViewClient {
 
 	override void onPageFinished(WebView view, String url) {
 		if(pd !== null) pd.setVisibility(View.GONE)
-		activity.onPageLoadDone() // Google+ workaround to prevent opening of blank window
-		wv.loadUrl("javascript:_window=function(url){ location.href=url; }")
+		activity.onPageLoadDone() 
 		CookieSyncManager.getInstance().sync()
 		super.onPageFinished(view, url)
 	}

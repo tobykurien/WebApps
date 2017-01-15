@@ -1,13 +1,14 @@
 package com.tobykurien.webapps.fragment
 
 import android.app.ProgressDialog
+import android.net.http.SslCertificate
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import com.tobykurien.webapps.R
+import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
-import java.util.HashMap
 import java.util.Set
 import org.eclipse.xtext.xbase.lib.Functions.Function1
 import org.xtendroid.annotations.AndroidDialogFragment
@@ -15,7 +16,6 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import com.tobykurien.webapps.data.Webapp
 
 /**
  * Dialog to save a Webapp.
@@ -26,12 +26,14 @@ import com.tobykurien.webapps.data.Webapp
    var String url
    var Set<String> unblock
    var Function1<Webapp, Void> onSave
+   var SslCertificate certificate
    
-   public new(long webappId, String title, String url, Set<String> unblock) {
+   public new(long webappId, String title, String url, SslCertificate certificate, Set<String> unblock) {
       this.webappId = webappId
       this.title = title
       this.url = url
       this.unblock = unblock
+      this.certificate = certificate
    }
 
    /**
@@ -64,7 +66,11 @@ import com.tobykurien.webapps.data.Webapp
          val values = #{
             "name" -> name.text.toString,
             "url" -> this.url,
-            "iconUrl" -> ""  // for backwards compatability
+            "iconUrl" -> "",  // for backwards compatability
+            "certIssuedTo" -> certificate.issuedTo.DName,
+            "certIssuedBy" -> certificate.issuedBy.DName,
+            "certValidFrom" -> certificate.validNotBefore,
+            "certValidTo" -> certificate.validNotAfter
          }
          
          if (webappId >= 0) {

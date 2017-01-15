@@ -32,7 +32,11 @@
     <string name="delete_webapp">Delete Webapp?</string>
     <string name="shortcut_label">Webapp shortcut</string>
     <string name="err_webapp_not_found">Webapp not found</string>
+    
     <string name="title_certificate">Website Certificate</string>
+    <string name="title_cert_untrusted">Untrusted Certificate</string>
+    <string name="title_cert_changed">Certificate Changed</string>
+    <string name="cert_accept">Accept Certificate</string>
     
     <string name="action_tips">Tips</string>
     <string name="tips"><![CDATA[

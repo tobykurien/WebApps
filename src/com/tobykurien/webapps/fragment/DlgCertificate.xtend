@@ -34,7 +34,7 @@ import android.net.http.SslCertificate
 	 */
 	override onCreateDialog(Bundle instance) {
 		new AlertDialog.Builder(activity)
-			.setTitle(com.tobykurien.webapps.R.string.title_certificate)
+			.setTitle(title)
 			.setView(contentView) // contentView is the layout specified in the annotation
 			.setPositiveButton(
 				if (okText == null) getString(android.R.string.ok) else okText, 

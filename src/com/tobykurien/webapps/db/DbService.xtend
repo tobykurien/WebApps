@@ -14,7 +14,7 @@ class DbService extends BaseDbService {
 	public static val TABLE_DOMAINS = "domain_names"
 
 	protected new(Context context) {
-		super(context, "webapps4", 3)
+		super(context, "webapps4", 4)
 	}
 
 	def static getInstance(Context context) {
@@ -30,6 +30,13 @@ class DbService extends BaseDbService {
 		
 		if (oldVersion == 2 && newVersion == 3) {
 			db.execSQL('''alter table «TABLE_WEBAPPS» add column userAgent text''')
+		}
+		
+		if (oldVersion == 3 && newVersion == 4) {
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column certIssuedBy text;
+			           alter table «TABLE_WEBAPPS» add column certIssuedTo text;
+			           alter table «TABLE_WEBAPPS» add column certValidFrom text;
+			           alter table «TABLE_WEBAPPS» add column certValidTo text;''')
 		}
 	}
 

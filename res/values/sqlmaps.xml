@@ -7,7 +7,12 @@
            url text not null,
            iconUrl text not null,
            fontSize integer default -1,
-           userAgent text
+           userAgent text,
+           certIssuedBy text,
+           certIssuedTo text,
+           certValidFrom text,
+           certValidTo text,
+           certHash text
         );
         
         create table domain_names (
@@ -22,7 +27,6 @@
         insert into webapps (name,url,iconUrl) values (\'Google News\',\'https://news.google.com\',\'\');
         insert into webapps (name,url,iconUrl) values (\'Hacker News\',\'https://news.ycombinator.com/\',\'\');
         insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://m.reddit.com\',\'\');
-        insert into webapps (name,url,iconUrl) values (\'Voat\',\'https://voat.co\',\'\');
     </string>
     
     <string translatable="false" name="dbGetWebapps">

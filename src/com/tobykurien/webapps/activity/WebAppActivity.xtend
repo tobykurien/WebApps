@@ -34,6 +34,8 @@ import static extension org.xtendroid.utils.AlertUtils.*
 import android.graphics.BitmapFactory
 import android.net.Uri
 import com.tobykurien.webapps.fragment.DlgCertificate
+import com.tobykurien.webapps.utils.CertificateUtils
+import android.net.http.SslCertificate
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -243,6 +245,26 @@ public class WebAppActivity extends BaseWebAppActivity {
 	override onPageLoadDone() {
 		super.onPageLoadDone();
 
+		if (webapp != null) {
+			if (webapp.certIssuedBy != null) {
+				if (CertificateUtils.compare(webapp, wv.certificate) != 0) {
+					// SSL certificate changed!
+					var dlg = new DlgCertificate(wv.certificate, 
+						getString(R.string.title_cert_changed),
+						getString(R.string.cert_accept), [
+							CertificateUtils.updateCertificate(webapp, wv.certificate, db)
+							true
+						], [
+							finish
+							true
+						])
+					dlg.show(supportFragmentManager, "certificate")
+				}
+			} else {
+				CertificateUtils.updateCertificate(webapp, wv.certificate, db)
+			}
+		}
+
 		if (stopMenu != null) {
 			stopMenu.setTitle(R.string.menu_refresh);
 			stopMenu.setIcon(R.drawable.ic_action_refresh);
@@ -272,7 +294,10 @@ public class WebAppActivity extends BaseWebAppActivity {
 	 * Show a dialog to the user to allow saving a webapp
 	 */
 	def private void dlgSave() {
-		var dlg = new DlgSaveWebapp(webappId, wv.getTitle(), wv.getUrl(), unblock);
+		var dlg = new DlgSaveWebapp(
+						webappId, wv.getTitle(), wv.getUrl(), 
+						wv.certificate,
+						unblock);
 
 		val isNewWebapp = if(webappId < 0) true else false;
 
