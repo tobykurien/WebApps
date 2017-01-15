@@ -16,18 +16,16 @@ class CertificateUtils {
         return sha1hash.map[ Integer.toHexString(it) ].join();
     }	
 	
+	// Create a hash of the certificate for comparison
 	def static String certificateHash(SslCertificate certificate) {
 		SHA1(certificate.issuedBy.DName + 
-				certificate.issuedTo.DName + 
-				certificate.validNotBefore + 
-				certificate.validNotAfter)
+				certificate.issuedTo.DName)
 	}
 	
+	// Create a hash of the webapp's saved certificate details for comparison
 	def static String certificateHash(Webapp webapp) {
 		SHA1(webapp.certIssuedBy + 
-				webapp.certIssuedTo + 
-				webapp.certValidFrom + 
-				webapp.certValidTo)
+				webapp.certIssuedTo)
 	}
 		
 	def static int compare(SslCertificate cert1, SslCertificate cert2) {
@@ -37,9 +35,9 @@ class CertificateUtils {
 	def static int compare(Webapp webapp, SslCertificate cert2) {
 		webapp.certificateHash.compareTo(cert2.certificateHash)
 	}
-	
+
+	// Save the certificate details to the webapp	
 	def static void updateCertificate(Webapp webapp, SslCertificate certificate, DbService db) {
-		// save the certificate details as this is first access
 		db.update(DbService.TABLE_WEBAPPS, #{
 			'certIssuedBy' -> certificate.issuedBy.DName,
 			'certIssuedTo' -> certificate.issuedTo.DName,
