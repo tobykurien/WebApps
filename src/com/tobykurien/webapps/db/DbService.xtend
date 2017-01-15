@@ -33,10 +33,10 @@ class DbService extends BaseDbService {
 		}
 		
 		if (oldVersion == 3 && newVersion == 4) {
-			db.execSQL('''alter table «TABLE_WEBAPPS» add column certIssuedBy text;
-			           alter table «TABLE_WEBAPPS» add column certIssuedTo text;
-			           alter table «TABLE_WEBAPPS» add column certValidFrom text;
-			           alter table «TABLE_WEBAPPS» add column certValidTo text;''')
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column certIssuedBy text''')
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column certIssuedTo text''')
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column certValidFrom text''')
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column certValidTo text''')
 		}
 	}
 
