@@ -15,6 +15,7 @@ import org.xtendroid.adapter.AndroidViewHolder
 import android.widget.BaseAdapter
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import java.net.URL
+import com.bumptech.glide.signature.StringSignature
 
 /**
  * Android adapter to display webapps using the row_webapp layout
