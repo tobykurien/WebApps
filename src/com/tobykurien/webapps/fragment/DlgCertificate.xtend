@@ -33,6 +33,8 @@ import android.net.http.SslCertificate
 	 * Create a dialog using the AlertDialog Builder, but our custom layout
 	 */
 	override onCreateDialog(Bundle instance) {
+		if (title == null) title = getString(R.string.title_certificate)
+		
 		new AlertDialog.Builder(activity)
 			.setTitle(title)
 			.setView(contentView) // contentView is the layout specified in the annotation
