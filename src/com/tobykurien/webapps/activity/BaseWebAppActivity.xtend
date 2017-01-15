@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.webkit.ClientCertRequest
 import android.webkit.CookieSyncManager
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
@@ -20,7 +21,7 @@ import android.widget.ProgressBar
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
-import com.tobykurien.webapps.utils.Dependencies
+import com.tobykurien.webapps.ssl.SslTrustManager
 import com.tobykurien.webapps.utils.Settings
 import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
@@ -33,6 +34,8 @@ import java.util.HashSet
 import java.util.List
 import java.util.Map
 import java.util.Set
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
@@ -149,6 +152,9 @@ class BaseWebAppActivity extends AppCompatActivity {
 	def void onPageLoadDone() {
 	}
 
+	def void onClientCertificateRequest(ClientCertRequest request) {
+	}
+
 	/**
 	 * Return the title bar progress bar to indicate progress
 	 * @return
@@ -184,12 +190,16 @@ class BaseWebAppActivity extends AppCompatActivity {
 				}
 
 			}
-			wc = new WebClient(this, wv, pb, unblock)
+			wc = new WebClient(this, webapp, wv, pb, unblock)
 		}
 		return wc
 	}
 
 	def void openSite(String url) {
+		// TODO - use custom trust manager to stop the request if SSL cert changed
+//		var SSLContext sslContext = SSLContext.getInstance("TLS");
+//		sslContext.init(null, #[ new SslTrustManager(webapp) ], null);
+// 		HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.socketFactory);
 		wv.loadUrl(url)
 	}
 

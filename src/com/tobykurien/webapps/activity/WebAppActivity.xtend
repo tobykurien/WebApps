@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -20,7 +22,9 @@ import com.tobykurien.webapps.R
 import com.tobykurien.webapps.adapter.WebappsAdapter
 import com.tobykurien.webapps.data.ThirdPartyDomain
 import com.tobykurien.webapps.db.DbService
+import com.tobykurien.webapps.fragment.DlgCertificate
 import com.tobykurien.webapps.fragment.DlgSaveWebapp
+import com.tobykurien.webapps.utils.CertificateUtils
 import com.tobykurien.webapps.utils.FaviconHandler
 import com.tobykurien.webapps.utils.Settings
 import com.tobykurien.webapps.webviewclient.WebViewUtils
@@ -31,11 +35,6 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import android.graphics.BitmapFactory
-import android.net.Uri
-import com.tobykurien.webapps.fragment.DlgCertificate
-import com.tobykurien.webapps.utils.CertificateUtils
-import android.net.http.SslCertificate
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -235,6 +234,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 	override onPageLoadStarted() {
 		super.onPageLoadStarted();
+
 		if (stopMenu != null) {
 			stopMenu.setTitle(R.string.menu_stop);
 			stopMenu.setIcon(R.drawable.ic_action_stop);
@@ -244,7 +244,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 	override onPageLoadDone() {
 		super.onPageLoadDone();
-
+		
+		// alert the user if SSL certificate has changed since last time
+		// TODO - security issue: if this is MITM, cookies already sent!
 		if (webapp != null) {
 			if (webapp.certIssuedBy != null) {
 				if (CertificateUtils.compare(webapp, wv.certificate) != 0) {

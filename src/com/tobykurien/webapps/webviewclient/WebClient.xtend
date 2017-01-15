@@ -1,8 +1,6 @@
 package com.tobykurien.webapps.webviewclient
 
-import android.app.AlertDialog
 import android.content.ActivityNotFoundException
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -15,51 +13,56 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import com.tobykurien.webapps.R
 import com.tobykurien.webapps.activity.BaseWebAppActivity
+import com.tobykurien.webapps.data.Webapp
+import com.tobykurien.webapps.fragment.DlgCertificate
 import java.io.ByteArrayInputStream
 import java.util.HashMap
 import java.util.Set
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
-import com.tobykurien.webapps.fragment.DlgCertificate
-import com.tobykurien.webapps.utils.CertificateUtils
-import com.tobykurien.webapps.R
+import static extension org.xtendroid.utils.AlertUtils.*
+import android.webkit.ClientCertRequest
 
 class WebClient extends WebViewClient {
 	package BaseWebAppActivity activity
+	package Webapp webapp
 	package WebView wv
 	package View pd
 	public Set<String> domainUrls
 	package HashMap<String, Boolean> blockedHosts = new HashMap<String, Boolean>()
 
-	new(BaseWebAppActivity activity, WebView wv, View pd, Set<String> domainUrls) {
+	new(BaseWebAppActivity activity, Webapp webapp, WebView wv, View pd, Set<String> domainUrls) {
 		this.activity = activity
+		this.webapp = webapp
 		this.wv = wv
 		this.pd = pd
 		this.domainUrls = domainUrls
 	}
+	
+	override onReceivedClientCertRequest(WebView view, ClientCertRequest request) {
+		super.onReceivedClientCertRequest(view, request)
+		activity.onClientCertificateRequest(request)
+	}
 
 	override void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-		var dlg = new DlgCertificate(error.certificate, 
-					activity.getString(R.string.title_cert_untrusted),
-					activity.getString(R.string.cert_accept), [
-						handler.proceed()
-						true
-					], [
-						handler.cancel()
-						true
-					])
-		dlg.show(activity.supportFragmentManager, "certificate")
-		
-//		new AlertDialog.Builder(activity).setTitle("Untrusted SSL Cert").
-//			setMessage('''Issued by: «error.getCertificate().getIssuedBy().getDName()»
-//Issued to: «error.getCertificate().getIssuedTo().getDName()»
-//Expires: «error.getCertificate().getValidNotAfterDate().toLocaleString()»
-//''').setPositiveButton("Add exception", [ DialogInterface arg0, int arg1 |
-//				handler.proceed()
-//			]).setNegativeButton("Cancel", [ DialogInterface dialog, int which |
-//				handler.cancel()
-//			]).create().show()
+		if (webapp == null || webapp.certIssuedBy == null) {
+			// no SSL cert was saved for this webapp, so show SSL error to user
+			var dlg = new DlgCertificate(error.certificate, 
+						activity.getString(R.string.title_cert_untrusted),
+						activity.getString(R.string.cert_accept), [
+							handler.proceed()
+							true
+						], [
+							handler.cancel()
+							true
+						])
+			dlg.show(activity.supportFragmentManager, "certificate")
+		} else {
+			// in onPageLoaded, WebAppActivity will check that the cert matches saved one
+			handler.proceed()
+		}
 	}
 
 	override void onPageFinished(WebView view, String url) {
