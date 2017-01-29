@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_site">Seite wechseln</string>
+    <string name="menu_exit">Webseite schließen</string>
+    <string name="menu_text_size">Schriftgröße</string>
+    <string name="menu_stop">Stop</string>
+    <string name="menu_refresh">Neu laden</string>
+	<string name="menu_toggle_image">Bilder ein/aus</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_3rd_party">Geblockte Drittanbieter Domains</string>
+    <string name="menu_open_url">URL öffnen</string>
+    <string name="menu_save">Als Webapp speichern</string>
+    <string name="menu_share">URL teilen</string>
+    <string name="menu_shortcut">Verknüpfung auf Startbildschirm</string>
+    <string name="menu_user_agent">User Agent</string>
+    <string name="menu_certificate">Zertifikat</string>
+
+    <string name="open_url_hint">webseite.de</string>
+    <string name="open_url">URL öffnen</string>
+    <string name="err_invalid_url">Ungültige URL</string>
+
+    <string name="blocked_root_domains">Geblockte Root Domains</string>
+    <string name="unblock">Entsperren</string>
+    <string name="title_save_webapp">Speichere Webapp</string>
+    <string name="msg_save_webapp">Aktuelle Seite als Webapp speichern?</string>
+    <string name="msg_saving_webapp">Speichere Webapp</string>
+	<string name="msg_shortcut_added">Verknüpfung hinzugefügt</string>
+    <string name="btn_save">Speichern</string>
+    <string name="webapp_name">Webapp Name</string>
+	<string name="open_site">Seite öffnen</string>
+    <string name="delete_webapp">Webapp löschen?</string>
+    <string name="shortcut_label">Webapp Verknüpfung</string>
+    <string name="err_webapp_not_found">Webapp nicht gefunden</string>
+
+    <string name="title_certificate">Zertifikat</string>
+    <string name="title_cert_untrusted">Nicht vertrauenswürdiges Zertifikat</string>
+    <string name="title_cert_changed">Zertifikat wurde geändert</string>
+    <string name="cert_accept">Zertifikat akzeptieren</string>
+
+    <string name="action_tips">Tipps</string>
+    <string name="tips"><![CDATA[
+        <p><b>Drittanbieter Domains</b>: Wenn eine Seite unvollständig ist, versuchen Sie ein paar Drittanbieter Domains zu entsperren, damit die Seite funktioniert, z. B. <i>akamaihd.net</i> für <i>Facebook</i>.</p>
+        <p><b>Verknüpfung auf Startbildschirm</b>: Auf den Startbildschirm des Geräts lange drücken und über die Widget Seite eine Verknüpfung zu einer Webapp hinzufügen.</p>
+		<p><b>Links öffnen</b>: Auf einen Link lange drücken, um zu bestimmen, wie er geöffnet wird.</p>
+]]></string>
+</resources>

@@ -11,7 +11,7 @@
         <item>iPhone - Safari</item>
         <item>iPad - Safari</item>
     </string-array>
-    
+
     <string-array translatable="false" name="user_agent_strings">
         <item></item>
         <item>Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2166.2 Safari/537.36</item>
@@ -23,7 +23,7 @@
         <item>Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3 like Mac OS X; de-de) AppleWebKit/533.17.9 (KHTML, like Gecko) Mobile/8F190</item>
         <item>Mozilla/5.0 (iPad; U; CPU OS 4_2_1 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8C148 Safari/6533.18.5</item>
     </string-array>
-    
+
     <string-array name="text_sizes">
         <item>Smallest</item>
         <item>Smaller</item>
@@ -31,7 +31,7 @@
         <item>Larger</item>
         <item>Largest</item>
     </string-array>
-    
+
     <string-array translatable="false" name="text_size_values">
         <item>0</item>
         <item>1</item>

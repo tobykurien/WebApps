@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="text_sizes">
+        <item>Sehr klein</item>
+        <item>Klein</item>
+        <item>Normal</item>
+        <item>Groß</item>
+        <item>Sehr groß</item>
+    </string-array>
+</resources>

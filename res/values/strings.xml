@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WebApps</string>
+    <string name="app_name" translatable="false">WebApps</string>
     <string name="menu_site">Change Site</string>
     <string name="menu_exit">Exit</string>
     <string name="menu_text_size">Font Size</string>
@@ -19,7 +19,7 @@
     <string name="open_url_hint">site.com</string>
     <string name="open_url">Open URL</string>
     <string name="err_invalid_url">Invalid URL</string>
-    
+
     <string name="blocked_root_domains">Blocked root domains</string>
     <string name="unblock">Unblock</string>
     <string name="title_save_webapp">Save Webapp</string>
@@ -32,12 +32,12 @@
     <string name="delete_webapp">Delete Webapp?</string>
     <string name="shortcut_label">Webapp shortcut</string>
     <string name="err_webapp_not_found">Webapp not found</string>
-    
+
     <string name="title_certificate">Website Certificate</string>
     <string name="title_cert_untrusted">Untrusted Certificate</string>
     <string name="title_cert_changed">Certificate Changed</string>
     <string name="cert_accept">Accept Certificate</string>
-    
+
     <string name="action_tips">Tips</string>
     <string name="tips"><![CDATA[
         <p><b>3rd party domains</b>: if a site looks broken, try enabling some 3rd party domains that the site may rely on, e.g. <i>akamaihd.net</i> for <i>Facebook</i></p>
