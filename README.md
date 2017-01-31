@@ -7,7 +7,7 @@ This Android app is a fork of the [GoogleApps Sandboxed browser][gapps]. The ide
 
 It accomplishes this by providing a sandbox for multiple webapps (like Google's apps, Facebook, Twitter, etc.). Each webapp will run in it's own sandbox, with 3rd party requests (images, scripts, iframes, etc.) blocked, and all external links opening in an external default web browser (which should have cookies, plug-ins, flash, etc. disabled). Homescreen (launcher) shortcuts can be created to any of the saved webapps.
 
-By default, all HTTP requests are blocked (only HTTPS allowed). This improves security, especially on untrusted networks.
+By default, all HTTP requests are blocked (only HTTPS allowed). This improves security, especially on untrusted networks. In addition, WebApps will warn you if the SSL certificate of the site you're viewing has changed.
 
 For using Google's suite of apps, try the [GApps Sandboxed Browser app][gapps], which works the same as this app but contains specific handling for Google's web apps.
 
@@ -18,12 +18,12 @@ Features
 
 - Works like Mozilla Prism on the desktop. This is a mostly chrome-less browser that gets out of your way.
 - Completely full-screen browsing (auto-hiding actionbar)
-- Securely browse mobile sites (uses HTTPS)
+- Securely browse mobile sites (uses HTTPS only)
 - Blocks 3rd party requests (images/scripts/iframes) like the NoScript and NotScripts plugins on the desktop
-- Blocks requests to non-HTTPS URLs to maintain security (avoid wire-tapping)
-- Allows self-signed SSL certificates to be temporarily accepted
-- User agent setting allows more rich mobile experience (depending on site)
-- External links open in your default browser
+- Allows self-signed SSL certificates to be saved
+- Warns if server SSL certificate changes (e.g. during man-in-the-middle-attack)
+- User agent and text size setting (per site) allows more rich mobile experience (depending on site)
+- External links (outside the domain of the site visited) open in your default browser
 - Long-press links to choose how to open them
 - Create shortcuts to your webapps on the homescreen
 - Uses much less bandwidth than native apps (like Google+ app). No background sync'ing.
