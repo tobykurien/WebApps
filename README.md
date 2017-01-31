@@ -11,7 +11,12 @@ By default, all HTTP requests are blocked (only HTTPS allowed). This improves se
 
 For using Google's suite of apps, try the [GApps Sandboxed Browser app][gapps], which works the same as this app but contains specific handling for Google's web apps.
 
-[![Google Play Store](images/google_play.png)](https://play.google.com/store/apps/details?id=com.tobykurien.webapps) [![F-Droid app store](images/fdroid.png)](https://f-droid.org/repository/browse/?fdfilter=webapps&fdid=com.tobykurien.webapps) 
+<a href="https://play.google.com/store/apps/details?id=com.tobykurien.webapps" target="_blank">
+  <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="60"/>
+</a>
+<a href="https://f-droid.org/repository/browse/?fdfilter=webapps&fdid=com.tobykurien.webapps" target="_blank">
+  <img src="https://f-droid.org/badge/get-it-on.png" height="60"/>
+</a>
 
 Features
 ========
