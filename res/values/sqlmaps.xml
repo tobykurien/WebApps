@@ -28,12 +28,12 @@
         insert into webapps (name,url,iconUrl) values (\'Hacker News\',\'https://news.ycombinator.com/\',\'\');
         insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://m.reddit.com\',\'\');
     </string>
-    
+
     <string translatable="false" name="dbGetWebapps">
         select * from webapps
         order by name asc
     </string>
-    
+
     <string translatable="false" name="dbGetDomainNames">
         select * from domain_names
         where webappId = #webappId#
