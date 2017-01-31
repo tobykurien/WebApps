@@ -15,7 +15,7 @@
         android:defaultValue="2"
         android:key="font_size"
         android:persistent="true" />    
-    
+
     <ListPreference
         android:title="User Agent"
         android:summary="Affects how sites render on your device"
@@ -36,5 +36,5 @@
         android:summary="Hide the action bar when you scroll down, reveal when you scroll up"
         android:defaultValue="true"
         android:key="hide_actionbar"/>     
-    
+
 </PreferenceScreen>

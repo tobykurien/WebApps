@@ -31,7 +31,7 @@
            parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="background">@color/primary</item>
     </style>
-    
+
     <style name="DialogTheme" parent="Theme.AppCompat.Dialog"></style>
 
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
