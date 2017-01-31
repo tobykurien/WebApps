@@ -49,9 +49,13 @@ import android.net.http.SslCertificate
 
 	@OnCreate
 	def init() {
-		issuedBy.text = certificate.issuedBy.DName.split(",").join("\n")
-		issuedTo.text = certificate.issuedTo.DName.split(",").join("\n")
+		issuedBy.text = certificate.issuedBy.DName.formatDname
+		issuedTo.text = certificate.issuedTo.DName.formatDname
 		expires.text = certificate.validNotBeforeDate.toLocaleString + " to \n" +
 			certificate.validNotAfterDate.toLocaleString
+	}
+	
+	def static formatDname(String DName) {
+		DName.replace("\\,", " ").split(",").join("\n")
 	}
 }

@@ -247,7 +247,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		
 		// alert the user if SSL certificate has changed since last time
 		// TODO - security issue: if this is MITM, cookies already sent!
-		if (webapp != null) {
+		if (webapp != null && wv.certificate != null) {
 			if (webapp.certIssuedBy != null) {
 				if (CertificateUtils.compare(webapp, wv.certificate) != 0) {
 					// SSL certificate changed!
@@ -263,9 +263,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 					dlg.show(supportFragmentManager, "certificate")
 				}
 			} else {
-				if (wv.certificate != null) {
-					CertificateUtils.updateCertificate(webapp, wv.certificate, db)
-				}
+				CertificateUtils.updateCertificate(webapp, wv.certificate, db)
 			}
 		}
 
