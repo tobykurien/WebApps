@@ -38,6 +38,9 @@ class CertificateUtils {
 
 	// Save the certificate details to the webapp	
 	def static void updateCertificate(Webapp webapp, SslCertificate certificate, DbService db) {
+		if (certificate == null || certificate.issuedBy == null ||
+			certificate.issuedTo == null) return;
+		
 		db.update(DbService.TABLE_WEBAPPS, #{
 			'certIssuedBy' -> certificate.issuedBy.DName,
 			'certIssuedTo' -> certificate.issuedTo.DName,

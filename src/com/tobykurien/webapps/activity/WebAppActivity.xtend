@@ -263,7 +263,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 					dlg.show(supportFragmentManager, "certificate")
 				}
 			} else {
-				CertificateUtils.updateCertificate(webapp, wv.certificate, db)
+				if (wv.certificate != null) {
+					CertificateUtils.updateCertificate(webapp, wv.certificate, db)
+				}
 			}
 		}
 
