@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="text_sizes">
+        <item>最小</item>
+        <item>小</item>
+        <item>通常</item>
+        <item>大</item>
+        <item>最大</item>
+    </string-array>
+</resources>
