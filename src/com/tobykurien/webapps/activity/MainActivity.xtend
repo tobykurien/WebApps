@@ -44,7 +44,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
             var intent = new Intent(activity, typeof(WebAppActivity))
             intent.action = Intent.ACTION_VIEW
             intent.data = Uri.parse(webapps.get(pos).url)
-            intent.putExtra(BaseWebAppActivity.EXTRA_WEBAPP_ID, id)
+            BaseWebAppActivity.putWebappId(intent, id)
             startActivity(intent)
         ])
 

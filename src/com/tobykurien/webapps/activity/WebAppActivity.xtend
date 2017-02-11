@@ -2,7 +2,6 @@ package com.tobykurien.webapps.activity;
 
 import android.annotation.TargetApi
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,7 +12,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
-import android.view.View
 import android.view.ViewConfiguration
 import android.view.WindowManager
 import android.webkit.WebView
@@ -49,7 +47,6 @@ public class WebAppActivity extends BaseWebAppActivity {
 	// variables to track dragging for actionbar auto-hide
 	var protected float startX;
 	var protected float startY;
-	var Settings settings;
 
 	var private MenuItem stopMenu = null;
 	var private MenuItem imageMenu = null;
@@ -59,7 +56,6 @@ public class WebAppActivity extends BaseWebAppActivity {
 	override onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		settings = Settings.getSettings(this);
 		if (settings.isFullscreen()) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -78,13 +74,6 @@ public class WebAppActivity extends BaseWebAppActivity {
 		WebappsAdapter.loadFavicon(this, new FaviconHandler(this).getFavIcon(webappId), iconImg)
 
 		autohideActionbar();
-	}
-
-	override void onResume() {
-		super.onResume();
-
-		// may not be neccessary, but reload the settings
-		settings = Settings.getSettings(this);
 	}
 
 	override protected onPause() {
@@ -186,40 +175,48 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 	def showFontSizeDialog() {
 		val int fontSize = if(webapp.fontSize >= 0) webapp.fontSize else DEFAULT_FONT_SIZE
-		new AlertDialog.Builder(this).setTitle(R.string.menu_text_size).setSingleChoiceItems(R.array.text_sizes,
-			fontSize, [ dlg, value |
+		new AlertDialog.Builder(this)
+			.setTitle(R.string.menu_text_size)
+			.setSingleChoiceItems(R.array.text_sizes, fontSize, [ dlg, value |
 				WebViewUtils.instance.setTextSize(wv, value)
 				webapp.fontSize = value
-			]).setPositiveButton(android.R.string.ok, [ dlg, i |
-			// save font size
-			if (webappId > 0) {
-				db.update(DbService.TABLE_WEBAPPS, #{
-					'fontSize' -> webapp.fontSize
-				}, webappId)
-			}
-
-			dlg.dismiss
-		]).create().show()
+			])
+			.setPositiveButton(android.R.string.ok, [ dlg, i |
+				// save font size
+				if (webappId > 0) {
+					db.update(DbService.TABLE_WEBAPPS, #{
+						'fontSize' -> webapp.fontSize
+					}, webappId)
+				}
+	
+				dlg.dismiss
+			])
+			.create()
+			.show()
 	}
 
 	def showUserAgentDialog() {
 		val String userAgent = if(webapp.userAgent != null) webapp.userAgent else settings.userAgent
 		val iUserAgent = resources.getStringArray(R.array.user_agent_strings).indexOf(userAgent)
-		new AlertDialog.Builder(this).setTitle(R.string.menu_user_agent).setSingleChoiceItems(R.array.user_agents,
-			iUserAgent, [ dlg, value |
+		new AlertDialog.Builder(this)
+			.setTitle(R.string.menu_user_agent)
+			.setSingleChoiceItems(R.array.user_agents, iUserAgent, [ dlg, value |
 				webapp.userAgent = resources.getStringArray(R.array.user_agent_strings).get(value)
 				wv.settings.userAgentString = webapp.userAgent
-			]).setPositiveButton(android.R.string.ok, [ dlg, i |
+			])
+			.setPositiveButton(android.R.string.ok, [ dlg, i |
 				// save user agent
 				if (webappId > 0) {
 					db.update(DbService.TABLE_WEBAPPS, #{
 						'userAgent' -> webapp.userAgent
 					}, webappId)
-				wv.reload()
-			}
-
-			dlg.dismiss
-		]).create().show()
+					wv.reload()
+				}
+	
+				dlg.dismiss
+			])
+			.create()
+			.show()
 	}
 
 	def void updateImageMenu() {
@@ -304,7 +301,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		val isNewWebapp = if(webappId < 0) true else false;
 
 		dlg.setOnSaveListener [ wapp |
-			webappId = wapp.id
+			putWebappId(wapp.id)
 			webapp = wapp
 
 			// save any unblocked domains
@@ -348,21 +345,25 @@ public class WebAppActivity extends BaseWebAppActivity {
 			]
 
 			// show blocked 3rd party domains and allow user to allow them
-			new AlertDialog.Builder(this).setTitle(R.string.blocked_root_domains).setMultiChoiceItems(domains,
-				whitelist, [ DialogInterface d, int pos, boolean checked |
+			new AlertDialog.Builder(this)
+				.setTitle(R.string.blocked_root_domains)
+				.setMultiChoiceItems(domains, whitelist, [ d, pos, checked |
 					if (checked) {
 						unblock.add(domains.get(pos).intern());
 					} else {
 						unblock.remove(domains.get(pos).intern());
 					}
 					Log.d("unblock", unblock.toString)
-				]).setPositiveButton(R.string.unblock, [ DialogInterface d, int pos |
-				saveWebappUnblockList(webappId, unblock)
-				wc.unblockDomains(unblock);
-				clearWebviewCache(wv)
-				wv.reload();
-				d.dismiss();
-			]).create().show();
+				])
+				.setPositiveButton(R.string.unblock, [ d, pos |
+					saveWebappUnblockList(webappId, unblock)
+					wc.unblockDomains(unblock);
+					clearWebviewCache(wv)
+					wv.reload();
+					d.dismiss();
+				])
+				.create()
+				.show();
 		].onError [ Exception e |
 			toast(e.class.name + " " + e.message)
 		].start()
@@ -408,7 +409,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 	 * @param wv
 	 */
 	def void autohideActionbar() {
-		wv.setOnTouchListener [ View arg0, MotionEvent event |
+		wv.setOnTouchListener [ view, event |
 			if (settings.isHideActionbar()) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					startY = event.getY();
@@ -435,7 +436,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		var launchIntent = new Intent(this, WebAppActivity);
 		launchIntent.action = Intent.ACTION_VIEW
 		launchIntent.data = Uri.parse(webapp.url)
-		launchIntent.putExtra(BaseWebAppActivity.EXTRA_WEBAPP_ID, webapp.id)
+		BaseWebAppActivity.putWebappId(launchIntent, webapp.id)
 
 		val addIntent = new Intent();
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);

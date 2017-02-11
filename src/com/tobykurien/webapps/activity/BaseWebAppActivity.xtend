@@ -21,7 +21,6 @@ import android.widget.ProgressBar
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
-import com.tobykurien.webapps.ssl.SslTrustManager
 import com.tobykurien.webapps.utils.Settings
 import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
@@ -34,22 +33,24 @@ import java.util.HashSet
 import java.util.List
 import java.util.Map
 import java.util.Set
-import javax.net.ssl.HttpsURLConnection
-import javax.net.ssl.SSLContext
+import org.xtendroid.app.AndroidActivity
+import org.xtendroid.app.OnCreate
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import org.xtendroid.annotations.BundleProperty
 
 @TargetApi(21)
-class BaseWebAppActivity extends AppCompatActivity {
+@AndroidActivity(R.layout.webapp) class BaseWebAppActivity extends AppCompatActivity {
+	// Required intent arguments
+	@BundleProperty package long webappId = -1
+
 	public static boolean reload = false
-	public static String EXTRA_WEBAPP_ID = "webapp_id"
 	package WebView wv = null
 	package Uri siteUrl = null
 	package WebClient wc = null
-	package long webappId = -1
 	package Webapp webapp = null
-	package Set<String> unblock = new HashSet<String>()
+	package Set<String> unblock = new HashSet<String>
 
 	val static int FILECHOOSER_RESULTCODE = 101
 	val static int REQUEST_SELECT_FILE = 102
@@ -60,40 +61,32 @@ class BaseWebAppActivity extends AppCompatActivity {
 	/**
 	 * Called when the activity is first created.
 	 */
-	override void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState)
-		setContentView(R.layout::webapp)
-
-		wv = getWebView()
+	@OnCreate
+	def void init(Bundle savedInstanceState) {
+		wv = siteWebview
 		if (wv === null) {
 			finish()
 			return;
 		}
 
-		if (getIntent() !== null && getIntent().getData() !== null &&
-			Intent::ACTION_VIEW.equals(getIntent().getAction())) {
-			siteUrl = getIntent().getData()
-			webappId = getIntent().getLongExtra(EXTRA_WEBAPP_ID, -1)
-			if (webappId >= 0) {
-				webapp = db.findById(DbService::TABLE_WEBAPPS, webappId, typeof(Webapp))
-				if (webapp == null) {
-					toast(getString(R.string.err_webapp_not_found))
-					finish()
-					return;
-				}
-			} else {
-				webapp = new Webapp()
-				webapp.url = siteUrl.toString
-				webapp.name = webapp.url
+		siteUrl = intent?.data
+		if (siteUrl == null) return;
+
+		if (webappId >= 0) {
+			webapp = db.findById(DbService.TABLE_WEBAPPS, webappId, Webapp)
+			if (webapp == null) {
+				toast(getString(R.string.err_webapp_not_found))
+				finish()
+				return;
 			}
 		} else {
-			// didn't get any intent data
-			finish()
-			return;
+			webapp = new Webapp()
+			webapp.url = siteUrl.toString
+			webapp.name = webapp.url
 		}
 
-		val ProgressBar pb = getProgressBar()
-		if(pb !== null) pb.setVisibility(View::VISIBLE)
+		val pb = siteProgress
+		if(pb !== null) pb.setVisibility(View.VISIBLE)
 
 		setupWebView()
 		wv.setWebViewClient(getWebViewClient(pb)) // save the favicon for later use if we get one
@@ -124,8 +117,8 @@ class BaseWebAppActivity extends AppCompatActivity {
 	}
 
 	def protected void setupWebView() {
-		WebViewUtils::getInstance().setupWebView(this, wv, siteUrl, webapp,
-			Settings::getSettings(this).getIntFontSize())
+		WebViewUtils.getInstance().setupWebView(this, wv, siteUrl, webapp,
+			settings.getIntFontSize())
 	}
 
 	override protected void onResume() {
@@ -156,22 +149,6 @@ class BaseWebAppActivity extends AppCompatActivity {
 	}
 
 	/**
-	 * Return the title bar progress bar to indicate progress
-	 * @return
-	 */
-	def ProgressBar getProgressBar() {
-		return findViewById(R.id::site_progress) as ProgressBar
-	}
-
-	/**
-	 * Return the web view in which to display the site
-	 * @return
-	 */
-	def WebView getWebView() {
-		return findViewById(R.id::site_webview) as WebView
-	}
-
-	/**
 	 * Return the web view client for the web view
 	 * @param pb
 	 * @return
@@ -182,13 +159,12 @@ class BaseWebAppActivity extends AppCompatActivity {
 			unblock.add(siteUrl.getHost())
 			if (webappId >= 0) {
 				// load saved unblock list
-				var HashMap<String, Object> params = new HashMap<String, Object>()
-				params.put("webappId", webappId)
-				var List<Map<String, Object>> domains = db.executeForMapList(R.string::dbGetDomainNames, params)
-				for (Map<String, Object> domain : domains) {
+				var domains = db.executeForMapList(R.string.dbGetDomainNames, #{
+					"webappId" -> webappId
+				})
+				for (domain : domains) {
 					unblock.add(domain.get("domain") as String)
 				}
-
 			}
 			wc = new WebClient(this, webapp, wv, pb, unblock)
 		}
@@ -204,7 +180,7 @@ class BaseWebAppActivity extends AppCompatActivity {
 	}
 
 	override boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode === KeyEvent::KEYCODE_BACK) && wv.canGoBack()) {
+		if ((keyCode === KeyEvent.KEYCODE_BACK) && wv.canGoBack()) {
 			wv.goBack()
 			return true
 		}
@@ -213,12 +189,15 @@ class BaseWebAppActivity extends AppCompatActivity {
 
 	def openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
 		Log.i("WebChromeClient", "openFileChooser() called.");
+		
 		if(mUploadMessage != null) mUploadMessage.onReceiveValue(null);
 		mUploadMessage = uploadMsg;
+		
 		val intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		intent.setType("*/*");
 		startActivityForResult(Intent.createChooser(intent, "File Chooser"), FILECHOOSER_RESULTCODE);
+		
 		return true;
 	}
 

@@ -24,7 +24,7 @@ class ShortcutActivity extends MainActivity {
          var launchIntent = new Intent(this, WebAppActivity);
          launchIntent.action = Intent.ACTION_VIEW
          launchIntent.data = Uri.parse(webapps.get(pos).url)
-         launchIntent.putExtra(BaseWebAppActivity.EXTRA_WEBAPP_ID, webapps.get(pos).id)
+         BaseWebAppActivity.putWebappId(launchIntent, webapps.get(pos).id)
 
          var intent = new Intent();
          intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
