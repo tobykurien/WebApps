@@ -44,4 +44,16 @@
         <p><b>Homescreen shortcuts</b>: Long-press your homescreen and access the widgets page to add a webapp shortcut to your homescreen</p>
         <p><b>Long-press links</b>: Long-press a link on a website to be able to choose how to open it</p>
 ]]></string>
+
+    <!-- Preferences activity strings -->
+    <string name="title_3rd_party">Block 3rd party requests</string>
+    <string name="summary_3rd_party">Don\'t load images/scripts outside webapps domains</string>
+    <string name="title_font_size">Font Size</string>
+    <string name="summary_font_size">Change the rendered font size</string>
+    <string name="title_user_agent">User Agent</string>
+    <string name="summary_user_agent">Affects how sites render on your device</string>
+    <string name="title_fullscreen">Fullscreen</string>
+    <string name="summary_fullscreen">Hide the status bar and use all screen space (requires restart)</string>
+    <string name="title_autohide">Auto-hide action bar</string>
+    <string name="summary_autohide">Hide the action bar when you scroll down, reveal when you scroll up</string>
 </resources>

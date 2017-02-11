@@ -2,14 +2,14 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <CheckBoxPreference
-        android:title="Block 3rd party requests"
-        android:summary="Don't load images/scripts outside webapps domains"
+        android:title="@string/title_3rd_party"
+        android:summary="@string/summary_3rd_party"
         android:defaultValue="true"
         android:key="block3rd_party"/>    
 
     <ListPreference
-        android:title="Font Size"
-        android:summary="Change the rendered font size"
+        android:title="@string/title_font_size"
+        android:summary="@string/summary_font_size"
         android:entries="@array/text_sizes"
         android:entryValues="@array/text_size_values"
         android:defaultValue="2"
@@ -17,8 +17,8 @@
         android:persistent="true" />    
 
     <ListPreference
-        android:title="User Agent"
-        android:summary="Affects how sites render on your device"
+        android:title="@string/title_user_agent"
+        android:summary="@string/summary_user_agent"
         android:defaultValue=""
         android:entries="@array/user_agents"
         android:entryValues="@array/user_agent_strings"
@@ -26,14 +26,14 @@
         android:persistent="true" />
 
     <CheckBoxPreference
-        android:title="Fullscreen"
-        android:summary="Hide the status bar and use all screen space (requires restart)"
+        android:title="@string/title_fullscreen"
+        android:summary="@string/summary_fullscreen"
         android:defaultValue="false"
         android:key="fullscreen"/>    
 
     <CheckBoxPreference
-        android:title="Auto-hide action bar"
-        android:summary="Hide the action bar when you scroll down, reveal when you scroll up"
+        android:title="@string/title_autohide"
+        android:summary="@string/summary_autohide"
         android:defaultValue="true"
         android:key="hide_actionbar"/>     
 
