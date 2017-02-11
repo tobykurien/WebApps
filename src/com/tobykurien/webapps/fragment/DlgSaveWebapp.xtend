@@ -51,7 +51,8 @@ import static extension org.xtendroid.utils.AlertUtils.*
    override onStart() {
       super.onStart()
       
-      (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener [
+      val button = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+      button.setOnClickListener [
          onSaveClick()
       ]
       

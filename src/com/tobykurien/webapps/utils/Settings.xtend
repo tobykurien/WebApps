@@ -4,7 +4,7 @@ import org.xtendroid.annotations.AndroidPreference
 
 /**
  * Class to get and set shared preferences, which are also editable from the Preference activity.
- * Uses Xtendroid's @AndroidPreference to manage the preferehces, making the class appear as a POJO.
+ * Uses Xtendroid's @AndroidPreference to manage the preferences, making the class appear as a POJO.
  * NOTE: Default values here must also match up with the default values in settings.xml
  */
 @AndroidPreference class Settings {

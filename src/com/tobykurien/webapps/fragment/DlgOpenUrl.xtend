@@ -19,15 +19,19 @@ import org.xtendroid.annotations.AndroidDialogFragment
 	 * Create a dialog using the AlertDialog Builder, but our custom layout
 	 */
 	override onCreateDialog(Bundle instance) {
-		new AlertDialog.Builder(activity).setTitle(R.string.open_site).setView(contentView) // contentView is the layout specified in the annotation
-		.setPositiveButton(android.R.string.ok, null) // to avoid it closing dialog
-		.setNegativeButton(android.R.string.cancel, null).create()
+		new AlertDialog.Builder(activity)
+			.setTitle(R.string.open_site)
+			.setView(contentView) // contentView is the layout specified in the annotation
+			.setPositiveButton(android.R.string.ok, null) // to avoid it closing dialog
+			.setNegativeButton(android.R.string.cancel, null)
+			.create()
 	}
 
 	override onStart() {
 		super.onStart()
 
-		(dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener [
+		val button = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+		button.setOnClickListener [
 			if (onOpenUrlClick()) {
 				dialog.dismiss
 			}

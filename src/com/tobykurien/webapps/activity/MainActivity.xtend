@@ -49,7 +49,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
         ])
 
         mainList.setOnItemLongClickListener([av, v, pos, id|
-            confirm(getString(R.string.delete_webapp), [|
+            confirm(getString(R.string.delete_webapp), [
                 AsyncBuilder.async[p1, p2|
                     db.execute(R.string.dbDeleteDomains, # {'webappId' -> id})
                     db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
@@ -97,11 +97,11 @@ import static extension org.xtendroid.utils.AlertUtils.*
 
     def showTips() {
         new AlertDialog.Builder(this)
-        .setTitle(R.string.action_tips)
-        .setMessage(Html.fromHtml(getString(R.string.tips)))
-        .setPositiveButton(android.R.string.ok, null)
-        .create()
-        .show()
+	        .setTitle(R.string.action_tips)
+	        .setMessage(Html.fromHtml(getString(R.string.tips)))
+	        .setPositiveButton(android.R.string.ok, null)
+	        .create()
+	        .show()
     }
 
     def loadWebapps() {

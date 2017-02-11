@@ -30,8 +30,8 @@ class WebClient extends WebViewClient {
 	package Webapp webapp
 	package WebView wv
 	package View pd
-	public Set<String> domainUrls
-	package HashMap<String, Boolean> blockedHosts = new HashMap<String, Boolean>()
+	public  Set<String> domainUrls
+	package var blockedHosts = new HashMap<String, Boolean>()
 
 	new(BaseWebAppActivity activity, Webapp webapp, WebView wv, View pd, Set<String> domainUrls) {
 		this.activity = activity

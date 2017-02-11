@@ -20,8 +20,7 @@ import com.bumptech.glide.signature.StringSignature
 /**
  * Android adapter to display webapps using the row_webapp layout
  */
-class WebappsAdapter extends BaseAdapter {
-   Context context
+@AndroidAdapter class WebappsAdapter {
    List<Webapp> webapps
    FaviconHandler favicoHandler
 
@@ -29,23 +28,6 @@ class WebappsAdapter extends BaseAdapter {
     * ViewHolder class to save references to UI widgets in each row
     */
    @AndroidViewHolder(R.layout.row_webapp) static class ViewHolder {      
-   }
-
-   new(Context context, List<Webapp> data) {
-      this.context = context
-      webapps = data
-   }
-
-   override getCount() {
-      webapps.size
-   }
-   
-   override Webapp getItem(int row) {
-      webapps.get(row)
-   }
-   
-   override long getItemId(int row) {
-      getItem(row).id
    }
    
    override getView(int row, View cv, ViewGroup parent) {

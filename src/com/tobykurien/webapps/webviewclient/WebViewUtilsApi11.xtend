@@ -14,6 +14,8 @@ import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.utils.Settings
 import android.annotation.TargetApi
 
+import static extension com.tobykurien.webapps.utils.Dependencies.*
+
 @TargetApi(11)
 class WebViewUtilsApi11 extends WebViewUtils {
 
@@ -56,8 +58,7 @@ class WebViewUtilsApi11 extends WebViewUtils {
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
 		settings.setSaveFormData(false);
 		settings.setSavePassword(false);
-		settings.setLoadsImagesAutomatically(Settings.getSettings(context)
-				.isLoadImages());
+		settings.setLoadsImagesAutomatically(context.settings.isLoadImages());
 
 		// set preferred text size
 		if (webapp.getFontSize() >= 0) {
@@ -67,7 +68,7 @@ class WebViewUtilsApi11 extends WebViewUtils {
 		}
 
 		// set preferred user agent
-		var userAgent = Settings.getSettings(context).getUserAgent();
+		var userAgent = context.settings.getUserAgent();
 		if (webapp.userAgent != null && webapp.userAgent.trim.length > 0) {
 			userAgent = webapp.userAgent
 		}
