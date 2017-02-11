@@ -67,15 +67,27 @@ This project makes use of the following libraries/tools:
 Development
 ===========
 
+To build this project:
+
+- Clone the git repository to your local machine (```git clone ...```)
+- Run ```./build.sh``` to build an unsigned release APK
+
 In order to develop in Eclipse:
 
+- Install the [Xtend plugin for Eclipse][xtend_install]
 - Clone the git repository to your local machine (```git clone ...```)
 - Inside the checked-out folder, run: ```gradle generateEclipseDependencies```. This will download all the required 3rd party libraries and create Eclipse projects for them (if they are AAR dependencies).
 - Open Eclipse and import all projects *and sub-projects* within the checked-out folder
 - The project should now compile in Eclipse
 
-The app can be built either using Eclipse or using ```gradle assembleDebug```.
+To develop using Android Studio:
+
+- Install the [Xtend plugin for IntelliJ][xtend_install]
+- Clone the git repository to your local machine (```git clone ...```)
+- Import the project into Android Studio
+- The project should now compile (very first build may fail, a rebuild should fix this).
 
    [gapps]: https://github.com/tobykurien/GoogleNews
    [cookies]: https://developer.android.com/reference/android/webkit/WebSettings.html#setDatabasePath%28java.lang.String%29
    [sandbox_workaround]: https://github.com/tobykurien/WebApps/issues/3
+   [xtend_install]: http://www.eclipse.org/xtend/download.html
