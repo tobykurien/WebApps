@@ -41,19 +41,21 @@ import static extension org.xtendroid.utils.AlertUtils.*
         loadWebapps()
 
         mainList.setOnItemClickListener([av, v, pos, id|
+        	val item = av.getItemAtPosition(pos) as Webapp
             var intent = new Intent(activity, typeof(WebAppActivity))
             intent.action = Intent.ACTION_VIEW
             intent.data = Uri.parse(webapps.get(pos).url)
-            BaseWebAppActivity.putWebappId(intent, id)
+            BaseWebAppActivity.putWebappId(intent, item.id)
             startActivity(intent)
         ])
 
         mainList.setOnItemLongClickListener([av, v, pos, id|
+        	val item = av.getItemAtPosition(pos) as Webapp
             confirm(getString(R.string.delete_webapp), [
                 AsyncBuilder.async[p1, p2|
-                    db.execute(R.string.dbDeleteDomains, # {'webappId' -> id})
-                    db.delete(DbService.TABLE_WEBAPPS, String.valueOf(id))
-                    WebViewUtils.instance.deleteWebappData(this, id)
+                    db.execute(R.string.dbDeleteDomains, # {'webappId' -> item.id})
+                    db.delete(DbService.TABLE_WEBAPPS, String.valueOf(item.id))
+                    WebViewUtils.instance.deleteWebappData(this, item.id)
                     null
                 ].then [
                     loadWebapps
