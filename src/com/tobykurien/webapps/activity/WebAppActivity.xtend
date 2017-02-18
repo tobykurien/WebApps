@@ -99,8 +99,8 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 	override protected onResume() {
 		super.onResume()
-		
-		if (settings.hideActionbarShortcut) {
+
+		if (settings.shouldHideActionBar(fromShortcut)) {
 			supportActionBar.hide();
 			wv.setOnTouchListener = null
 		} else {
@@ -121,8 +121,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		super.onCreateContextMenu(menu, v, menuInfo)
 
 		// signifies a long-press on whitespace or text
-		// TODO: distinguish between text selection and whitespace
-		if (settings.hideActionbarShortcut) {
+		if (settings.shouldHideActionBar(fromShortcut)) {
 			var ab = supportActionBar
 			if (ab.isShowing) ab.hide else ab.show
 		}

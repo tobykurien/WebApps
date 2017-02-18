@@ -38,9 +38,16 @@
         android:key="hide_actionbar"/>     
 
     <CheckBoxPreference
+        android:title="@string/title_hide_actionbar"
+        android:summary="@string/summary_hide_actionbar"
+        android:defaultValue="false"
+        android:key="full_hide_actionbar"/>     
+
+    <CheckBoxPreference
         android:title="@string/title_shortcut_actionbar"
         android:summary="@string/summary_shortcut_actionbar"
         android:defaultValue="false"
-        android:key="hide_actionbar_shortcut"/>     
+        android:key="full_hide_shortcut_only"
+        android:dependency="full_hide_actionbar"/>     
 
 </PreferenceScreen>

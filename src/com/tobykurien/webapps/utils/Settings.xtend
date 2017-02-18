@@ -16,7 +16,8 @@ import org.xtendroid.annotations.AndroidPreference
     boolean hideActionbar = true
     boolean loadImages = true
     int firstLoaded = 0
-    boolean hideActionbarShortcut = false
+    boolean fullHideActionbar = false
+    boolean fullHideShortcutOnly = false
 
     long lastWebappId = -1
 
@@ -31,5 +32,11 @@ import org.xtendroid.annotations.AndroidPreference
     def isBlockHttp() {
         // Deprecate old option to allow HTTP 3rd party requests
         return true
+    }
+    
+    def boolean shouldHideActionBar(boolean isFromShortcut) {
+    	if (isFullHideActionbar && !isFullHideShortcutOnly) return true;
+    	if (isFullHideActionbar && isFullHideShortcutOnly && isFromShortcut) return true;
+    	return false;
     }
 }
