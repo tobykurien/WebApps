@@ -67,7 +67,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		ab.setDisplayShowCustomEnabled(true);
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setCustomView(R.layout.actionbar_favicon);
-		toast("From shortcut " + fromShortcut)
+
 		if (fromShortcut && settings.hideActionbarShortcut) {
 			ab.hide();
 		} else {
