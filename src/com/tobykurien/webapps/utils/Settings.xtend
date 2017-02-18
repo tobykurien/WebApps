@@ -16,6 +16,7 @@ import org.xtendroid.annotations.AndroidPreference
     boolean hideActionbar = true
     boolean loadImages = true
     int firstLoaded = 0
+    boolean hideActionbarShortcut = false
 
     long lastWebappId = -1
 

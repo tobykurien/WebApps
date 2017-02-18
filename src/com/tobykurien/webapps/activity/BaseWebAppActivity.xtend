@@ -44,6 +44,7 @@ import org.xtendroid.annotations.BundleProperty
 @AndroidActivity(R.layout.webapp) class BaseWebAppActivity extends AppCompatActivity {
 	// Required intent arguments
 	@BundleProperty package long webappId = -1
+	@BundleProperty boolean fromShortcut = true // launched from shortcut?
 
 	public static boolean reload = false
 	package WebView wv = null

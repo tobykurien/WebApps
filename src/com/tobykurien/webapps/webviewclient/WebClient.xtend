@@ -73,7 +73,7 @@ class WebClient extends WebViewClient {
 	}
 
 	override void onPageStarted(WebView view, String url, Bitmap favicon) {
-		Log.d("webclient", '''loading «url»''')
+		//Log.d("webclient", '''loading «url»''')
 		if(pd !== null) pd.setVisibility(View.VISIBLE)
 		activity.onPageLoadStarted()
 		super.onPageStarted(view, url, favicon)

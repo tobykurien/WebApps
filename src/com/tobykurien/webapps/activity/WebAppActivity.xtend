@@ -67,13 +67,17 @@ public class WebAppActivity extends BaseWebAppActivity {
 		ab.setDisplayShowCustomEnabled(true);
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setCustomView(R.layout.actionbar_favicon);
+		toast("From shortcut " + fromShortcut)
+		if (fromShortcut && settings.hideActionbarShortcut) {
+			ab.hide();
+		} else {
+			autohideActionbar();
+		}
 
 		// load a favico if it already exists
 		var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
 		iconImg.imageResource = R.drawable.ic_action_site
 		WebappsAdapter.loadFavicon(this, new FaviconHandler(this).getFavIcon(webappId), iconImg)
-
-		autohideActionbar();
 	}
 
 	override protected onPause() {

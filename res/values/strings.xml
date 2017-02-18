@@ -56,4 +56,6 @@
     <string name="summary_fullscreen">Hide the status bar and use all screen space (requires restart)</string>
     <string name="title_autohide">Auto-hide action bar</string>
     <string name="summary_autohide">Hide the action bar when you scroll down, reveal when you scroll up</string>
+    <string name="title_shortcut_actionbar">Hide shortcut actionbar</string>
+    <string name="summary_shortcut_actionbar">Remove the actionbar if the webapp is launched from homescreen shortcut</string>
 </resources>
