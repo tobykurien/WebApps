@@ -79,19 +79,6 @@ class WebViewUtilsApi11 extends WebViewUtils {
 		wv.addJavascriptInterface([
 			throw new IllegalStateException("not supported");
 		], "window");
-
-		wv.onLongClickListener = [view|
-			var url = wv.getHitTestResult().getExtra();
-			if (url != null) {
-				var i = new Intent(Intent.ACTION_VIEW);
-				i.setData(Uri.parse(url));
-				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				context.startActivity(i);
-				return true;
-			}
-
-			return false;
-		]
 	}
 
 }

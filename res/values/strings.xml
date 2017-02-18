@@ -32,6 +32,7 @@
     <string name="delete_webapp">Delete Webapp?</string>
     <string name="shortcut_label">Webapp shortcut</string>
     <string name="err_webapp_not_found">Webapp not found</string>
+    <string name="title_open_with">Open With</string>
 
     <string name="title_certificate">Website Certificate</string>
     <string name="title_cert_untrusted">Untrusted Certificate</string>
@@ -56,6 +57,6 @@
     <string name="summary_fullscreen">Hide the status bar and use all screen space (requires restart)</string>
     <string name="title_autohide">Auto-hide action bar</string>
     <string name="summary_autohide">Hide the action bar when you scroll down, reveal when you scroll up</string>
-    <string name="title_shortcut_actionbar">Hide shortcut actionbar</string>
-    <string name="summary_shortcut_actionbar">Remove the actionbar if the webapp is launched from homescreen shortcut</string>
+    <string name="title_shortcut_actionbar">Hide actionbar</string>
+    <string name="summary_shortcut_actionbar">Remove the actionbar completely. Long-press a blank spot to toggle.</string>
 </resources>

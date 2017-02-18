@@ -33,6 +33,10 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import android.webkit.WebView.HitTestResult
+import android.view.ContextMenu
+import android.view.View
+import android.view.ContextMenu.ContextMenuInfo
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -62,22 +66,46 @@ public class WebAppActivity extends BaseWebAppActivity {
 		}
 
 		// setup actionbar
-		var ab = getSupportActionBar();
+		val ab = getSupportActionBar();
 		ab.setDisplayShowTitleEnabled(false);
 		ab.setDisplayShowCustomEnabled(true);
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setCustomView(R.layout.actionbar_favicon);
 
-		if (fromShortcut && settings.hideActionbarShortcut) {
-			ab.hide();
-		} else {
-			autohideActionbar();
-		}
+		registerForContextMenu(wv)
+
+		wv.onLongClickListener = [
+			var url = wv.hitTestResult.extra
+			if (url !== null) {
+				var i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+				var chooser = Intent.createChooser(i, getString(R.string.title_open_with)) 
+				if (i.resolveActivity(getPackageManager()) != null) {
+				    context.startActivity(chooser);
+				}
+				return true;
+			}
+			
+			return false
+		]
 
 		// load a favico if it already exists
 		var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
 		iconImg.imageResource = R.drawable.ic_action_site
 		WebappsAdapter.loadFavicon(this, new FaviconHandler(this).getFavIcon(webappId), iconImg)
+	}
+
+	override protected onResume() {
+		super.onResume()
+		
+		if (settings.hideActionbarShortcut) {
+			supportActionBar.hide();
+			wv.setOnTouchListener = null
+		} else {
+			autohideActionbar();
+		}
 	}
 
 	override protected onPause() {
@@ -86,6 +114,17 @@ public class WebAppActivity extends BaseWebAppActivity {
 		if (webappId < 0) {
 			// clean up data left behind by this webapp
 			clearWebviewCache(wv)
+		}
+	}
+
+	override onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo)
+
+		// signifies a long-press on whitespace or text
+		// TODO: distinguish between text selection and whitespace
+		if (settings.hideActionbarShortcut) {
+			var ab = supportActionBar
+			if (ab.isShowing) ab.hide else ab.show
 		}
 	}
 
