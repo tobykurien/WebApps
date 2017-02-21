@@ -84,6 +84,7 @@ import org.xtendroid.annotations.BundleProperty
 			webapp = new Webapp()
 			webapp.url = siteUrl.toString
 			webapp.name = webapp.url
+			putFromShortcut(false)
 		}
 
 		val pb = siteProgress

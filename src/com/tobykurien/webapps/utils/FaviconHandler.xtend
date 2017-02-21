@@ -3,11 +3,13 @@ package com.tobykurien.webapps.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
 import static extension org.xtendroid.utils.TimeUtils.*
+import java.io.BufferedOutputStream
 
 class FaviconHandler {
 	val Context context
@@ -30,26 +32,34 @@ class FaviconHandler {
 	def void saveFavIcon(long webappId, Bitmap icon) {
 		val f = getFile(webappId)
 
-		if (System.currentTimeMillis - f.lastModified > 30.seconds &&
-			System.currentTimeMillis - f.lastModified < 24.hours) {
-			// cache icon for 24 hours. If new (possibly better) icon received
-			// while page is loading, then process it
-			return;
-		}
-
 		if (f.exists) {
 			// make sure new icon is of higher or same resolution
 			var bmpOpt = new BitmapFactory.Options()
 			bmpOpt.inJustDecodeBounds = true
 			BitmapFactory.decodeStream(new FileInputStream(f), null, bmpOpt)
+			if (Debug.FAVICON) Log.d("favicon", "Icon IN=" + icon.width + "x" + icon.height + ", CACHED=" + bmpOpt.outWidth + "x" + bmpOpt.outHeight)
+
 			if (bmpOpt.outHeight > icon.height && bmpOpt.outWidth > icon.width) {
+				// new icon is lower res
+				if (Debug.FAVICON) Log.d("favicon", "Skipping because lower res")
 				return
 			}
+			
+			if (bmpOpt.outHeight == icon.height && bmpOpt.outWidth == icon.width && 
+				System.currentTimeMillis - f.lastModified < 24.hours) {
+				// new icon matches saved icon, and it was saved recently, so no need to overwrite
+				if (Debug.FAVICON) Log.d("favicon", "Skipping because we cached this recently")
+				return
+			}
+			
+			f.delete()
 		}
 
-		val os = new FileOutputStream(f)
+	    if (Debug.FAVICON) Log.d("favicon", "Saving new icon for " + webappId)
+		val os = new BufferedOutputStream(new FileOutputStream(f))
 		try {
 			icon.compress(Bitmap.CompressFormat.PNG, 100, os);
+			os.flush()
 		} finally {
 			os.close()
 		}
