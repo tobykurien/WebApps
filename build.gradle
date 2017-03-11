@@ -5,7 +5,7 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
-        classpath 'org.xtext:xtext-android-gradle-plugin:1.0.3'
+        classpath 'org.xtext:xtext-android-gradle-plugin:1.0.17'
         
         // eclipse AAR plugin: https://github.com/ksoichiro/gradle-eclipse-aar-plugin
         classpath 'com.github.ksoichiro:gradle-eclipse-aar-plugin:0.2.0'
