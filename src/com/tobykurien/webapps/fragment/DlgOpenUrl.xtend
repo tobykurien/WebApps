@@ -85,6 +85,8 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
 			is.close()
 			return finalUrl.toString()	
 		].then [ result |
+			if (!pd.isShowing) return; // user cancelled
+
 			var Uri uriFinal = null
 			if (!result.equals(originalUri.toString())) {
 				uriFinal = Uri.parse(result)
@@ -103,7 +105,11 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
 			dismiss()
 		].onError[ Exception error |
 			Log.e("dlgOpenUrl", "Error", error)
-			toast(error.message)					
+			try {
+				toast(error.message)
+			} catch (Exception e) {
+				// ignore, dialog must be dismissed
+			}					
 		].start()
 
 		return false
