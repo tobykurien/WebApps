@@ -26,7 +26,7 @@
         insert into webapps (name,url,iconUrl) values (\'Twitter\',\'https://mobile.twitter.com\',\'\');
         insert into webapps (name,url,iconUrl) values (\'Google News\',\'https://news.google.com\',\'\');
         insert into webapps (name,url,iconUrl) values (\'Hacker News\',\'https://news.ycombinator.com/\',\'\');
-        insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://m.reddit.com\',\'\');
+        insert into webapps (name,url,iconUrl) values (\'Reddit\',\'https://www.reddit.com\',\'\');
         insert into webapps (name,url,iconUrl) values (\'Voat\',\'https://voat.co\',\'\');
         insert into webapps (name,url,iconUrl) values (\'TLS Test\',\'https://howsmyssl.com\',\'\');
     </string>
