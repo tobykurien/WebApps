@@ -24,6 +24,10 @@ import org.xtendroid.annotations.AndroidDialogFragment
 			.setView(contentView) // contentView is the layout specified in the annotation
 			.setPositiveButton(android.R.string.ok, null) // to avoid it closing dialog
 			.setNegativeButton(android.R.string.cancel, null)
+			.setNeutralButton(R.string.btn_recommended_sites, [
+				txtOpenUrl.text = "https://github.com/tobykurien/WebApps/wiki/Recommended-Webapps"
+				onOpenUrlClick()
+			  ])
 			.create()
 	}
 

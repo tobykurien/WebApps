@@ -29,6 +29,7 @@
     <string name="btn_save">Save</string>
     <string name="webapp_name">Webapp Name</string>
     <string name="open_site">Open Site</string>
+    <string name="btn_recommended_sites">Recommended</string>
     <string name="delete_webapp">Delete Webapp?</string>
     <string name="shortcut_label">Webapp shortcut</string>
     <string name="err_webapp_not_found">Webapp not found</string>
