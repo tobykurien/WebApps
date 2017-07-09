@@ -170,6 +170,11 @@ public class WebAppActivity extends BaseWebAppActivity {
 			case R.id.menu_image: {
 				if (imageMenu != null) {
 					imageMenu.setChecked(!imageMenu.isChecked());
+					if (imageMenu.isChecked()) {
+						toast(getString(R.string.toast_images_enabled))
+					} else {
+						toast(getString(R.string.toast_images_disabled))
+					}
 					updateImageMenu();
 					setupWebView();
 				}

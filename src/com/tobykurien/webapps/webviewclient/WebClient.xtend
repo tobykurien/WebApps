@@ -99,7 +99,7 @@ class WebClient extends WebViewClient {
 				activity.startActivity(i)
 				return true
 			} else if (uri.getScheme().equals("http")) {
-				if(isInSandbox(uri)) {
+				if (isInSandbox(uri)) {
 					// Common case where site redirects to "http", let's force it to "https"
 					var uriBuilder = uri.buildUpon()
 					uriBuilder.scheme("https")
