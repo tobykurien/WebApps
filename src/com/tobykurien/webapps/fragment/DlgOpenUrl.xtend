@@ -15,6 +15,7 @@ import android.app.ProgressDialog
 
 import static extension org.xtendroid.utils.AsyncBuilder.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import static extension com.tobykurien.webapps.utils.Dependencies.*
 
 /**
  * Dialog to open a URL.
@@ -73,6 +74,11 @@ import static extension org.xtendroid.utils.AlertUtils.*
 
 		async(pd) [
 			var URLConnection con = new URL(originalUri.toString()).openConnection()
+			if (activity.settings.userAgent != null && 
+				activity.settings.userAgent.trim().length > 0) {
+				// User-agent may affect site redirects
+				con.setRequestProperty("User-Agent", activity.settings.userAgent)
+			}
 			con.connect()
 			var InputStream is = con.getInputStream()
 			var finalUrl = con.getURL()
