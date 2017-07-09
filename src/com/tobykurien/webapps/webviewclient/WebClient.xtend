@@ -84,8 +84,13 @@ class WebClient extends WebViewClient {
 		var Uri uri = getLoadUri(Uri.parse(url))
 
 		try {
-			if (uri.getScheme().equals("https") && isInSandbox(uri)) {
-				return false;
+			if (uri.getScheme().equals("https")) {
+				if (isInSandbox(uri)) {
+					return false
+				} else {
+					handleExternalLink(uri)
+					return true
+				}
 			} else if (uri.getScheme().equals("mailto")) {
 				var Intent i = new Intent(Intent.ACTION_SEND)
 				i.putExtra(Intent.EXTRA_EMAIL, url)
@@ -106,11 +111,7 @@ class WebClient extends WebViewClient {
 					uri = uriBuilder.build()
 					view.loadUrl(uri.toString())
 				} else {
-					// TODO - check for final destination of redirects
-					Log.d("url_loading", "Sending to default app " + uri.toString)
-					var Intent i = new Intent(Intent.ACTION_VIEW)
-					i.setData(uri)
-					activity.startActivity(i)
+					handleExternalLink(uri)
 				}
 				return true
 			}
@@ -125,6 +126,14 @@ class WebClient extends WebViewClient {
 		}
 
 		return super.shouldOverrideUrlLoading(view, url)
+	}
+
+	def handleExternalLink(Uri uri) {
+		// TODO - check for final destination of redirects
+		Log.d("url_loading", "Sending to default app " + uri.toString)
+		var Intent i = new Intent(Intent.ACTION_VIEW)
+		i.setData(uri)
+		activity.startActivity(i)		
 	}
 
 	override WebResourceResponse shouldInterceptRequest(WebView view, String url) {
