@@ -24,6 +24,7 @@ import java.util.Set
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 import android.webkit.ClientCertRequest
+import java.net.URI
 
 class WebClient extends WebViewClient {
 	package BaseWebAppActivity activity
@@ -83,13 +84,8 @@ class WebClient extends WebViewClient {
 		var Uri uri = getLoadUri(Uri.parse(url))
 
 		try {
-			if (!uri.getScheme().equals("https") || !isInSandbox(uri)) {
-				// Only URLs inside our sandbox AND using HTTPS is allowed
-				Log.d("url_loading", "Sending to default app " + uri.toString)
-				var Intent i = new Intent(Intent.ACTION_VIEW)
-				i.setData(uri)
-				activity.startActivity(i)
-				return true
+			if (uri.getScheme().equals("https") && isInSandbox(uri)) {
+				return false;
 			} else if (uri.getScheme().equals("mailto")) {
 				var Intent i = new Intent(Intent.ACTION_SEND)
 				i.putExtra(Intent.EXTRA_EMAIL, url)
@@ -101,6 +97,21 @@ class WebClient extends WebViewClient {
 				i.setData(uri)
 				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 				activity.startActivity(i)
+				return true
+			} else if (uri.getScheme().equals("http")) {
+				if(isInSandbox(uri)) {
+					// Common case where site redirects to "http", let's force it to "https"
+					var uriBuilder = uri.buildUpon()
+					uriBuilder.scheme("https")
+					uri = uriBuilder.build()
+					view.loadUrl(uri.toString())
+				} else {
+					// TODO - check for final destination of redirects
+					Log.d("url_loading", "Sending to default app " + uri.toString)
+					var Intent i = new Intent(Intent.ACTION_VIEW)
+					i.setData(uri)
+					activity.startActivity(i)
+				}
 				return true
 			}
 		} catch (ActivityNotFoundException e) {
