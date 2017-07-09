@@ -129,7 +129,6 @@ class WebClient extends WebViewClient {
 	}
 
 	def handleExternalLink(Uri uri) {
-		// TODO - check for final destination of redirects
 		Log.d("url_loading", "Sending to default app " + uri.toString)
 		var Intent i = new Intent(Intent.ACTION_VIEW)
 		i.setData(uri)

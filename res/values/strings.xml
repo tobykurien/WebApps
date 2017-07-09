@@ -50,6 +50,7 @@
 
     <string name="toast_images_enabled">Image loading enabled</string>
     <string name="toast_images_disabled">Image loading disabled</string>
+    <string name="progress_opening_site">Opening web app...</string>
 
     <!-- Preferences activity strings -->
     <string name="title_3rd_party">Block 3rd party requests</string>

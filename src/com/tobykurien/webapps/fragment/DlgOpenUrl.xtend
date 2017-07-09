@@ -9,6 +9,12 @@ import android.util.Log
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.activity.WebAppActivity
 import org.xtendroid.annotations.AndroidDialogFragment
+import java.net.*
+import java.io.*
+import android.app.ProgressDialog
+
+import static extension org.xtendroid.utils.AsyncBuilder.*
+import static extension org.xtendroid.utils.AlertUtils.*
 
 /**
  * Dialog to open a URL.
@@ -25,8 +31,9 @@ import org.xtendroid.annotations.AndroidDialogFragment
 			.setPositiveButton(android.R.string.ok, null) // to avoid it closing dialog
 			.setNegativeButton(android.R.string.cancel, null)
 			.setNeutralButton(R.string.btn_recommended_sites, [
-				txtOpenUrl.text = "https://github.com/tobykurien/WebApps/wiki/Recommended-Webapps"
-				onOpenUrlClick()
+				var link = Uri.parse("https://github.com/tobykurien/WebApps/wiki/Recommended-Webapps")
+				openUrl(link);
+				dismiss()
 			  ])
 			.create()
 	}
@@ -54,15 +61,53 @@ import org.xtendroid.annotations.AndroidDialogFragment
 				uri = Uri.parse("https://" + url)
 			}
 		} catch (Exception e) {
+			Log.e("dlgOpenUrl", "Error opening url", e)
 			txtOpenUrl.setError(getString(R.string.err_invalid_url), null)
 			return false
 		}
 
-		Log.d("openurl", uri.toString)
+		// When opening a new URL, let's follow all redirects to get to the final destination
+		val originalUri = uri
+		val pd = new ProgressDialog(activity)
+		pd.setMessage(getString(R.string.progress_opening_site))
+
+		async(pd) [
+			var URLConnection con = new URL(originalUri.toString()).openConnection()
+			con.connect()
+			var InputStream is = con.getInputStream()
+			var finalUrl = con.getURL()
+			is.close()
+			return finalUrl.toString()	
+		].then [ result |
+			var Uri uriFinal = null
+			if (!result.equals(originalUri.toString())) {
+				uriFinal = Uri.parse(result)
+			} else {
+				uriFinal = originalUri
+			}
+
+			if (!uriFinal.getScheme().equals("https")) {
+				// force it to https
+				var builder = uriFinal.buildUpon()
+				builder.scheme("https")
+				uriFinal = builder.build()
+			}
+
+			openUrl(uriFinal)
+			dismiss()
+		].onError[ Exception error |
+			Log.e("dlgOpenUrl", "Error", error)
+			toast(error.message)					
+		].start()
+
+		return false
+	}
+
+	def openUrl(Uri uri) {
+		Log.d("openurl", uri.toString())
 		var i = new Intent(activity, WebAppActivity)
 		i.action = Intent.ACTION_VIEW
 		i.data = uri
-		startActivity(i)
-		return true
+		startActivity(i)		
 	}
 }
