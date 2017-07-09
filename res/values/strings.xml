@@ -43,7 +43,7 @@
     <string name="action_tips">Tips</string>
     <string name="tips"><![CDATA[
         <p><b>Adding web apps</b>: to add a new web app, open the site, then click the "Save as Webapp" action</p>
-        <p><b>3rd party domains</b>: if a site looks broken, try enabling some 3rd party domains that the site may rely on, e.g. <i>akamaihd.net</i> for <i>Facebook</i></p>
+        <p><b>3rd party domains</b>: if a site looks broken, try enabling some 3rd party domains that the site may rely on, e.g. <i>fbcdn.net</i> for <i>Facebook</i></p>
         <p><b>Homescreen shortcuts</b>: Long-press your homescreen and access the widgets page to add a webapp shortcut to your homescreen</p>
         <p><b>Long-press links</b>: Long-press a link on a website to be able to choose how to open it</p>
 ]]></string>

@@ -39,7 +39,7 @@
 
     <string name="action_tips">Tipps</string>
     <string name="tips"><![CDATA[
-        <p><b>Drittanbieter Domains</b>: Wenn eine Seite unvollständig ist, versuchen Sie ein paar Drittanbieter Domains zu entsperren, damit die Seite funktioniert, z. B. <i>akamaihd.net</i> für <i>Facebook</i>.</p>
+        <p><b>Drittanbieter Domains</b>: Wenn eine Seite unvollständig ist, versuchen Sie ein paar Drittanbieter Domains zu entsperren, damit die Seite funktioniert, z. B. <i>fbcdn.net</i> für <i>Facebook</i>.</p>
         <p><b>Verknüpfung auf Startbildschirm</b>: Auf den Startbildschirm des Geräts lange drücken und über die Widget Seite eine Verknüpfung zu einer Webapp hinzufügen.</p>
 		<p><b>Links öffnen</b>: Auf einen Link lange drücken, um zu bestimmen, wie er geöffnet wird.</p>
 ]]></string>
