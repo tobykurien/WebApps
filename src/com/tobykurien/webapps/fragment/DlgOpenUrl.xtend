@@ -44,12 +44,12 @@ import org.xtendroid.annotations.AndroidDialogFragment
 
 	def boolean onOpenUrlClick() {
 		var url = txtOpenUrl.text.toString;
-
 		var Uri uri = null
 		try {
-			if (url.contains("://")) {
+			if (url.trim().length == 0) throw new Exception();
+
+		    if (url.contains("://")) {
 				uri = Uri.parse("https://" + url.substring(url.indexOf("://") + 3))
-				if(!"https".equalsIgnoreCase(uri.scheme)) throw new Exception()
 			} else {
 				uri = Uri.parse("https://" + url)
 			}
