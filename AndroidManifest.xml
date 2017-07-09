@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tobykurien.webapps"
-    android:versionCode="17"
-    android:versionName="v2.11.2" >
+    android:versionCode="18"
+    android:versionName="v2.12" >
 
     <uses-sdk
         android:minSdkVersion="11"
