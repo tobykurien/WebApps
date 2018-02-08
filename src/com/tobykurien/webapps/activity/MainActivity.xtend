@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.Html
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
@@ -22,6 +23,7 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import android.webkit.CookieManager
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
     var protected List<Webapp> webapps
@@ -111,5 +113,17 @@ import static extension org.xtendroid.utils.AlertUtils.*
         webapps = db.getWebapps()
         var adapter = new WebappsAdapter(this, webapps)
         mainList.setAdapter(adapter)
+
+
+        // save all cookies from the system
+        for (webapp: webapps) {
+            Log.d("cookie", "Saving cookies for " + webapp.url)
+            var cookiesStr = CookieManager.instance.getCookie(webapp.url)
+            if (cookiesStr != null) {
+                db.update("webapps", #{
+                    "cookies" -> cookiesStr
+                }, webapp.id)
+            }
+        }
     }
 }

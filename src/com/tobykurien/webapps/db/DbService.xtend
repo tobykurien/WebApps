@@ -2,9 +2,12 @@ package com.tobykurien.webapps.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.webkit.CookieSyncManager
 import com.tobykurien.webapps.data.Webapp
 import java.util.List
 import org.xtendroid.db.BaseDbService
+import android.util.Log
+import android.webkit.CookieManager
 
 /**
  * Class to manage database queries. Uses Xtendroid's BaseDbService
@@ -14,7 +17,7 @@ class DbService extends BaseDbService {
 	public static val TABLE_DOMAINS = "domain_names"
 
 	protected new(Context context) {
-		super(context, "webapps4", 4)
+		super(context, "webapps4", 5)
 	}
 
 	def static getInstance(Context context) {
@@ -37,6 +40,10 @@ class DbService extends BaseDbService {
 			db.execSQL('''alter table «TABLE_WEBAPPS» add column certIssuedTo text''')
 			db.execSQL('''alter table «TABLE_WEBAPPS» add column certValidFrom text''')
 			db.execSQL('''alter table «TABLE_WEBAPPS» add column certValidTo text''')
+		}
+
+		if (oldVersion == 4 && newVersion == 5) {
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column cookies text''')
 		}
 	}
 

@@ -16,4 +16,5 @@ import org.eclipse.xtend.lib.annotations.ToString
    String certIssuedBy
    String certValidFrom
    String certValidTo
+   String cookies
 }

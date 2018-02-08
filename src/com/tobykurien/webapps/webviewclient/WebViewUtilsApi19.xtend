@@ -85,8 +85,14 @@ class WebViewUtilsApi19 extends WebViewUtilsApi16 {
 	}
 	
 	override deleteWebappData(Context context, long webappId) {
+		var webapp = context.db.findById("webapps", webappId, Webapp)
+		if (webapp !== null) {
+			var hostname = Uri.parse(webapp.url).getHost()
+			CookieManager.instance.setCookie(webapp.url, "")
+		}
+
 		super.deleteWebappData(context, webappId)
-		
+
 		// delete the saved webview data
 		var appDataDir = WEBAPP_DIR + "_" + webappId
 		var f = new File(context.appDir + appDataDir)

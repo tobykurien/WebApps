@@ -1,21 +1,29 @@
 package com.tobykurien.webapps.fragment
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.webkit.CookieManager
 import com.tobykurien.webapps.R
+import com.tobykurien.webapps.activity.BaseWebAppActivity
 import com.tobykurien.webapps.activity.WebAppActivity
+import com.tobykurien.webapps.data.Webapp
+import java.io.InputStream
+import java.net.URL
+import java.net.URLConnection
 import org.xtendroid.annotations.AndroidDialogFragment
-import java.net.*
-import java.io.*
-import android.app.ProgressDialog
 
-import static extension org.xtendroid.utils.AsyncBuilder.*
-import static extension org.xtendroid.utils.AlertUtils.*
+import static org.xtendroid.utils.AsyncBuilder.*
+
 import static extension com.tobykurien.webapps.utils.Dependencies.*
+import static extension org.xtendroid.utils.AlertUtils.*
+import android.content.Context
+import android.webkit.CookieSyncManager
+import android.os.Build
 
 /**
  * Dialog to open a URL.
@@ -117,9 +125,33 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
 
 	def openUrl(Uri uri) {
 		Log.d("openurl", uri.toString())
-		var i = new Intent(activity, WebAppActivity)
-		i.action = Intent.ACTION_VIEW
-		i.data = uri
-		startActivity(i)		
+
+		// check if we already have a webapp for this URI
+		val webapps = activity.db.findAll("webapps", "", Webapp)
+		var Webapp theWebapp = null
+		for (webapp: webapps) {
+			var webappUri = Uri.parse(webapp.url)
+			if (webappUri.getHost().equalsIgnoreCase(uri.getHost())) {
+				theWebapp = webapp
+			}
+		}
+
+		if (theWebapp === null) {
+			// delete all previous cookies
+			CookieManager.instance.removeAllCookie()
+			var i = new Intent(activity, WebAppActivity)
+			i.action = Intent.ACTION_VIEW
+			i.data = uri
+			startActivity(i)
+		} else {
+			// open the webapp instead
+			Log.d("open", "found webapp for " + uri.toString)
+			var intent = new Intent(activity, typeof(WebAppActivity))
+			intent.action = Intent.ACTION_VIEW
+			intent.data = uri
+			BaseWebAppActivity.putWebappId(intent, theWebapp.id)
+			BaseWebAppActivity.putFromShortcut(intent, false)
+			startActivity(intent)
+		}
 	}
 }

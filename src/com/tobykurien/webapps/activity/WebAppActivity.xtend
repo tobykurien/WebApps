@@ -37,6 +37,7 @@ import android.webkit.WebView.HitTestResult
 import android.view.ContextMenu
 import android.view.View
 import android.view.ContextMenu.ContextMenuInfo
+import android.webkit.CookieManager
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -288,7 +289,14 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 	override onPageLoadDone() {
 		super.onPageLoadDone();
-		
+
+		if (webapp != null) {
+			// Save cookies for webapp
+			db.update("webapps", #{
+				"cookies" -> CookieManager.instance.getCookie(webapp.url)
+			}, webapp.id)
+		}
+
 		// alert the user if SSL certificate has changed since last time
 		// TODO - security issue: if this is MITM, cookies already sent!
 		if (webapp != null && wv.certificate != null) {

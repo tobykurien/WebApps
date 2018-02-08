@@ -25,6 +25,7 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 import android.webkit.ClientCertRequest
 import java.net.URI
+import android.webkit.CookieManager
 
 class WebClient extends WebViewClient {
 	package BaseWebAppActivity activity
@@ -139,6 +140,9 @@ class WebClient extends WebViewClient {
 		// Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
 		// and also any unencrypted connections
 		var Uri uri = Uri.parse(url)
+		val cookieManager = CookieManager.instance
+		val siteUrl = uri.getHost()
+		Log.d("cookie", "Cookies for " + siteUrl + ": " + cookieManager.getCookie(siteUrl.toString()))
 
 		var boolean isBlocked = false
 		if (activity.settings.isBlock3rdParty() && !isInSandbox(uri)) {
