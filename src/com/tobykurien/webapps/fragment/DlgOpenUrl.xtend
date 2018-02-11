@@ -126,32 +126,11 @@ import android.os.Build
 	def openUrl(Uri uri) {
 		Log.d("openurl", uri.toString())
 
-		// check if we already have a webapp for this URI
-		val webapps = activity.db.findAll("webapps", "", Webapp)
-		var Webapp theWebapp = null
-		for (webapp: webapps) {
-			var webappUri = Uri.parse(webapp.url)
-			if (webappUri.getHost().equalsIgnoreCase(uri.getHost())) {
-				theWebapp = webapp
-			}
-		}
-
-		if (theWebapp === null) {
-			// delete all previous cookies
-			CookieManager.instance.removeAllCookie()
-			var i = new Intent(activity, WebAppActivity)
-			i.action = Intent.ACTION_VIEW
-			i.data = uri
-			startActivity(i)
-		} else {
-			// open the webapp instead
-			Log.d("open", "found webapp for " + uri.toString)
-			var intent = new Intent(activity, typeof(WebAppActivity))
-			intent.action = Intent.ACTION_VIEW
-			intent.data = uri
-			BaseWebAppActivity.putWebappId(intent, theWebapp.id)
-			BaseWebAppActivity.putFromShortcut(intent, false)
-			startActivity(intent)
-		}
+		// delete all previous cookies
+		CookieManager.instance.removeAllCookie()
+		var i = new Intent(activity, WebAppActivity)
+		i.action = Intent.ACTION_VIEW
+		i.data = uri
+		startActivity(i)
 	}
 }

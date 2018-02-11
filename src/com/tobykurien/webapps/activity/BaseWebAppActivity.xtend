@@ -174,10 +174,19 @@ import org.xtendroid.annotations.BundleProperty
 	}
 
 	def void openSite(String url) {
-		// TODO - use custom trust manager to stop the request if SSL cert changed
-//		var SSLContext sslContext = SSLContext.getInstance("TLS");
-//		sslContext.init(null, #[ new SslTrustManager(webapp) ], null);
-// 		HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.socketFactory);
+		// TODO - use okHttp to check the site cert before connecting
+
+		// Request request = new Request.Builder()
+		// 	.url(url)
+		// 	.build();
+
+		// Response response = client.newCall(request).execute();
+		// if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+		// for (Certificate certificate : response.handshake().peerCertificates()) {
+		// 	System.out.println(CertificatePinner.pin(certificate));
+		// }
+
 		wv.loadUrl(url)
 	}
 
