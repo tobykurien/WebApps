@@ -91,31 +91,32 @@ import org.xtendroid.annotations.BundleProperty
 		if(pb !== null) pb.setVisibility(View.VISIBLE)
 
 		setupWebView()
-		wv.setWebViewClient(getWebViewClient(pb)) // save the favicon for later use if we get one
-		wv.setWebChromeClient(
-			new WebChromeClient() {
-				override void onReceivedIcon(WebView view, Bitmap icon) {
-					super.onReceivedIcon(view, icon)
-					onReceivedFavicon(view, icon)
-				}
+		wv.setWebViewClient(getWebViewClient(pb)) 
+		
+		// save the favicon for later use if we get one
+		wv.setWebChromeClient(new WebChromeClient() {
+			override void onReceivedIcon(WebView view, Bitmap icon) {
+				super.onReceivedIcon(view, icon)
+				onReceivedFavicon(view, icon)
+			}
 
-				// openFileChooser for Android < 3.0
-				def void openFileChooser(ValueCallback<Uri> uploadMsg) {
-					openFileChooser(uploadMsg, "");
-				}
+			// openFileChooser for Android < 3.0
+			def void openFileChooser(ValueCallback<Uri> uploadMsg) {
+				openFileChooser(uploadMsg, "");
+			}
 
-				// openFileChooser for other Android versions
-				def void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
-					openFileChooser(uploadMsg, acceptType);
-				}
+			// openFileChooser for other Android versions
+			def void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+				openFileChooser(uploadMsg, acceptType);
+			}
 
-				override onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback,
-					WebChromeClient.FileChooserParams fileChooserParams) {
-					openFileChooserLollipop(filePathCallback, fileChooserParams)
-				}
-			})
+			override onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback,
+				WebChromeClient.FileChooserParams fileChooserParams) {
+				openFileChooserLollipop(filePathCallback, fileChooserParams)
+			}
+		})
 
-		openSite(webapp.url)
+		openSite(webapp)
 	}
 
 	def protected void setupWebView() {
@@ -173,7 +174,7 @@ import org.xtendroid.annotations.BundleProperty
 		return wc
 	}
 
-	def void openSite(String url) {
+	def void openSite(Webapp webapp) {
 		// TODO - use okHttp to check the site cert before connecting
 
 		// Request request = new Request.Builder()
@@ -186,7 +187,10 @@ import org.xtendroid.annotations.BundleProperty
 		// for (Certificate certificate : response.handshake().peerCertificates()) {
 		// 	System.out.println(CertificatePinner.pin(certificate));
 		// }
+		
+		// TODO - load cookies for webapp
 
+		var url = webapp.url
 		wv.loadUrl(url)
 	}
 
