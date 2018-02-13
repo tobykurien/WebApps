@@ -39,6 +39,7 @@ import android.view.View
 import android.view.ContextMenu.ContextMenuInfo
 import android.webkit.CookieManager
 import com.tobykurien.webapps.utils.Debug
+import com.tobykurien.webapps.webviewclient.WebClient
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -291,13 +292,14 @@ public class WebAppActivity extends BaseWebAppActivity {
 	override onPageLoadDone() {
 		super.onPageLoadDone();
 
+		val domain = WebClient.getRootDomain(webapp.url)
 		val cookies = CookieManager.instance.getCookie(webapp.url)
-		if (webapp != null && !cookies.equals(webapp.cookies)) {
+		if (webapp != null && cookies != null && !cookies.equals(webapp.cookies)) {
 			// Save cookies for webapp
 			db.update("webapps", #{
 				"cookies" -> cookies
 			}, webapp.id)
-			if (Debug.COOKIE) Log.d("cookie", "Saving cookies for " + webapp.url + ": " + cookies)
+			if (Debug.COOKIE) Log.d("cookie", "Saving cookies for " + domain + ": " + cookies)
 		}
 
 		// alert the user if SSL certificate has changed since last time

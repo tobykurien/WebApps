@@ -37,6 +37,7 @@ import org.xtendroid.app.OnCreate
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 import com.tobykurien.webapps.utils.Debug
+import android.webkit.WebSettings
 
 @TargetApi(21)
 @AndroidActivity(R.layout.webapp) class BaseWebAppActivity extends AppCompatActivity {
@@ -189,11 +190,13 @@ import com.tobykurien.webapps.utils.Debug
 		// Load cookies for webapp
         CookieManager.instance.removeAllCookie()
 		if (webapp.cookies !== null) {
+			val domain = WebClient.getRootDomain(webapp.url)
 			var cookies = webapp.cookies.split(";")
 			for (cookieStr: cookies) {
-				if (Debug.COOKIE) Log.d("cookie", "Loading cookie for " + webapp.url + ": " + cookieStr)
-				CookieManager.instance.setCookie(webapp.url, cookieStr)
+				if (Debug.COOKIE) Log.d("cookie", "Loading cookie for " + domain + ": " + cookieStr)
+				CookieManager.instance.setCookie("https://" + domain, cookieStr.trim() + "; Domain=" + domain)
 			}
+			CookieSyncManager.getInstance().sync();
 		}
 
 		var url = webapp.url
