@@ -39,7 +39,11 @@ Features
 Cookies
 =======
 
-[Since Android KitKat][cookies], cookies are passed between sandboxes, because WebView uses a single cookie store for the app. [Work-arounds][sandbox_workaround] are in progress.
+Cookies are stored by Android's [CookieManager][], of which there is one instance per app. To avoid cookies from passing between sandboxes, the following has been implemented:
+
+- All cookies are deleted when opening a URL or web app
+- For saved web apps, the saved cookies are restored, and the app opened
+- When a
 
 Referer
 =======
@@ -91,3 +95,4 @@ To develop using Android Studio:
    [cookies]: https://developer.android.com/reference/android/webkit/WebSettings.html#setDatabasePath%28java.lang.String%29
    [sandbox_workaround]: https://github.com/tobykurien/WebApps/issues/3
    [xtend_install]: http://www.eclipse.org/xtend/download.html
+   [CookieManager]: https://developer.android.com/reference/android/webkit/CookieManager.html
