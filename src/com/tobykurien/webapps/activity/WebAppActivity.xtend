@@ -294,7 +294,8 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 		val domain = WebClient.getRootDomain(webapp.url)
 		val cookies = CookieManager.instance.getCookie(webapp.url)
-		if (webapp != null && cookies != null && !cookies.equals(webapp.cookies)) {
+		if (webapp != null && cookies != null && webapp.id > 0 &&
+				!cookies.equals(webapp.cookies)) {
 			// Save cookies for webapp
 			db.update("webapps", #{
 				"cookies" -> cookies
