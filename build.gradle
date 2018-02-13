@@ -1,11 +1,15 @@
 buildscript {
     repositories {
 	    jcenter()
+        // google()
+        maven {
+            url "https://maven.google.com"
+        }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
-        classpath 'org.xtext:xtext-android-gradle-plugin:1.0.17'
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'org.xtext:xtext-android-gradle-plugin:1.0.20'
         
         // eclipse AAR plugin: https://github.com/ksoichiro/gradle-eclipse-aar-plugin
         classpath 'com.github.ksoichiro:gradle-eclipse-aar-plugin:0.2.0'
@@ -18,13 +22,17 @@ apply plugin: 'com.github.ksoichiro.eclipse.aar'
 
 repositories {
     jcenter()
+    // google()
+    maven {
+        url "https://maven.google.com"
+    }
 }
 
 // Configure eclipse-aar plugin. To use:
 // $ gradle generateEclipseDependencies
 // then import generated projects into Eclipse
 eclipseAar {
-    androidTarget = 'android-23'
+    androidTarget = 'android-27'
     aarDependenciesDir = 'aarDependencies'
     jarDependenciesDir = 'jarDependencies'
     cleanLibsDirectoryEnabled = true
@@ -32,12 +40,19 @@ eclipseAar {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '26.0.2'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 20
+        versionName "v2.13"
+    }
 
     dependencies {
-        compile 'com.android.support:support-v4:23.2.1'
-        compile 'com.android.support:appcompat-v7:23.2.1'
+        compile 'com.android.support:support-v4:27.0.2'
+        compile 'com.android.support:appcompat-v7:27.0.2'
         compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.2'
         compile 'com.github.tobykurien:xtendroid:0.13'
         compile 'com.github.bumptech.glide:glide:3.6.1'
