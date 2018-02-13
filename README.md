@@ -41,9 +41,12 @@ Cookies
 
 Cookies are stored by Android's [CookieManager][], of which there is one instance per app. To avoid cookies from passing between sandboxes, the following has been implemented:
 
-- All cookies are deleted when opening a URL or web app
-- For saved web apps, the saved cookies are restored, and the app opened
-- When a
+- All cookies in the CookieManager are deleted when opening a URL or web app.
+- For saved web apps, the saved cookies are restored, and the app opened.
+- Cookies are only saved for the root domain of the saved web app, and made available to all sub-domains.
+- No 3rd party cookies are saved or sent. This may prevent some sites from working correctly.
+
+In short, there is a strict cookie policy in place that ensures that cookies are correctly sandboxed, and that no 3rd party cookies are saved or sent.
 
 Referer
 =======
@@ -53,7 +56,7 @@ Referer information is not send on any request (as per default behaviour of Webv
 Storage
 =======
 
-Plugins, and local file access are disabled, however DOM storage and app caching is allowed.
+Plugins, and local file access are disabled, however DOM/local storage and app caching is allowed. There is only one cache for all sandboxes to share.
 
 Location
 ========
