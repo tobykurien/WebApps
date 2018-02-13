@@ -12,7 +12,8 @@
            certIssuedTo text,
            certValidFrom text,
            certValidTo text,
-           certHash text
+           certHash text,
+           cookies text
         );
         
         create table domain_names (

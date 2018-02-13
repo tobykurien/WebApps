@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.webkit.ClientCertRequest
+import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
@@ -21,24 +22,21 @@ import android.widget.ProgressBar
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
-import com.tobykurien.webapps.utils.Settings
 import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.HashMap
 import java.util.HashSet
-import java.util.List
-import java.util.Map
 import java.util.Set
+import org.xtendroid.annotations.BundleProperty
 import org.xtendroid.app.AndroidActivity
 import org.xtendroid.app.OnCreate
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import org.xtendroid.annotations.BundleProperty
+import com.tobykurien.webapps.utils.Debug
 
 @TargetApi(21)
 @AndroidActivity(R.layout.webapp) class BaseWebAppActivity extends AppCompatActivity {
@@ -188,7 +186,15 @@ import org.xtendroid.annotations.BundleProperty
 		// 	System.out.println(CertificatePinner.pin(certificate));
 		// }
 		
-		// TODO - load cookies for webapp
+		// Load cookies for webapp
+        CookieManager.instance.removeAllCookie()
+		if (webapp.cookies !== null) {
+			var cookies = webapp.cookies.split(";")
+			for (cookieStr: cookies) {
+				if (Debug.COOKIE) Log.d("cookie", "Loading cookie for " + webapp.url + ": " + cookieStr)
+				CookieManager.instance.setCookie(webapp.url, cookieStr)
+			}
+		}
 
 		var url = webapp.url
 		wv.loadUrl(url)

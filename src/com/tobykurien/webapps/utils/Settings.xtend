@@ -18,6 +18,7 @@ import org.xtendroid.annotations.AndroidPreference
     int firstLoaded = 0
     boolean fullHideActionbar = false
     boolean fullHideShortcutOnly = false
+    boolean cookiesImported = false // cookies imported to db?
 
     long lastWebappId = -1
 
