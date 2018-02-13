@@ -27,6 +27,8 @@ import android.webkit.ClientCertRequest
 import java.net.URI
 import android.webkit.CookieManager
 import com.tobykurien.webapps.utils.Debug
+import com.tobykurien.webapps.activity.WebAppActivity
+import android.support.v7.app.AlertDialog
 
 class WebClient extends WebViewClient {
 	package BaseWebAppActivity activity
@@ -131,10 +133,33 @@ class WebClient extends WebViewClient {
 	}
 
 	def handleExternalLink(Uri uri) {
-		Log.d("url_loading", "Sending to default app " + uri.toString)
-		var Intent i = new Intent(Intent.ACTION_VIEW)
-		i.setData(uri)
-		activity.startActivity(i)		
+		val domain = getRootDomain(uri.toString())
+		// first check if we have a saved webapp for this URI
+		val webapps = activity.db.getWebapps().filter [wa|
+			getRootDomain(wa.url).equals(domain)
+		]
+
+		if (webapps == null || webapps.length == 0) {
+			Log.d("url_loading", "Sending to default app " + uri.toString)
+			var Intent i = new Intent(Intent.ACTION_VIEW)
+			i.setData(uri)
+			activity.startActivity(i)
+		} else {
+			if (webapps.length > 1) {
+				// TODO ask user to pick a webapp
+				new AlertDialog.Builder(activity)
+					.setTitle(R.string.title_open_with)
+					.setItems(webapps.map[ name ], [a, pos|
+						openWebapp(webapps.get(pos), uri)
+					])
+					.setNegativeButton(android.R.string.cancel, [ ])
+					.create()
+					.show()
+			} else {
+				openWebapp(webapps.get(0), uri)
+			}
+		}
+
 	}
 
 	override WebResourceResponse shouldInterceptRequest(WebView view, String url) {
@@ -194,6 +219,16 @@ class WebClient extends WebViewClient {
 	override void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 		super.onReceivedError(view, errorCode, description, failingUrl)
 		Toast.makeText(activity, description, Toast.LENGTH_LONG).show()
+	}
+
+	def void openWebapp(Webapp webapp, Uri uri) {
+
+		var intent = new Intent(activity, typeof(WebAppActivity))
+		intent.action = Intent.ACTION_VIEW
+		intent.data = Uri.parse(uri.toString)
+		BaseWebAppActivity.putWebappId(intent, webapp.id)
+		BaseWebAppActivity.putFromShortcut(intent, false)
+		activity.startActivity(intent)
 	}
 
 	/** 

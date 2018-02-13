@@ -115,7 +115,7 @@ import android.webkit.WebSettings
 			}
 		})
 
-		openSite(webapp)
+		openSite(webapp, siteUrl)
 	}
 
 	def protected void setupWebView() {
@@ -173,7 +173,7 @@ import android.webkit.WebSettings
 		return wc
 	}
 
-	def void openSite(Webapp webapp) {
+	def void openSite(Webapp webapp, Uri siteUrl) {
 		// TODO - use okHttp to check the site cert before connecting
 
 		// Request request = new Request.Builder()
@@ -199,7 +199,10 @@ import android.webkit.WebSettings
 			CookieSyncManager.getInstance().sync();
 		}
 
-		var url = webapp.url
+		var url = siteUrl.toString()
+		if (!url.startsWith("https://")) {
+			url = "https://" + url.substring(url.indexOf("://") + 3)
+		}
 		wv.loadUrl(url)
 	}
 
