@@ -141,9 +141,7 @@ class WebClient extends WebViewClient {
 		// Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
 		// and also any unencrypted connections
 		var Uri uri = Uri.parse(url)
-		val cookieManager = CookieManager.instance
 		val siteUrl = uri.getHost()
-		if (Debug.COOKIE) Log.d("cookie", "Cookies for " + siteUrl + ": " + cookieManager.getCookie(siteUrl.toString()))
 
 		var boolean isBlocked = false
 		if (activity.settings.isBlock3rdParty() && !isInSandbox(uri)) {
@@ -160,6 +158,9 @@ class WebClient extends WebViewClient {
 			return new WebResourceResponse("text/plain", "utf-8", new ByteArrayInputStream("[blocked]".getBytes()))
 		}
 
+		val cookieManager = CookieManager.instance
+		if (Debug.COOKIE) Log.d("cookie", "Cookies for " + siteUrl + ": " + cookieManager.getCookie(siteUrl.toString()))
+
 		return super.shouldInterceptRequest(view, url)
 	}
 
@@ -168,13 +169,19 @@ class WebClient extends WebViewClient {
 	 * @param url
 	 * @return
 	 */
-	def private String getRootDomain(String url) {
+	def public static String getRootDomain(String url) {
 		var String host = Uri.parse(url).getHost()
 		try {
-			var String[] parts = host.split("\\.")
-			if (parts.length >
-				1) {
-				return '''«{val _rdIndx_parts=parts.length - 2 parts.get(_rdIndx_parts)}».«{val _rdIndx_parts=parts.length - 1 parts.get(_rdIndx_parts)}»'''
+			var String[] parts = host.split("\\.").reverse
+			if (parts.length > 2) {
+				// handle things like mobile.site.co.za vs www1.api.site.com
+				if (parts.get(0).length == 2 && parts.get(1).length <= 3) {
+					return '''«{parts.get(2)}».«{parts.get(1)}».«{parts.get(0)}»'''
+				} else {
+					return '''«{parts.get(1)}».«{parts.get(0)}»'''
+				}
+			} else if (parts.length > 1) {
+				return '''«{parts.get(1)}».«{parts.get(0)}»'''
 			} else {
 				return host
 			}
@@ -182,7 +189,6 @@ class WebClient extends WebViewClient {
 			// sometimes things don't quite work out
 			return host
 		}
-
 	}
 
 	override void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
