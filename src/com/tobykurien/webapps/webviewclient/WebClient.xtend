@@ -196,8 +196,10 @@ class WebClient extends WebViewClient {
 	 */
 	def public static String getRootDomain(String url) {
 		var String host = Uri.parse(url).getHost()
+		if (host === null) host = url
+
 		try {
-			var String[] parts = host.split("\\.").reverse
+			var String[] parts = host.split("\\.").reverseView()
 			if (parts.length > 2) {
 				// handle things like mobile.site.co.za vs www1.api.site.com
 				if (parts.get(0).length == 2 && parts.get(1).length <= 3) {

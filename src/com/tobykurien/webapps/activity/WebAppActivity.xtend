@@ -1,7 +1,6 @@
 package com.tobykurien.webapps.activity;
 
 import android.annotation.TargetApi
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,11 +8,15 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextMenu
+import android.view.ContextMenu.ContextMenuInfo
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewConfiguration
 import android.view.WindowManager
+import android.webkit.CookieManager
 import android.webkit.WebView
 import android.widget.ImageView
 import com.tobykurien.webapps.R
@@ -23,8 +26,10 @@ import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgCertificate
 import com.tobykurien.webapps.fragment.DlgSaveWebapp
 import com.tobykurien.webapps.utils.CertificateUtils
+import com.tobykurien.webapps.utils.Debug
 import com.tobykurien.webapps.utils.FaviconHandler
 import com.tobykurien.webapps.utils.Settings
+import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
 import java.util.ArrayList
 import java.util.List
@@ -33,13 +38,7 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import android.webkit.WebView.HitTestResult
-import android.view.ContextMenu
-import android.view.View
-import android.view.ContextMenu.ContextMenuInfo
-import android.webkit.CookieManager
-import com.tobykurien.webapps.utils.Debug
-import com.tobykurien.webapps.webviewclient.WebClient
+import android.support.v7.app.AlertDialog
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -84,7 +83,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 				i.setData(Uri.parse(url));
 				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-				var chooser = Intent.createChooser(i, getString(R.string.title_open_with)) 
+				var chooser = Intent.createChooser(i, getString(R.string.title_open_with))
 				if (i.resolveActivity(getPackageManager()) != null) {
 				    context.startActivity(chooser);
 				}
@@ -309,7 +308,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 			if (webapp.certIssuedBy != null) {
 				if (CertificateUtils.compare(webapp, wv.certificate) != 0) {
 					// SSL certificate changed!
-					var dlg = new DlgCertificate(wv.certificate, 
+					var dlg = new DlgCertificate(wv.certificate,
 						getString(R.string.title_cert_changed),
 						getString(R.string.cert_accept), [
 							CertificateUtils.updateCertificate(webapp, wv.certificate, db)
@@ -398,12 +397,14 @@ public class WebAppActivity extends BaseWebAppActivity {
 			val whitelist = new ArrayList(domains.map[true])
 
 			// add all blocked domains
-			wc.getBlockedHosts().forEach [ d |
-				if (!domains.contains(d)) {
+			for (blockedDomain : wc.getBlockedHosts()) {
+				Log.d("BLOCK", blockedDomain)
+				val d = WebClient.getRootDomain(blockedDomain)
+				if(d !== null && !domains.contains(d)) {
 					domains.add(d)
 					whitelist.add(false)
 				}
-			]
+			}
 
 			// show blocked 3rd party domains and allow user to allow them
 			new AlertDialog.Builder(this)
