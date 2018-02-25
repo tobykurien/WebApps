@@ -1,10 +1,10 @@
-/bin
-/gen
-/.gradle
-/build
-/xtend-gen
+bin
+gen
+.gradle
+build
+xtend-gen
 keystore.properties
-/aarDependencies/
+aarDependencies
 /libs/
 /.settings
 *~

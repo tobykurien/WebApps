@@ -5,8 +5,11 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.net.http.SslError
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
+import android.webkit.ClientCertRequest
+import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.SslErrorHandler
 import android.webkit.WebResourceResponse
@@ -15,22 +18,19 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.activity.BaseWebAppActivity
+import com.tobykurien.webapps.activity.WebAppActivity
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.fragment.DlgCertificate
+import com.tobykurien.webapps.utils.Debug
 import java.io.ByteArrayInputStream
 import java.util.HashMap
 import java.util.Set
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
-import static extension org.xtendroid.utils.AlertUtils.*
-import android.webkit.ClientCertRequest
-import java.net.URI
-import android.webkit.CookieManager
-import com.tobykurien.webapps.utils.Debug
-import com.tobykurien.webapps.activity.WebAppActivity
-import android.support.v7.app.AlertDialog
 
 class WebClient extends WebViewClient {
+	public static val UNKNOWN_HOST = "999.999.999.999" // impossible hostname to avoid vuln
+
 	package BaseWebAppActivity activity
 	package Webapp webapp
 	package WebView wv
@@ -54,7 +54,7 @@ class WebClient extends WebViewClient {
 	override void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 		if (webapp == null || webapp.certIssuedBy == null) {
 			// no SSL cert was saved for this webapp, so show SSL error to user
-			var dlg = new DlgCertificate(error.certificate, 
+			var dlg = new DlgCertificate(error.certificate,
 						activity.getString(R.string.title_cert_untrusted),
 						activity.getString(R.string.cert_accept), [
 							handler.proceed()
@@ -217,13 +217,13 @@ class WebClient extends WebViewClient {
 	}
 
 	def public static String getHost(Uri uri) {
-		var ret = getHost(uri, "unknown.local")
+		var ret = getHost(uri, UNKNOWN_HOST)
 		//Log.d("host", "Uri " + uri.toString() + " -> " + ret)
 		return ret
 	}
 
 	def public static String getHost(String url) {
-		var ret = getHost(url, "unknown.local")
+		var ret = getHost(url, UNKNOWN_HOST)
 		//Log.d("host", "Url " + url + " -> " + ret)
 		return ret
 	}

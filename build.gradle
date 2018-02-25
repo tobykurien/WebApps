@@ -1,80 +1,26 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 buildscript {
+
     repositories {
-	    jcenter()
-        // google()
-        maven {
-            url "https://maven.google.com"
-        }
+        maven { url 'https://maven.google.com' }
+        jcenter()
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'org.xtext:xtext-android-gradle-plugin:1.0.20'
-        
-        // eclipse AAR plugin: https://github.com/ksoichiro/gradle-eclipse-aar-plugin
-        classpath 'com.github.ksoichiro:gradle-eclipse-aar-plugin:0.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'org.xtext.android.xtend'
-apply plugin: 'com.github.ksoichiro.eclipse.aar'
-
-repositories {
-    jcenter()
-    // google()
-    maven {
-        url "https://maven.google.com"
+allprojects {
+    repositories {
+        maven { url 'https://maven.google.com' }
+        jcenter()
     }
 }
 
-// Configure eclipse-aar plugin. To use:
-// $ gradle generateEclipseDependencies
-// then import generated projects into Eclipse
-eclipseAar {
-    androidTarget = 'android-27'
-    aarDependenciesDir = 'aarDependencies'
-    jarDependenciesDir = 'jarDependencies'
-    cleanLibsDirectoryEnabled = true
-    andmore = true
-}
-
-android {
-    compileSdkVersion 27
-    buildToolsVersion '26.0.2'
-
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 20
-        versionName "v2.13"
-    }
-
-    dependencies {
-        compile 'com.android.support:support-v4:27.0.2'
-        compile 'com.android.support:appcompat-v7:27.0.2'
-        compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.2'
-        compile 'com.github.tobykurien:xtendroid:0.13'
-        compile 'com.github.bumptech.glide:glide:3.6.1'
-    }
-
-    sourceSets {
-      main {
-        manifest.srcFile 'AndroidManifest.xml'
-        aidl.srcDirs = ['src']
-        java.srcDirs = ['src']
-        res.srcDirs = ['res']
-        assets.srcDirs = ['assets']
-      }
-    }
-    
-    packagingOptions {
-        exclude 'META-INF/eclipse.inf'
-        exclude 'META-INF/ECLIPSE_.SF'
-        exclude 'META-INF/ECLIPSE_.RSA'
-    }
-
-    lintOptions {
-        abortOnError false // because missing translations...
-    }
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
