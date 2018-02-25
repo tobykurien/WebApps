@@ -25,6 +25,7 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 import android.webkit.CookieManager
 import com.tobykurien.webapps.utils.Debug
+import com.tobykurien.webapps.webviewclient.WebClient
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
     var protected List<Webapp> webapps
@@ -119,13 +120,7 @@ import com.tobykurien.webapps.utils.Debug
             if (!settings.cookiesImported && webapps !== null) {
                 // import old cookies from WebView into our new db storage
                 for (webapp: webapps) {
-                    if (Debug.COOKIE) Log.d("cookie", "Saving cookies for " + webapp.url)
-                    var cookiesStr = CookieManager.instance.getCookie(webapp.url)
-                    if (cookiesStr != null) {
-                        db.update("webapps", #{
-                            "cookies" -> cookiesStr
-                        }, webapp.id)
-                    }
+                    db.saveCookies(webapp)
                 }
 
                 settings.cookiesImported = true

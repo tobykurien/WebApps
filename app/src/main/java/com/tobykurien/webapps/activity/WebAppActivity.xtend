@@ -295,11 +295,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		val cookies = CookieManager.instance.getCookie(webapp.url)
 		if (webapp != null && cookies != null && webapp.id > 0 &&
 				!cookies.equals(webapp.cookies)) {
-			// Save cookies for webapp
-			db.update("webapps", #{
-				"cookies" -> cookies
-			}, webapp.id)
-			if (Debug.COOKIE) Log.d("cookie", "Saving cookies for " + domain + ": " + cookies)
+			db.saveCookies(webapp)
 		}
 
 		// alert the user if SSL certificate has changed since last time
@@ -364,8 +360,11 @@ public class WebAppActivity extends BaseWebAppActivity {
 			putWebappId(wapp.id)
 			webapp = wapp
 
-			// save any unblocked domains
-			if(isNewWebapp) saveWebappUnblockList(webappId, unblock)
+			// save any unblocked domains and cookies
+			if (isNewWebapp) {
+				saveWebappUnblockList(webappId, unblock)
+				db.saveCookies(webapp)
+			}
 
 			// if we have unsaved icon, save it
 			if (unsavedFavicon != null) {
@@ -436,9 +435,10 @@ public class WebAppActivity extends BaseWebAppActivity {
 	}
 
 	def clearWebviewCache(WebView wv) {
-		wv.clearCache(true);
-		deleteDatabase("webview.db");
-		deleteDatabase("webviewCache.db");
+		// this is disabled as it will clear all existing cache when opening a new webapp
+//		wv.clearCache(true);
+//		deleteDatabase("webview.db");
+//		deleteDatabase("webviewCache.db");
 	}
 
 	def void saveWebappUnblockList(long webappId, Set<String> unblock) {

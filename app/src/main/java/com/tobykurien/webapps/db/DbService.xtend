@@ -8,6 +8,7 @@ import java.util.List
 import org.xtendroid.db.BaseDbService
 import android.util.Log
 import android.webkit.CookieManager
+import com.tobykurien.webapps.utils.Debug
 
 /**
  * Class to manage database queries. Uses Xtendroid's BaseDbService
@@ -49,5 +50,15 @@ class DbService extends BaseDbService {
 
 	def List<Webapp> getWebapps() {
 		findAll(TABLE_WEBAPPS, "lower(name) asc", Webapp)
+	}
+
+	def void saveCookies(Webapp webapp) {
+		if (Debug.COOKIE) Log.d("cookie", "Saving cookies for " + webapp.url)
+		var cookiesStr = CookieManager.instance.getCookie(webapp.url)
+		if (cookiesStr != null) {
+			update("webapps", #{
+				"cookies" -> cookiesStr
+			}, webapp.id)
+		}
 	}
 }
