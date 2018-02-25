@@ -87,7 +87,7 @@ class WebViewUtilsApi19 extends WebViewUtilsApi16 {
 	override deleteWebappData(Context context, long webappId) {
 		var webapp = context.db.findById("webapps", webappId, Webapp)
 		if (webapp !== null) {
-			var hostname = Uri.parse(webapp.url).getHost()
+			var hostname = WebClient.getHost(webapp.url)
 			CookieManager.instance.setCookie(webapp.url, "")
 		}
 

@@ -166,7 +166,7 @@ class WebClient extends WebViewClient {
 		// Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
 		// and also any unencrypted connections
 		var Uri uri = Uri.parse(url)
-		val siteUrl = uri.getHost()
+		var siteUrl = getHost(uri)
 
 		var boolean isBlocked = false
 		if (activity.settings.isBlock3rdParty() && !isInSandbox(uri)) {
@@ -184,9 +184,48 @@ class WebClient extends WebViewClient {
 		}
 
 		val cookieManager = CookieManager.instance
-		if (Debug.COOKIE) Log.d("cookie", "Cookies for " + siteUrl + ": " + cookieManager.getCookie(siteUrl.toString()))
+		if (Debug.COOKIE && siteUrl !== null) Log.d("cookie", "Cookies for " + siteUrl + ": " +
+                cookieManager.getCookie(siteUrl.toString()))
 
 		return super.shouldInterceptRequest(view, url)
+	}
+
+	// Get the host/domain from a URL or a host string.
+	def public static String getHost(Uri uri, String defaultHost) {
+		if (uri === null) return defaultHost
+		var ret = uri.getHost()
+		if (ret !== null) {
+			return ret
+		} else {
+			return defaultHost
+		}
+	}
+
+	// Get the host/domain from a URL or a host string.
+	def public static String getHost(String url, String defaultHost) {
+		if (url == null) return defaultHost
+		try {
+			if (url.indexOf("://") > 0) {
+				return getHost(Uri.parse(url))
+			} else {
+				return getHost(Uri.parse("https://" + url))
+			}
+		} catch (Exception e) {
+			Log.e("host", "Error parsing " + url, e)
+			return defaultHost
+		}
+	}
+
+	def public static String getHost(Uri uri) {
+		var ret = getHost(uri, "unknown.local")
+		//Log.d("host", "Uri " + uri.toString() + " -> " + ret)
+		return ret
+	}
+
+	def public static String getHost(String url) {
+		var ret = getHost(url, "unknown.local")
+		//Log.d("host", "Url " + url + " -> " + ret)
+		return ret
 	}
 
 	/** 
@@ -195,8 +234,7 @@ class WebClient extends WebViewClient {
 	 * @return
 	 */
 	def public static String getRootDomain(String url) {
-		var String host = Uri.parse(url).getHost()
-		if (host === null) host = url
+		var String host = getHost(url)
 
 		try {
 			var String[] parts = host.split("\\.").reverseView()
@@ -224,7 +262,6 @@ class WebClient extends WebViewClient {
 	}
 
 	def void openWebapp(Webapp webapp, Uri uri) {
-
 		var intent = new Intent(activity, typeof(WebAppActivity))
 		intent.action = Intent.ACTION_VIEW
 		intent.data = Uri.parse(uri.toString)
@@ -254,11 +291,9 @@ class WebClient extends WebViewClient {
 	 * @return
 	 */
 	def protected boolean isInSandbox(Uri uri) {
-		// String url = uri.toString();
-		// Log.e("uri", uri.toString)
 		if("data".equals(uri.getScheme()) || "blob".equals(uri.getScheme())) return true
 		var String host = uri.getHost()
-		if(host == null) return true;
+		if (host == null) return true;
 
 		for (String sites : domainUrls) {
 			for (String site : sites.split(" ")) {

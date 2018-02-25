@@ -158,7 +158,7 @@ import android.webkit.WebSettings
 	def protected WebClient getWebViewClient(ProgressBar pb) {
 		if (wc === null) {
 			unblock = new HashSet<String>()
-			unblock.add(siteUrl.getHost())
+			unblock.add(WebClient.getHost(siteUrl))
 			if (webappId >= 0) {
 				// load saved unblock list
 				var domains = db.executeForMapList(R.string.dbGetDomainNames, #{

@@ -398,7 +398,6 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 			// add all blocked domains
 			for (blockedDomain : wc.getBlockedHosts()) {
-				Log.d("BLOCK", blockedDomain)
 				val d = WebClient.getRootDomain(blockedDomain)
 				if(d !== null && !domains.contains(d)) {
 					domains.add(d)
@@ -452,10 +451,12 @@ public class WebAppActivity extends BaseWebAppActivity {
 				if (unblock != null && unblock.size() > 0) {
 					// add new items
 					for (domain : unblock) {
-						db.insert(DbService.TABLE_DOMAINS, #{
-							"webappId" -> webappId,
-							"domain" -> domain
-						});
+						if (!WebClient.getHost(webapp.url).equals(domain)) {
+							db.insert(DbService.TABLE_DOMAINS, #{
+								"webappId" -> webappId,
+								"domain" -> domain
+							});
+						}
 					}
 				}
 

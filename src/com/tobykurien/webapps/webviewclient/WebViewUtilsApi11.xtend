@@ -34,13 +34,13 @@ class WebViewUtilsApi11 extends WebViewUtils {
 		// NOTE: No longer works on API 19+
 		settings.setDatabaseEnabled(true);
 		var databasePath = context.getApplicationContext().getCacheDir()
-				+ "db-" + siteUrl.getHost();
+				+ "db-" + WebClient.getHost(siteUrl);
 		settings.setDatabasePath(databasePath);
 
 		// Enable caching each site individually
 		// NOTE: No longer works on API 19+
 		var cachePath = context.getApplicationContext().getCacheDir()
-				+ "/cache-" + siteUrl.getHost();		
+				+ "/cache-" + WebClient.getHost(siteUrl);
 		settings.setAppCachePath(cachePath);
 		settings.setAppCacheEnabled(true);		
 		settings.setAppCacheMaxSize(1024 * 1024 * 8);		
