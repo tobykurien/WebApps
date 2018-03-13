@@ -291,7 +291,7 @@ class WebClient extends WebViewClient {
 	 * @param uri
 	 * @return
 	 */
-	def protected boolean isInSandbox(Uri uri) {
+	def public static boolean isInSandbox(Uri uri, Set<String> domainUrls) {
 		if("data".equals(uri.getScheme()) || "blob".equals(uri.getScheme())) return true
 		var String host = uri.getHost()
 		if (host == null) return true;
@@ -306,6 +306,10 @@ class WebClient extends WebViewClient {
 
 		}
 		return false
+	}
+
+	def protected boolean isInSandbox(Uri uri) {
+		return isInSandbox(uri, domainUrls)
 	}
 
 	def Set<String> getBlockedHosts() {
