@@ -200,7 +200,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 				share.setType("text/plain")
 				share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
 				share.putExtra(Intent.EXTRA_SUBJECT, webapp.name);
-				share.putExtra(Intent.EXTRA_TEXT, webapp.url);
+				share.putExtra(Intent.EXTRA_TEXT, wv.getUrl);
 
 				startActivity(Intent.createChooser(share, getString(R.string.menu_share)));
 				return true;
