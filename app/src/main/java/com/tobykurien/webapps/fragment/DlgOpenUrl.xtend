@@ -24,6 +24,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 import android.content.Context
 import android.webkit.CookieSyncManager
 import android.os.Build
+import com.tobykurien.webapps.webviewclient.WebClient
 
 /**
  * Dialog to open a URL.
@@ -41,7 +42,7 @@ import android.os.Build
 			.setNegativeButton(android.R.string.cancel, null)
 			.setNeutralButton(R.string.btn_recommended_sites, [
 				var link = Uri.parse("https://github.com/tobykurien/WebApps/wiki/Recommended-Webapps")
-				openUrl(link);
+				WebClient.handleExternalLink(activity, link);
 				dismiss()
 			  ])
 			.create()
@@ -60,6 +61,18 @@ import android.os.Build
 
 	def boolean onOpenUrlClick() {
 		var url = txtOpenUrl.text.toString;
+		try {
+			openUrl(activity, url)
+			dismiss()
+		} catch (Exception e) {
+			txtOpenUrl.setError(getString(R.string.err_invalid_url), null)
+			return false
+		}
+
+		return true
+	}
+
+	def static openUrl(Context activity, String url) {
 		var Uri uri = null
 		try {
 			if (url.trim().length == 0) throw new Exception();
@@ -71,14 +84,13 @@ import android.os.Build
 			}
 		} catch (Exception e) {
 			Log.e("dlgOpenUrl", "Error opening url", e)
-			txtOpenUrl.setError(getString(R.string.err_invalid_url), null)
 			return false
 		}
 
 		// When opening a new URL, let's follow all redirects to get to the final destination
 		val originalUri = uri
 		val pd = new ProgressDialog(activity)
-		pd.setMessage(getString(R.string.progress_opening_site))
+		pd.setMessage(activity.getString(R.string.progress_opening_site))
 
 		async(pd) [
 			var URLConnection con = new URL(originalUri.toString()).openConnection()
@@ -109,28 +121,16 @@ import android.os.Build
 				uriFinal = builder.build()
 			}
 
-			openUrl(uriFinal)
-			dismiss()
+			WebClient.handleExternalLink(activity, uriFinal)
 		].onError[ Exception error |
 			Log.e("dlgOpenUrl", "Error", error)
 			try {
-				toast(error.message)
+				activity.toast(error.message)
 			} catch (Exception e) {
 				// ignore, dialog must be dismissed
 			}					
 		].start()
 
 		return false
-	}
-
-	def openUrl(Uri uri) {
-		Log.d("openurl", uri.toString())
-
-		// delete all previous cookies
-		CookieManager.instance.removeAllCookie()
-		var i = new Intent(activity, WebAppActivity)
-		i.action = Intent.ACTION_VIEW
-		i.data = uri
-		startActivity(i)
 	}
 }

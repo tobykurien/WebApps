@@ -36,6 +36,12 @@ import com.tobykurien.webapps.webviewclient.WebClient
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
+
+        if (intent != null && intent.getDataString() != null) {
+            DlgOpenUrl.openUrl(this, intent.getDataString())
+        } else if (intent != null && intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
+            DlgOpenUrl.openUrl(this, intent.getStringExtra(Intent.EXTRA_TEXT))
+        }
     }
 
     override protected onStart() {

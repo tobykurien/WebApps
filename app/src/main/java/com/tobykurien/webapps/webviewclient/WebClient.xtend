@@ -28,6 +28,7 @@ import java.util.Set
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import com.tobykurien.webapps.db.DbService
+import android.content.Context
 
 class WebClient extends WebViewClient {
 	public static val UNKNOWN_HOST = "999.999.999.999" // impossible hostname to avoid vuln
@@ -93,7 +94,7 @@ class WebClient extends WebViewClient {
 				if (isInSandbox(uri)) {
 					return false
 				} else {
-					handleExternalLink(uri)
+					handleExternalLink(activity, uri)
 					return true
 				}
 			} else if (uri.getScheme().equals("mailto")) {
@@ -116,7 +117,7 @@ class WebClient extends WebViewClient {
 					uri = uriBuilder.build()
 					view.loadUrl(uri.toString())
 				} else {
-					handleExternalLink(uri)
+					handleExternalLink(activity, uri)
 				}
 				return true
 			}
@@ -133,7 +134,7 @@ class WebClient extends WebViewClient {
 		return super.shouldOverrideUrlLoading(view, url)
 	}
 
-	def handleExternalLink(Uri uri) {
+	def static handleExternalLink(Context activity, Uri uri) {
 		val domain = getRootDomain(uri.toString())
 		// first check if we have a saved webapp for this URI
 		val webapps = activity.db.getWebapps().filter [wa|
@@ -152,16 +153,15 @@ class WebClient extends WebViewClient {
 				new AlertDialog.Builder(activity)
 					.setTitle(R.string.title_open_with)
 					.setItems(webapps.map[ name ], [a, pos|
-						openWebapp(webapps.get(pos), uri)
+						openWebapp(activity, webapps.get(pos), uri)
 					])
 					.setNegativeButton(android.R.string.cancel, [ ])
 					.create()
 					.show()
 			} else {
-				openWebapp(webapps.get(0), uri)
+				openWebapp(activity, webapps.get(0), uri)
 			}
 		}
-
 	}
 
 	override WebResourceResponse shouldInterceptRequest(WebView view, String url) {
@@ -264,6 +264,10 @@ class WebClient extends WebViewClient {
 	}
 
 	def void openWebapp(Webapp webapp, Uri uri) {
+		openWebapp(activity, webapp, uri)
+	}
+
+	def static void openWebapp(Context activity, Webapp webapp, Uri uri) {
 		var intent = new Intent(activity, typeof(WebAppActivity))
 		intent.action = Intent.ACTION_VIEW
 		intent.data = Uri.parse(uri.toString)
