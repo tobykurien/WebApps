@@ -27,10 +27,17 @@
         </EditText>
     </LinearLayout>
 
-    <!-- Button
-        android:id="@+id/btnOpenUrl"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/open_url" /-->
+        android:orientation="horizontal" >
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/chkNewSandbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_new_sandbox"/>
+
+    </LinearLayout>
 
 </LinearLayout>

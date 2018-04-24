@@ -38,9 +38,9 @@ import com.tobykurien.webapps.webviewclient.WebClient
         }
 
         if (intent != null && intent.getDataString() != null) {
-            DlgOpenUrl.openUrl(this, intent.getDataString())
+            DlgOpenUrl.openUrl(this, intent.getDataString(), false)
         } else if (intent != null && intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
-            DlgOpenUrl.openUrl(this, intent.getStringExtra(Intent.EXTRA_TEXT))
+            DlgOpenUrl.openUrl(this, intent.getStringExtra(Intent.EXTRA_TEXT), false)
         }
     }
 

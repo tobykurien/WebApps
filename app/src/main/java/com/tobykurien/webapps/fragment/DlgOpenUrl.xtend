@@ -62,7 +62,7 @@ import com.tobykurien.webapps.webviewclient.WebClient
 	def boolean onOpenUrlClick() {
 		var url = txtOpenUrl.text.toString;
 		try {
-			openUrl(activity, url)
+			openUrl(activity, url, chkNewSandbox.checked)
 		} catch (Exception e) {
 			txtOpenUrl.setError(getString(R.string.err_invalid_url), null)
 			return false
@@ -71,7 +71,7 @@ import com.tobykurien.webapps.webviewclient.WebClient
 		return true
 	}
 
-	def static openUrl(Context activity, String url) {
+	def static openUrl(Context activity, String url, boolean newSandbox) {
 		var Uri uri = null
 		try {
 			if (url.trim().length == 0) throw new Exception();
@@ -120,7 +120,17 @@ import com.tobykurien.webapps.webviewclient.WebClient
 				uriFinal = builder.build()
 			}
 
-			WebClient.handleExternalLink(activity, uriFinal)
+			if (newSandbox) {
+				// open in new sandbox
+				// delete all previous cookies
+				CookieManager.instance.removeAllCookie()
+				var i = new Intent(activity, WebAppActivity)
+				i.action = Intent.ACTION_VIEW
+				i.data = uriFinal
+				activity.startActivity(i)
+			} else {
+				WebClient.handleExternalLink(activity, uriFinal)
+			}
 		].onError[ Exception error |
 			Log.e("dlgOpenUrl", "Error", error)
 			try {
