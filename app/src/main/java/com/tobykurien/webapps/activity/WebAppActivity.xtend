@@ -24,6 +24,7 @@ import com.tobykurien.webapps.adapter.WebappsAdapter
 import com.tobykurien.webapps.data.ThirdPartyDomain
 import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgCertificate
+import com.tobykurien.webapps.fragment.DlgCertificateChanged
 import com.tobykurien.webapps.fragment.DlgSaveWebapp
 import com.tobykurien.webapps.utils.CertificateUtils
 import com.tobykurien.webapps.utils.Debug
@@ -304,7 +305,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 			if (webapp.certIssuedBy != null) {
 				if (CertificateUtils.compare(webapp, wv.certificate) != 0) {
 					// SSL certificate changed!
-					var dlg = new DlgCertificate(wv.certificate,
+					var dlg = new DlgCertificateChanged(webapp, wv.certificate,
 						getString(R.string.title_cert_changed),
 						getString(R.string.cert_accept), [
 							CertificateUtils.updateCertificate(webapp, wv.certificate, db)

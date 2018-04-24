@@ -137,7 +137,8 @@ class WebClient extends WebViewClient {
 		val domain = getRootDomain(uri.toString())
 		// first check if we have a saved webapp for this URI
 		val webapps = activity.db.getWebapps().filter [wa|
-			getRootDomain(wa.url).equals(domain)
+			// check against root domains rather than sub-domains
+			getRootDomain(wa.url).equals(getRootDomain(domain))
 		]
 
 		if (webapps == null || webapps.length == 0) {

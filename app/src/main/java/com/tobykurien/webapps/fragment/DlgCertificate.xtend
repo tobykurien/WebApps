@@ -7,24 +7,24 @@ import org.xtendroid.app.OnCreate
 import android.support.v4.app.DialogFragment
 import com.tobykurien.webapps.R
 import android.net.http.SslCertificate
+import com.tobykurien.webapps.data.Webapp
 
 @AndroidDialogFragment(R.layout.dlg_certificate) class DlgCertificate extends DialogFragment {
-	var SslCertificate certificate = null
-	var String title = null
-	var String okText = null
-	var ()=>boolean onOkClicked = null
-	var ()=>boolean onCancelClicked = null
-	
-	public new(SslCertificate certificate, String title, String okText, 
-		()=>boolean onOkClicked, ()=>boolean onCancelClicked
-	) {
+	var protected SslCertificate certificate = null
+	var protected String title = null
+	var protected String okText = null
+	var protected ()=>boolean onOkClicked = null
+	var protected ()=>boolean onCancelClicked = null
+
+	public new(SslCertificate certificate, String title, String okText,
+		()=>boolean onOkClicked, ()=>boolean onCancelClicked) {
 		this.certificate = certificate
 		this.title = title
 		this.okText = okText
 		this.onOkClicked = onOkClicked
 		this.onCancelClicked = onCancelClicked
 	}
-	
+
 	public new(SslCertificate certificate) {
 		this.certificate = certificate
 	}
