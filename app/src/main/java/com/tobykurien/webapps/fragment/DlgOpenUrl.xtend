@@ -63,7 +63,6 @@ import com.tobykurien.webapps.webviewclient.WebClient
 		var url = txtOpenUrl.text.toString;
 		try {
 			openUrl(activity, url)
-			dismiss()
 		} catch (Exception e) {
 			txtOpenUrl.setError(getString(R.string.err_invalid_url), null)
 			return false
