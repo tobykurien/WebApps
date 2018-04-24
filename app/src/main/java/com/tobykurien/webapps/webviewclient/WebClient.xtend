@@ -94,7 +94,7 @@ class WebClient extends WebViewClient {
 				if (isInSandbox(uri)) {
 					return false
 				} else {
-					handleExternalLink(activity, uri)
+					handleExternalLink(activity, uri, true)
 					return true
 				}
 			} else if (uri.getScheme().equals("mailto")) {
@@ -134,7 +134,11 @@ class WebClient extends WebViewClient {
 		return super.shouldOverrideUrlLoading(view, url)
 	}
 
-	def static handleExternalLink(Context activity, Uri uri) {
+    def static handleExternalLink(Context activity, Uri uri) {
+        handleExternalLink(activity, uri, false)
+    }
+
+	def static handleExternalLink(Context activity, Uri uri, boolean openInExternalApp) {
 		val domain = getRootDomain(uri.toString())
 		// first check if we have a saved webapp for this URI
 		val webapps = activity.db.getWebapps().filter [wa|
@@ -143,10 +147,20 @@ class WebClient extends WebViewClient {
 		]
 
 		if (webapps == null || webapps.length == 0) {
-			Log.d("url_loading", "Sending to default app " + uri.toString)
-			var Intent i = new Intent(Intent.ACTION_VIEW)
-			i.setData(uri)
-			activity.startActivity(i)
+            if (openInExternalApp) {
+                Log.d("url_loading", "Sending to default app " + uri.toString)
+                var Intent i = new Intent(Intent.ACTION_VIEW)
+                i.setData(uri)
+                activity.startActivity(i)
+            } else {
+                // open in new sandbox
+                // delete all previous cookies
+                CookieManager.instance.removeAllCookie()
+                var i = new Intent(activity, WebAppActivity)
+                i.action = Intent.ACTION_VIEW
+                i.data = uri
+                activity.startActivity(i)
+            }
 		} else {
 			if (webapps.length > 1) {
 				// TODO ask user to pick a webapp
