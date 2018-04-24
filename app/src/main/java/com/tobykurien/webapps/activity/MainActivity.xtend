@@ -23,9 +23,13 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import static extension org.xtendroid.utils.AsyncBuilder.*
 import android.webkit.CookieManager
 import com.tobykurien.webapps.utils.Debug
 import com.tobykurien.webapps.webviewclient.WebClient
+import android.webkit.CookieSyncManager
+import com.tobykurien.webapps.BuildConfig
+import android.os.Build
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
     var protected List<Webapp> webapps
@@ -122,20 +126,22 @@ import com.tobykurien.webapps.webviewclient.WebClient
         var adapter = new WebappsAdapter(this, webapps)
         mainList.setAdapter(adapter)
 
-        try {
-            if (!settings.cookiesImported && webapps !== null) {
-                // import old cookies from WebView into our new db storage
-                for (webapp: webapps) {
-                    db.saveCookies(webapp)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            try {
+                if (!settings.cookiesImported && webapps !== null) {
+                    // import old cookies from WebView into our new db storage
+                    for (webapp: webapps) {
+                        db.saveCookies(webapp)
+                    }
+
+                    settings.cookiesImported = true
+
+                    // now we can delete all cookies from WebView
+                    CookieManager.instance.removeAllCookie()
                 }
-
-                settings.cookiesImported = true
-
-                // now we can delete all cookies from WebView
-                CookieManager.instance.removeAllCookie()
+            } catch (Exception e) {
+                toast("Error importing old cookies " + e.class.name + " - " + e.message)
             }
-        } catch (Exception e) {
-            toast("Error importing old cookies " + e.class.name + " - " + e.message)
         }
     }
 }
