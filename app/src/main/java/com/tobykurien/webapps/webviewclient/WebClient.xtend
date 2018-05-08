@@ -22,6 +22,7 @@ import com.tobykurien.webapps.activity.WebAppActivity
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.fragment.DlgCertificate
 import com.tobykurien.webapps.utils.Debug
+import java.lang.UnsupportedOperationException
 import java.io.ByteArrayInputStream
 import java.util.HashMap
 import java.util.Set
@@ -299,8 +300,13 @@ class WebClient extends WebViewClient {
 	 */
 	def protected Uri getLoadUri(Uri uri) {
 		if(uri === null) return uri // handle google news links to external sites directly
-		if (uri.getQueryParameter("url") !== null) {
-			return Uri.parse(uri.getQueryParameter("url"))
+		try {
+			if (uri.getQueryParameter("url") !== null) {
+				return Uri.parse(uri.getQueryParameter("url"))
+			}
+		} catch (UnsupportedOperationException e) {
+			// Not a hierarchical uri with a query parameter, like data:
+			return uri
 		}
 		return uri
 	}
