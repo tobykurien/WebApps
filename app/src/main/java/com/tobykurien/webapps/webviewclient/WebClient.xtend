@@ -118,7 +118,7 @@ class WebClient extends WebViewClient {
 					uri = uriBuilder.build()
 					view.loadUrl(uri.toString())
 				} else {
-					handleExternalLink(activity, uri)
+					handleExternalLink(activity, uri, true)
 				}
 				return true
 			}
@@ -135,12 +135,9 @@ class WebClient extends WebViewClient {
 		return super.shouldOverrideUrlLoading(view, url)
 	}
 
-    def static handleExternalLink(Context activity, Uri uri) {
-        handleExternalLink(activity, uri, false)
-    }
-
 	def static handleExternalLink(Context activity, Uri uri, boolean openInExternalApp) {
 		val domain = getRootDomain(uri.toString())
+		Log.d("url_loading", domain)
 		// first check if we have a saved webapp for this URI
 		val webapps = activity.db.getWebapps().filter [wa|
 			// check against root domains rather than sub-domains
@@ -154,6 +151,7 @@ class WebClient extends WebViewClient {
                 i.setData(uri)
                 activity.startActivity(i)
             } else {
+				Log.d("url_loading", "Opening in new sandbox " + uri.toString)
                 // open in new sandbox
                 // delete all previous cookies
                 CookieManager.instance.removeAllCookie()
@@ -164,6 +162,7 @@ class WebClient extends WebViewClient {
             }
 		} else {
 			if (webapps.length > 1) {
+				Log.d("url_loading", "More than one registered webapp for " + uri.toString)
 				// TODO ask user to pick a webapp
 				new AlertDialog.Builder(activity)
 					.setTitle(R.string.title_open_with)
@@ -174,6 +173,7 @@ class WebClient extends WebViewClient {
 					.create()
 					.show()
 			} else {
+				Log.d("url_loading", "Opening registered webapp for " + uri.toString)
 				openWebapp(activity, webapps.get(0), uri)
 			}
 		}

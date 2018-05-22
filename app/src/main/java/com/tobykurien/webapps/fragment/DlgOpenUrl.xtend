@@ -42,7 +42,7 @@ import com.tobykurien.webapps.webviewclient.WebClient
 			.setNegativeButton(android.R.string.cancel, null)
 			.setNeutralButton(R.string.btn_recommended_sites, [
 				var link = Uri.parse("https://github.com/tobykurien/WebApps/wiki/Recommended-Webapps")
-				WebClient.handleExternalLink(activity, link);
+				WebClient.handleExternalLink(activity, link, false);
 				dismiss()
 			  ])
 			.create()
@@ -129,7 +129,7 @@ import com.tobykurien.webapps.webviewclient.WebClient
 				i.data = uriFinal
 				activity.startActivity(i)
 			} else {
-				WebClient.handleExternalLink(activity, uriFinal)
+				WebClient.handleExternalLink(activity, uriFinal, false)
 			}
 		].onError[ Exception error |
 			Log.e("dlgOpenUrl", "Error", error)
