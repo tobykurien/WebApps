@@ -6,6 +6,7 @@ import org.xtendroid.annotations.AndroidDialogFragment
 import com.tobykurien.webapps.R
 import org.xtendroid.app.OnCreate
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 
 @AndroidDialogFragment(R.layout.dlg_certificate_changed) class DlgCertificateChanged extends DlgCertificate {
     var Webapp webapp = null
@@ -14,6 +15,24 @@ import android.os.Bundle
         ()=>boolean onOkClicked, ()=>boolean onCancelClicked) {
         super(certificate, title, okText, onOkClicked, onCancelClicked)
         this.webapp = webapp
+    }
+
+    /**
+     * Create a dialog using the AlertDialog Builder, but our custom layout
+     */
+    override onCreateDialog(Bundle instance) {
+        if (title == null) title = getString(R.string.title_certificate)
+
+        new AlertDialog.Builder(activity)
+            .setTitle(title)
+            .setView(contentView) // contentView is the layout specified in the annotation
+            .setPositiveButton(
+                    if (okText == null) getString(android.R.string.ok) else okText,
+                    [ if (onOkClicked != null) onOkClicked.apply() ]) // to avoid it closing dialog
+            .setNegativeButton(android.R.string.cancel, [
+                if (onCancelClicked != null) onCancelClicked.apply()
+            ])
+            .create()
     }
 
     @OnCreate
