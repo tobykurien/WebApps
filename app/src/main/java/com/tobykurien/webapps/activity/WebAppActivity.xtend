@@ -19,6 +19,9 @@ import android.view.WindowManager
 import android.webkit.CookieManager
 import android.webkit.WebView
 import android.widget.ImageView
+import android.support.v4.content.pm.ShortcutInfoCompat
+import android.support.v4.content.pm.ShortcutManagerCompat
+import android.support.v4.graphics.drawable.IconCompat
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.adapter.WebappsAdapter
 import com.tobykurien.webapps.data.ThirdPartyDomain
@@ -502,23 +505,24 @@ public class WebAppActivity extends BaseWebAppActivity {
 		launchIntent.data = Uri.parse(webapp.url)
 		BaseWebAppActivity.putWebappId(launchIntent, webapp.id)
 
-		val addIntent = new Intent();
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, webapp.name);
-		addIntent.putExtra("duplicate", false);
-
+		var shortcut = new ShortcutInfoCompat.Builder(this, webapp.name)
+		.setIntent(launchIntent)
+		.setShortLabel(webapp.name)
 		var size = getResources().getDimension(android.R.dimen.app_icon_size) as int;
 		var favicon = new FaviconHandler(this).getFavIcon(webapp.id);
-		if (favicon.exists) {
-			var icon = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(favicon.path), size, size, false)
-			addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);
-		} else {
-			var icon = Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_action_site);
-			addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+		if (ShortcutManagerCompat.isRequestPinShortcutSupported(this)) {
+
+			if(favicon.exists) {
+				var icon = IconCompat.createWithBitmap(
+						Bitmap.createScaledBitmap(BitmapFactory.decodeFile(favicon.path), size, size, false))
+				shortcut.setIcon(icon);
+			} else {
+				var icon = IconCompat.createWithResource(this, R.drawable.ic_action_site)
+				shortcut.setIcon(icon);
+			}
 		}
 
-		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-		getApplicationContext().sendBroadcast(addIntent);
+		ShortcutManagerCompat.requestPinShortcut(this, shortcut.build(), null);
 
 		toast(getString(R.string.msg_shortcut_added))
 	}
