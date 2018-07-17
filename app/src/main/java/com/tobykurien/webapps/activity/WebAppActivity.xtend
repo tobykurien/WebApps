@@ -3,10 +3,11 @@ package com.tobykurien.webapps.activity;
 import android.annotation.TargetApi
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.content.pm.ShortcutManagerCompat
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
@@ -27,7 +28,6 @@ import com.tobykurien.webapps.fragment.DlgCertificate
 import com.tobykurien.webapps.fragment.DlgCertificateChanged
 import com.tobykurien.webapps.fragment.DlgSaveWebapp
 import com.tobykurien.webapps.utils.CertificateUtils
-import com.tobykurien.webapps.utils.Debug
 import com.tobykurien.webapps.utils.FaviconHandler
 import com.tobykurien.webapps.utils.Settings
 import com.tobykurien.webapps.webviewclient.WebClient
@@ -39,7 +39,6 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import android.support.v7.app.AlertDialog
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -496,30 +495,8 @@ public class WebAppActivity extends BaseWebAppActivity {
 	}
 
 	def addShortcut() {
-		// Adding shortcut on Home screen
-		var launchIntent = new Intent(this, WebAppActivity);
-		launchIntent.action = Intent.ACTION_VIEW
-		launchIntent.data = Uri.parse(webapp.url)
-		BaseWebAppActivity.putWebappId(launchIntent, webapp.id)
-
-		val addIntent = new Intent();
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, launchIntent);
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, webapp.name);
-		addIntent.putExtra("duplicate", false);
-
-		var size = getResources().getDimension(android.R.dimen.app_icon_size) as int;
-		var favicon = new FaviconHandler(this).getFavIcon(webapp.id);
-		if (favicon.exists) {
-			var icon = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(favicon.path), size, size, false)
-			addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);
-		} else {
-			var icon = Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_action_site);
-			addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
-		}
-
-		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-		getApplicationContext().sendBroadcast(addIntent);
-
+		val shortcut = ShortcutActivity.getShortcut(this, webapp)
+		ShortcutManagerCompat.requestPinShortcut(this, shortcut.build(), null)
 		toast(getString(R.string.msg_shortcut_added))
 	}
 }
