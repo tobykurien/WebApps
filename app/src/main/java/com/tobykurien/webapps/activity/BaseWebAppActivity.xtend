@@ -38,6 +38,9 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 import com.tobykurien.webapps.utils.Debug
 import android.webkit.WebSettings
+import android.webkit.WebChromeClient.CustomViewCallback
+import android.widget.FrameLayout
+import android.view.WindowManager
 
 @TargetApi(21)
 @AndroidActivity(R.layout.webapp) class BaseWebAppActivity extends AppCompatActivity {
@@ -113,6 +116,23 @@ import android.webkit.WebSettings
 				WebChromeClient.FileChooserParams fileChooserParams) {
 				openFileChooserLollipop(filePathCallback, fileChooserParams)
 			}
+
+			override onShowCustomView(View view, CustomViewCallback callback) {
+				super.onShowCustomView(view, callback)
+				wv.visibility = View.GONE
+				fullscreenView.visibility = View.VISIBLE
+				fullscreenView.addView(view)
+				fullscreen = true
+			}
+
+			override onHideCustomView() {
+				super.onHideCustomView()
+				wv.visibility = View.VISIBLE
+				fullscreenView.visibility = View.GONE
+				fullscreen = false
+			}
+
+
 		})
 
 		openSite(webapp, siteUrl)
@@ -333,4 +353,17 @@ import android.webkit.WebSettings
 			storageDir /* directory */
 		);
 	}
+
+	def void setFullscreen(boolean fullscreen) {
+		var attrs = getWindow().getAttributes();
+
+		if (fullscreen) {
+			attrs.flags = attrs.flags.bitwiseOr(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		} else {
+			attrs.flags = attrs.flags.bitwiseAnd(WindowManager.LayoutParams.FLAG_FULLSCREEN.bitwiseNot);
+		}
+
+		getWindow().setAttributes(attrs);
+	}
 }
+

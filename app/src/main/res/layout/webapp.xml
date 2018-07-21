@@ -19,4 +19,10 @@
         android:padding="20dp"
         android:visibility="gone" />
 
+    <FrameLayout
+        android:id="@+id/fullscreen_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"/>
+
 </FrameLayout>

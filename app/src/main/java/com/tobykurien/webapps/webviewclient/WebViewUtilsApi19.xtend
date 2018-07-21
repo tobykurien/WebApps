@@ -24,6 +24,8 @@ class WebViewUtilsApi19 extends WebViewUtilsApi16 {
 		// set up the webview
 		super.setupWebView(context, wv, siteUrl, webapp, defaultFontSize)
 
+		wv.settings.setMediaPlaybackRequiresUserGesture(false)
+
 		if (false) {
 			// save previously-viewed webapp's data
 			saveWebappData(context)
