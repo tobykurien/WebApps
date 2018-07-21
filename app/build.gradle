@@ -63,6 +63,13 @@ android {
         androidTestCompile 'com.android.support:support-annotations:27.1.1'
     }
 
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/eclipse.inf'
         exclude 'META-INF/ECLIPSE_.SF'
