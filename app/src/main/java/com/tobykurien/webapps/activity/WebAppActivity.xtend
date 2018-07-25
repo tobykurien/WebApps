@@ -94,9 +94,11 @@ public class WebAppActivity extends BaseWebAppActivity {
 		]
 
 		// load a favico if it already exists
-		var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
+		val iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
 		iconImg.imageResource = R.drawable.ic_action_site
-		WebappsAdapter.loadFavicon(this, new FaviconHandler(this).getFavIcon(webappId), iconImg)
+		val iconHandler = new FaviconHandler(this)
+		WebappsAdapter.loadFavicon(this, iconHandler.getFavIcon(webappId), iconImg)
+		iconHandler.deleteFavIcon(webappId)
 	}
 
 	override protected onResume() {

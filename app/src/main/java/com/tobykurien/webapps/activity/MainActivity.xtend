@@ -30,6 +30,7 @@ import com.tobykurien.webapps.webviewclient.WebClient
 import android.webkit.CookieSyncManager
 import com.tobykurien.webapps.BuildConfig
 import android.os.Build
+import com.tobykurien.webapps.utils.FaviconHandler
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
     var protected List<Webapp> webapps
@@ -70,6 +71,7 @@ import android.os.Build
                 AsyncBuilder.async[p1, p2|
                     db.execute(R.string.dbDeleteDomains, # {'webappId' -> item.id})
                     db.delete(DbService.TABLE_WEBAPPS, String.valueOf(item.id))
+                    new FaviconHandler(this).deleteFavIcon(item.id)
                     WebViewUtils.instance.deleteWebappData(this, item.id)
                     null
                 ].then [

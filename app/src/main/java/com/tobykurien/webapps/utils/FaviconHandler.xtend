@@ -65,6 +65,15 @@ class FaviconHandler {
 		}
 	}
 
+	def deleteFavIcon(long webappId) {
+		try {
+			val f = getFile(webappId)
+			if (f.exists) f.delete()
+		} catch (Exception e) {
+			Log.e("favicon", "Error deleting icon", e)
+		}
+	}
+
 	def private File getFile(long webappId) {
 		new File(context.cacheDir.path + "/favicon-" + webappId + ".png")
 	}
