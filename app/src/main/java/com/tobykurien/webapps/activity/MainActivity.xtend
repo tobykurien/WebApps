@@ -31,6 +31,8 @@ import android.webkit.CookieSyncManager
 import com.tobykurien.webapps.BuildConfig
 import android.os.Build
 import com.tobykurien.webapps.utils.FaviconHandler
+import android.view.View
+import android.app.Activity
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
     var protected List<Webapp> webapps
@@ -88,6 +90,12 @@ import com.tobykurien.webapps.utils.FaviconHandler
         }
     }
 
+    override onResume() {
+        super.onResume()
+        handleFullscreenOptions(this)
+    }
+
+
     override onCreateOptionsMenu(Menu menu) {
         menuInflater.inflate(R.menu.main_menu, menu)
         true
@@ -143,6 +151,23 @@ import com.tobykurien.webapps.utils.FaviconHandler
                 }
             } catch (Exception e) {
                 toast("Error importing old cookies " + e.class.name + " - " + e.message)
+            }
+        }
+    }
+
+    def static handleFullscreenOptions(Activity activity) {
+        if(activity.settings.isFullscreen()) {
+            val decorView = activity.getWindow().getDecorView();
+            if(activity.settings.isFullscreenImmersive()) {
+                decorView.setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_IMMERSIVE
+                        .bitwiseOr(View.SYSTEM_UI_FLAG_FULLSCREEN)
+                        .bitwiseOr(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                );
+            } else {
+                decorView.setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_FULLSCREEN
+                );
             }
         }
     }

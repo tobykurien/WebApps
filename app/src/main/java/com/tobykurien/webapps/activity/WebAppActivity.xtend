@@ -62,11 +62,6 @@ public class WebAppActivity extends BaseWebAppActivity {
 	override onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (settings.isFullscreen()) {
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		}
-
 		// setup actionbar
 		val ab = getSupportActionBar();
 		ab.setDisplayShowTitleEnabled(false);
@@ -103,6 +98,8 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 	override protected onResume() {
 		super.onResume()
+
+		MainActivity.handleFullscreenOptions(this)
 
 		if (settings.shouldHideActionBar(fromShortcut)) {
 			supportActionBar.hide();

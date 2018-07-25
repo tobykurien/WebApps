@@ -13,6 +13,7 @@ import org.xtendroid.annotations.AndroidPreference
     String fontSize = "2"
     String userAgent = ""
     boolean fullscreen = false
+    boolean fullscreenImmersive = false
     boolean hideActionbar = true
     boolean loadImages = true
     int firstLoaded = 0
