@@ -30,6 +30,9 @@ import com.tobykurien.webapps.webviewclient.WebClient
 import android.webkit.CookieSyncManager
 import com.tobykurien.webapps.BuildConfig
 import android.os.Build
+import com.tobykurien.webapps.utils.FaviconHandler
+import android.view.View
+import android.app.Activity
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
     var protected List<Webapp> webapps
@@ -70,6 +73,7 @@ import android.os.Build
                 AsyncBuilder.async[p1, p2|
                     db.execute(R.string.dbDeleteDomains, # {'webappId' -> item.id})
                     db.delete(DbService.TABLE_WEBAPPS, String.valueOf(item.id))
+                    new FaviconHandler(this).deleteFavIcon(item.id)
                     WebViewUtils.instance.deleteWebappData(this, item.id)
                     null
                 ].then [
@@ -85,6 +89,12 @@ import android.os.Build
             showTips()
         }
     }
+
+    override onResume() {
+        super.onResume()
+        handleFullscreenOptions(this)
+    }
+
 
     override onCreateOptionsMenu(Menu menu) {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -141,6 +151,23 @@ import android.os.Build
                 }
             } catch (Exception e) {
                 toast("Error importing old cookies " + e.class.name + " - " + e.message)
+            }
+        }
+    }
+
+    def static handleFullscreenOptions(Activity activity) {
+        if(activity.settings.isFullscreen()) {
+            val decorView = activity.getWindow().getDecorView();
+            if(activity.settings.isFullscreenImmersive()) {
+                decorView.setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_IMMERSIVE
+                        .bitwiseOr(View.SYSTEM_UI_FLAG_FULLSCREEN)
+                        .bitwiseOr(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                );
+            } else {
+                decorView.setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_FULLSCREEN
+                );
             }
         }
     }

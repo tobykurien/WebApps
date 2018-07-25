@@ -61,7 +61,9 @@
     <string name="title_user_agent">User Agent</string>
     <string name="summary_user_agent">Affects how sites render on your device</string>
     <string name="title_fullscreen">Fullscreen</string>
-    <string name="summary_fullscreen">Hide the status bar and use all screen space (requires restart)</string>
+    <string name="summary_fullscreen">Hide the status bar (requires restart)</string>
+    <string name="title_fullscreen_immersive">Immersive mode</string>
+    <string name="summary_fullscreen_immersive">In fullscreen mode, hide all system UI</string>
     <string name="title_autohide">Auto-hide action bar</string>
     <string name="summary_autohide">Hide the action bar when you scroll down, reveal when you scroll up</string>
     <string name="title_hide_actionbar">Hide actionbar</string>

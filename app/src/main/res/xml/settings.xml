@@ -29,7 +29,14 @@
         android:title="@string/title_fullscreen"
         android:summary="@string/summary_fullscreen"
         android:defaultValue="false"
-        android:key="fullscreen"/>    
+        android:key="fullscreen"/>
+
+    <CheckBoxPreference
+        android:title="@string/title_fullscreen_immersive"
+        android:summary="@string/summary_fullscreen_immersive"
+        android:defaultValue="false"
+        android:key="fullscreen_immersive"
+        android:dependency="fullscreen"/>
 
     <CheckBoxPreference
         android:title="@string/title_autohide"

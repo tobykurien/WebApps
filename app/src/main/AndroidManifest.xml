@@ -15,11 +15,13 @@
 		
 		<meta-data android:name="android.webkit.WebView.MetricsOptOut" 
 		    android:value="true" />
-        
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
+
         <activity
             android:name="com.tobykurien.webapps.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:resizeableActivity="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
