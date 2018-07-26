@@ -117,7 +117,13 @@ class WebClient extends WebViewClient {
 					var uriBuilder = uri.buildUpon()
 					uriBuilder.scheme("https")
 					uri = uriBuilder.build()
-					view.loadUrl(uri.toString())
+
+					// avoid recursive loads when https redirects back to http
+					if (view.url.equalsIgnoreCase(uri.toString())) {
+						handleExternalLink(activity, uri, true)
+					} else {
+						view.loadUrl(uri.toString())
+					}
 				} else {
 					handleExternalLink(activity, uri, true)
 				}
