@@ -30,6 +30,7 @@ import java.util.Set
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import com.tobykurien.webapps.db.DbService
 import android.content.Context
+import android.webkit.WebResourceRequest
 
 class WebClient extends WebViewClient {
 	public static val UNKNOWN_HOST = "999.999.999.999" // impossible hostname to avoid vuln
@@ -116,7 +117,13 @@ class WebClient extends WebViewClient {
 					var uriBuilder = uri.buildUpon()
 					uriBuilder.scheme("https")
 					uri = uriBuilder.build()
-					view.loadUrl(uri.toString())
+
+					// avoid recursive loads when https redirects back to http
+					if (view.url.equalsIgnoreCase(uri.toString())) {
+						handleExternalLink(activity, uri, true)
+					} else {
+						view.loadUrl(uri.toString())
+					}
 				} else {
 					handleExternalLink(activity, uri, true)
 				}
@@ -182,10 +189,10 @@ class WebClient extends WebViewClient {
 	override WebResourceResponse shouldInterceptRequest(WebView view, String url) {
 		// Block 3rd party requests (i.e. scripts/iframes/etc. outside Google's domains)
 		// and also any unencrypted connections
-		var Uri uri = Uri.parse(url)
-		var siteUrl = getHost(uri)
-
+		val Uri uri = Uri.parse(url)
+		val siteUrl = getHost(uri)
 		var boolean isBlocked = false
+
 		if (activity.settings.isBlock3rdParty() && !isInSandbox(uri)) {
 			isBlocked = true
 		}
@@ -195,7 +202,7 @@ class WebClient extends WebViewClient {
 		}
 
 		if (isBlocked) {
-			Log.d("webclient", "Blocking " + url);
+			if (Debug.ON) Log.d("webclient", "Blocking " + url);
 			blockedHosts.put(getRootDomain(url), true)
 			return new WebResourceResponse("text/plain", "utf-8", new ByteArrayInputStream("[blocked]".getBytes()))
 		}

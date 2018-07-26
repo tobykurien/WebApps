@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import android.webkit.ClientCertRequest
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
@@ -22,6 +23,7 @@ import android.widget.ProgressBar
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
+import com.tobykurien.webapps.utils.Debug
 import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
 import java.io.File
@@ -36,11 +38,6 @@ import org.xtendroid.app.OnCreate
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import com.tobykurien.webapps.utils.Debug
-import android.webkit.WebSettings
-import android.webkit.WebChromeClient.CustomViewCallback
-import android.widget.FrameLayout
-import android.view.WindowManager
 
 @TargetApi(21)
 @AndroidActivity(R.layout.webapp) class BaseWebAppActivity extends AppCompatActivity {
