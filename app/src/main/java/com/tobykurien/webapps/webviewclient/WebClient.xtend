@@ -193,37 +193,6 @@ class WebClient extends WebViewClient {
 		val siteUrl = getHost(uri)
 		var boolean isBlocked = false
 
-		// intercept media URLs for possible sharing/casting
-		try {
-			if (uri.path.contains(".")) {
-				var media = #[
-					// playlists
-					".m3u8",".m3u",".pls",
-					// video
-					".mp4",".mpeg",".webm",".vp9",".ogv",".mkv",".avi",".gifv",
-					// audio
-					".aac", ".ogg", ".mp3", ".m4a"
-				].exists[ uri.path.endsWith(it) ]
-
-				if (media) {
-					Log.d("CAST", "Found media " + url)
-					var i = new Intent(Intent.ACTION_SEND);
-					i.setType("text/plain")
-					i.putExtra(Intent.EXTRA_TEXT, url);
-					i.putExtra(Intent.EXTRA_STREAM, uri);
-					i.putExtra(Intent.EXTRA_SUBJECT, "Media");
-					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-					var chooser = Intent.createChooser(i, view.context.getString(R.string.title_open_with))
-					if (i.resolveActivity(view.context.getPackageManager()) != null) {
-						view.context.startActivity(chooser);
-					}
-				}
-			}
-		} catch (Exception e) {
-			Log.d("CAST", e.class.simpleName + " " + e.message)
-		}
-
 		if (activity.settings.isBlock3rdParty() && !isInSandbox(uri)) {
 			isBlocked = true
 		}
