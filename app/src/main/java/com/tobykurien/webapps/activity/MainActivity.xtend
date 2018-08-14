@@ -127,6 +127,9 @@ import android.app.Activity
 	        .setTitle(R.string.action_tips)
 	        .setMessage(Html.fromHtml(getString(R.string.tips)))
 	        .setPositiveButton(android.R.string.ok, null)
+            .setNeutralButton(R.string.btn_website, [
+                DlgOpenUrl.openUrl(this, "https://github.com/tobykurien/webapps", false)
+            ])
 	        .create()
 	        .show()
     }

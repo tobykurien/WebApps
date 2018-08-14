@@ -47,7 +47,7 @@
         <p><b>Homescreen shortcuts</b>: Long-press your homescreen and access the widgets page to add a webapp shortcut to your homescreen</p>
         <p><b>Long-press links</b>: Long-press a link on a website to choose how to open it</p>
 ]]></string>
-
+    <string name="btn_website">Source code</string>
     <string name="toast_images_enabled">Image loading enabled</string>
     <string name="toast_images_disabled">Image loading disabled</string>
     <string name="progress_opening_site">Opening web app...</string>
