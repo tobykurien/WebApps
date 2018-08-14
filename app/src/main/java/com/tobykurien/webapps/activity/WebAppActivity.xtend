@@ -221,6 +221,20 @@ public class WebAppActivity extends BaseWebAppActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	override onFullscreenChanged(boolean isFullscreen) {
+		super.onFullscreenChanged(isFullscreen)
+
+		if (isFullscreen && supportActionBar.isShowing) {
+			// always hide the action bar in fullscreen (video) mode
+			supportActionBar.hide()
+		}
+
+		if (!isFullscreen && !settings.isHideActionbar && !settings.isFullHideActionbar) {
+			// un-hide the action bar when coming out of fullscreen
+			supportActionBar.show()
+		}
+	}
+
 	def showFontSizeDialog() {
 		val int fontSize = if(webapp.fontSize >= 0) webapp.fontSize else DEFAULT_FONT_SIZE
 		new AlertDialog.Builder(this)

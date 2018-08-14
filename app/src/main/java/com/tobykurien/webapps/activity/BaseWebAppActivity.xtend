@@ -119,20 +119,24 @@ import static extension org.xtendroid.utils.AlertUtils.*
 				wv.visibility = View.GONE
 				fullscreenView.visibility = View.VISIBLE
 				fullscreenView.addView(view)
-				fullscreen = true
+				onFullscreenChanged(true)
 			}
 
 			override onHideCustomView() {
 				super.onHideCustomView()
 				wv.visibility = View.VISIBLE
 				fullscreenView.visibility = View.GONE
-				fullscreen = false
+				onFullscreenChanged(false)
 			}
 
 
 		})
 
 		openSite(webapp, siteUrl)
+	}
+
+	def onFullscreenChanged(boolean isFullscreen) {
+		setFullscreen(isFullscreen)
 	}
 
 	def protected void setupWebView() {
