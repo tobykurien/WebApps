@@ -1,0 +1,7 @@
+-    Support Android 8 shortcuts (contributed by @fanthos )
+-    Fullscreen video playback support
+-    Webapp favicons refreshed each time app is loaded
+-    Support multi-window and tall screens
+-    Added immersive mode support
+-    Fix recursive loading bug
+-    Included link to source code in tips dialog

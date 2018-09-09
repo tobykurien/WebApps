@@ -1,0 +1,22 @@
+WebApps is an open-source, secure, sandboxed browser for mobi/web app sites. What this means is that you can browse mobile websites/web apps securely within the app, but any external links will open in your default browser or other app. With the ability to create homescreen shortcuts, WebApps turns your favourite mobi/web apps into secure apps! 
+
+WebApps automatically uses HTTPS for all requests, and by default actually blocks any 3rd party requests (e.g. analytics, ad trackers, etc) and any insecure requests (i.e. requests that are not using  HTTPS).
+
+The main use for WebApps is that you can disable cookies, password saving, and flash/local storage on your default browser. This way, you cannot easily be tracked or have your session hijacked when on public Wifi. You can safely opt to use the mobile versions of some popular apps (like Facebook, Twitter, Google+, etc.) instead of using their Android app counterparts, since the Android apps can leak a lot of private data (e.g. automatic photo uploads, location, your contact list, etc.).
+
+Features:
+- Works like Mozilla Prism on the desktop. This is a mostly chrome-less browser that gets out of your way.
+- Much like FirefoxOS did, WebApps turns websites into secure apps on your phone (you can create shortcuts on your homescreen)
+- Completely full-screen browsing (auto-hiding action bar)
+- Securely browse mobile sites (uses HTTPS and rejects HTTP connections to avoid wire-tapping)
+- Blocks 3rd party requests (images/scripts/iframes) like the NoScript and NotScripts plugins on the desktop
+- Allows self-signed SSL certificates to be accepted and saved
+- Saves website certificates and warns if the certificate changes (can detect man-in-the-middle attack) 
+- User agent setting allows more rich mobile experience (depending on site)
+- Uses much less bandwidth than native apps (like Google+ app). No background sync'ing.
+- Features local data storage and caching for reduced bandwidth usage and better speed.
+- Fully open source software.
+
+For using Google's suite of apps, try the GApps Sandboxed Browser app, which works the same as this app but contains specific handling for Google's web apps.
+
+WebApps is open source. Visit the app's website for more information and source code. Contributions are welcome.

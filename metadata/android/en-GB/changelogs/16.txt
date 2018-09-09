@@ -1,0 +1,7 @@
+v2.11:
+- New options to totally hide actionbar. A long-press on a blank spot toggles the actionbar.
+- Actionbar can be hidden only when launched from shortcut
+- Fixes to favicon handling
+
+v2.10:
+- Japanese translation thanks to naofum @ github

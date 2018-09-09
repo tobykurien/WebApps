@@ -1,0 +1,4 @@
+- now handles redirects better when opening a new web app
+- forces http content within the sandbox to be fetched over https rather than just blocking it
+- added a "recommended web apps" wiki page for sharing web app links
+- UI tweaks and bug fixes

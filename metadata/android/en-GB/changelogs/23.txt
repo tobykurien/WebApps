@@ -1,0 +1,5 @@
+- Now shows old cert alongside new cert when the site certificate changes
+- fixed sharing of URL
+- now allows apps (like browsers) to share their URL to WebApps
+- Shared or pasted URLs will now try to open in saved sandbox, unless "Open in new sandbox" is checked
+- fix crash on older versions of Android
