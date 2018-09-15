@@ -9,12 +9,14 @@ It accomplishes this by providing a sandbox for multiple webapps (like Google's 
 
 By default, all HTTP requests are blocked (only HTTPS allowed). This improves security, especially on untrusted networks. In addition, WebApps will warn you if the SSL certificate of the site you're viewing has changed.
 
+For a less security-focussed, but more media-friendly option, try [Web Media Share][webmediashare], which is a fork of WebApps with specific focus on extracting and sharing/casting media.
+
 For using Google's suite of apps, try the [GApps Sandboxed Browser app][gapps], which works the same as this app but contains specific handling for Google's web apps.
 
 <a href="https://play.google.com/store/apps/details?id=com.tobykurien.webapps" target="_blank">
   <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="60"/>
 </a>
-<a href="https://f-droid.org/repository/browse/?fdfilter=webapps&fdid=com.tobykurien.webapps" target="_blank">
+<a href="https://f-droid.org/en/packages/com.tobykurien.webapps/" target="_blank">
   <img src="https://f-droid.org/badge/get-it-on.png" height="60"/>
 </a>
 
@@ -94,6 +96,7 @@ To develop using Android Studio:
 - Import the project into Android Studio
 - The project should now compile (very first build may fail, a rebuild should fix this).
 
+   [webmediashare]: https://github.com/tobykurien/WebMediaShare
    [gapps]: https://github.com/tobykurien/GoogleNews
    [cookies]: https://developer.android.com/reference/android/webkit/WebSettings.html#setDatabasePath%28java.lang.String%29
    [sandbox_workaround]: https://github.com/tobykurien/WebApps/issues/3
