@@ -1,3 +1,4 @@
+
 buildscript {
     repositories {
         jcenter()
@@ -5,20 +6,22 @@ buildscript {
         maven {
             url "https://maven.google.com"
         }
+        flatDir {
+          dirs "libs"
+        }
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'org.xtext:xtext-android-gradle-plugin:1.0.20'
-
-        // eclipse AAR plugin: https://github.com/ksoichiro/gradle-eclipse-aar-plugin
-        classpath 'com.github.ksoichiro:gradle-eclipse-aar-plugin:0.2.0'
+        classpath "gradle.plugin.com.greensopinion.gradle-android-eclipse:gradle-android-eclipse:1.1"
     }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'org.xtext.android.xtend'
-apply plugin: 'com.github.ksoichiro.eclipse.aar'
+apply plugin: 'com.greensopinion.gradle-android-eclipse'
+apply plugin: 'eclipse'
 
 repositories {
     jcenter()
@@ -28,15 +31,11 @@ repositories {
     }
 }
 
-// Configure eclipse-aar plugin. To use:
-// $ gradle generateEclipseDependencies
-// then import generated projects into Eclipse
-eclipseAar {
-    androidTarget = 'android-27'
-    aarDependenciesDir = 'aarDependencies'
-    jarDependenciesDir = 'jarDependencies'
-    cleanLibsDirectoryEnabled = true
-    andmore = true
+eclipse {
+  classpath {
+    plusConfigurations += [ configurations.compile, configurations.testCompile ]
+    downloadSources = true
+  }
 }
 
 android {

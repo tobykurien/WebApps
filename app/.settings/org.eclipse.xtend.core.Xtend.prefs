@@ -1,0 +1,26 @@
+#Fri Mar 15 14:20:28 SAST 2019
+//outlet.DEFAULT_OUTPUT.sourceFolder.src/main/java.directory=build/generated/source/xtend/release
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/rs/debug.directory=build/generated/source/xtend/debug
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/r/androidTest/debug.directory=build/generated/source/xtend/debugAndroidTest
+eclipse.preferences.version=1
+//outlet.DEFAULT_OUTPUT.sourceFolder.src/androidTest/java.directory=build/generated/source/xtend/debugAndroidTest
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/aidl/androidTest/debug.directory=build/generated/source/xtend/debugAndroidTest
+outlet.DEFAULT_OUTPUT.hideLocalSyntheticVariables=false
+outlet.DEFAULT_OUTPUT.userOutputPerSourceFolder=true
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/r/release.directory=build/generated/source/xtend/release
+generateGeneratedAnnotation=false
+includeDateInGenerated=false
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/aidl/release.directory=build/generated/source/xtend/release
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/buildConfig/release.directory=build/generated/source/xtend/release
+targetJavaVersion=Java7
+generateSuppressWarnings=true
+BuilderConfiguration.is_project_specific=true
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/aidl/debug.directory=build/generated/source/xtend/debug
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/buildConfig/androidTest/debug.directory=build/generated/source/xtend/debugAndroidTest
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/rs/release.directory=build/generated/source/xtend/release
+outlet.DEFAULT_OUTPUT.installDslAsPrimarySource=true
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/rs/androidTest/debug.directory=build/generated/source/xtend/debugAndroidTest
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/r/debug.directory=build/generated/source/xtend/debug
+ValidatorConfiguration.is_project_specific=true
+//outlet.DEFAULT_OUTPUT.sourceFolder.build/generated/source/buildConfig/debug.directory=build/generated/source/xtend/debug
+useJavaCompilerCompliance=false
