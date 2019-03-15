@@ -85,8 +85,8 @@ In order to develop in Eclipse:
 
 - Install the [Xtend plugin for Eclipse][xtend_install]
 - Clone the git repository to your local machine (```git clone ...```)
-- Inside the checked-out folder, run: ```gradle generateEclipseDependencies```. This will download all the required 3rd party libraries and create Eclipse projects for them (if they are AAR dependencies).
-- Open Eclipse and import all projects *and sub-projects* within the checked-out folder
+- Inside the checked-out folder, run: ```./gradlew eclipse```. This will download all the required 3rd party libraries and create the Eclipse classpath and project files
+- Open Eclipse and import the project in the `app` folder
 - The project should now compile in Eclipse
 
 To develop using Android Studio:
