@@ -55,7 +55,12 @@ class DbService extends BaseDbService {
 	def void saveCookies(Webapp webapp) {
 		if (Debug.COOKIE) Log.d("cookie", "Saving cookies for " + webapp.url)
 		var cookiesStr = CookieManager.instance.getCookie(webapp.url)
+				
 		if (cookiesStr != null) {
+			// Obfuscate Expires and Max-Age
+			cookiesStr = cookiesStr.replaceAll("Expires", "NoExp")
+			cookiesStr = cookiesStr.replaceAll("Max-Age", "NoAge")
+	
 			update("webapps", #{
 				"cookies" -> cookiesStr
 			}, webapp.id)
