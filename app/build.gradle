@@ -79,3 +79,7 @@ android {
         abortOnError false // because missing translations...
     }
 }
+
+task runApp(type: Exec) {
+	commandLine '/usr/local/bin/adb', 'shell', 'monkey -p com.tobykurien.webapps.debug -c android.intent.category.LAUNCHER 1'
+}
