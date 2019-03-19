@@ -58,8 +58,8 @@ class DbService extends BaseDbService {
 				
 		if (cookiesStr != null) {
 			// Obfuscate Expires and Max-Age
-			cookiesStr = cookiesStr.replaceAll("Expires", "NoExp")
-			cookiesStr = cookiesStr.replaceAll("Max-Age", "NoAge")
+			cookiesStr = cookiesStr.replaceAll("(?i)expires", "NoExp")
+			cookiesStr = cookiesStr.replaceAll("(?i)max-age", "NoAge")
 	
 			update("webapps", #{
 				"cookies" -> cookiesStr
