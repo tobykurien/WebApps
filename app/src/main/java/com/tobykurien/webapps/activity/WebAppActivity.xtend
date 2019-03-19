@@ -39,6 +39,7 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import com.tobykurien.webapps.fragment.PreferencesFragment
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -267,15 +268,32 @@ public class WebAppActivity extends BaseWebAppActivity {
 				wv.settings.userAgentString = webapp.userAgent
 			])
 			.setPositiveButton(android.R.string.ok, [ dlg, i |
-				// save user agent
-				if (webappId > 0) {
-					db.update(DbService.TABLE_WEBAPPS, #{
-						'userAgent' -> webapp.userAgent
-					}, webappId)
-					wv.reload()
-				}
+				if (webapp.userAgent.equals("Custom")) {
+					PreferencesFragment.promptUA(WebAppActivity.this) [ newUA |
+						webapp.userAgent = newUA
+						wv.settings.userAgentString = webapp.userAgent
+
+						// save user agent
+						if (webappId > 0) {
+							db.update(DbService.TABLE_WEBAPPS, #{
+								'userAgent' -> webapp.userAgent
+							}, webappId)
+							wv.reload()
+						}
+		
+						dlg.dismiss
+					]
+				} else {
+					// save user agent
+					if (webappId > 0) {
+						db.update(DbService.TABLE_WEBAPPS, #{
+							'userAgent' -> webapp.userAgent
+						}, webappId)
+						wv.reload()
+					}
 	
-				dlg.dismiss
+					dlg.dismiss
+				}
 			])
 			.create()
 			.show()
