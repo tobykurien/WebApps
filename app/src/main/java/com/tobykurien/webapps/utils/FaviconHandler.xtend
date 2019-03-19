@@ -3,13 +3,14 @@ package com.tobykurien.webapps.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.util.Log
+import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
 import static extension org.xtendroid.utils.TimeUtils.*
-import java.io.BufferedOutputStream
 
 class FaviconHandler {
 	val Context context
@@ -76,5 +77,43 @@ class FaviconHandler {
 
 	def private File getFile(long webappId) {
 		new File(context.cacheDir.path + "/favicon-" + webappId + ".png")
+	}
+	
+	// from: https://stackoverflow.com/questions/8471236/finding-the-dominant-color-of-an-image-in-an-android-drawable
+	def static int getDominantColor(File image) {
+	    if (image == null || !image.exists) {
+	        return Color.rgb(0xFF, 0xA0, 0x00);
+	    }
+	    val bitmap = BitmapFactory.decodeFile(image.absolutePath)
+	    val int width = bitmap.getWidth();
+	    val int height = bitmap.getHeight();
+	    val int size = width * height;
+	    val int[] pixels = newIntArrayOfSize(size);
+	    //Bitmap bitmap2 = bitmap.copy(Bitmap.Config.ARGB_4444, false);
+	    bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+	    var int color = 0;
+	    var int r = 0;
+	    var int g = 0;
+	    var int b = 0;
+	    var int a = 0;
+	    var int count = 0;
+	    for (var i = 0; i < pixels.length; i++) {
+	        color = pixels.get(i);
+	        a = Color.alpha(color);
+	        if (a > 0) {
+	            r += Color.red(color);
+	            g += Color.green(color);
+	            b += Color.blue(color);
+	            count++;
+	        }
+	    }
+	    r /= count;
+	    g /= count;
+	    b /= count;
+	    r = (r << 16).bitwiseAnd(0x00FF0000);
+	    g = (g << 8).bitwiseAnd(0x0000FF00);
+	    b = b.bitwiseAnd(0x000000FF);
+	    color = 0xFF000000.bitwiseOr(r).bitwiseOr(g).bitwiseOr(b);
+	    return color;
 	}
 }

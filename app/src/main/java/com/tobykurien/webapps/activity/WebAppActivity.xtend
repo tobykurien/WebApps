@@ -3,6 +3,7 @@ package com.tobykurien.webapps.activity;
 import android.annotation.TargetApi
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -27,11 +28,13 @@ import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgCertificate
 import com.tobykurien.webapps.fragment.DlgCertificateChanged
 import com.tobykurien.webapps.fragment.DlgSaveWebapp
+import com.tobykurien.webapps.fragment.PreferencesFragment
 import com.tobykurien.webapps.utils.CertificateUtils
 import com.tobykurien.webapps.utils.FaviconHandler
 import com.tobykurien.webapps.utils.Settings
 import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
+import java.io.File
 import java.util.ArrayList
 import java.util.List
 import java.util.Set
@@ -39,7 +42,6 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import com.tobykurien.webapps.fragment.PreferencesFragment
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -59,6 +61,8 @@ public class WebAppActivity extends BaseWebAppActivity {
 	var private MenuItem imageMenu = null;
 	var private MenuItem shortcutMenu = null;
 	var private Bitmap unsavedFavicon = null;
+	var private firstIconReceived = true;
+	val iconHandler = new FaviconHandler(this)
 
 	override onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,11 +94,8 @@ public class WebAppActivity extends BaseWebAppActivity {
 		]
 
 		// load a favico if it already exists
-		val iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
-		iconImg.imageResource = R.drawable.ic_action_site
-		val iconHandler = new FaviconHandler(this)
-		WebappsAdapter.loadFavicon(this, iconHandler.getFavIcon(webappId), iconImg)
-		iconHandler.deleteFavIcon(webappId)
+		val favIcon = iconHandler.getFavIcon(webappId)
+		updateActionBar(favIcon)		
 	}
 
 	override protected onResume() {
@@ -360,14 +361,23 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 	override onReceivedFavicon(WebView view, Bitmap icon) {
 		super.onReceivedFavicon(view, icon)
+
+		if (firstIconReceived) {
+			// delete the previous favicon so that it is updated
+			iconHandler.deleteFavIcon(webappId)
+		}
+
 		var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
 		iconImg.setImageBitmap(icon);
 
 		// also save favicon
 		if (webappId >= 0) {
 			AsyncBuilder.async [ builder, params |
-				new FaviconHandler(this).saveFavIcon(webappId, icon)
+				iconHandler.saveFavIcon(webappId, icon)
 				return true
+			].then[
+				val favIcon = iconHandler.getFavIcon(webappId)
+				updateActionBar(favIcon)
 			].onError [ ex |
 				Log.e("favicon", "error saving icon", ex)
 			].start()
@@ -529,5 +539,18 @@ public class WebAppActivity extends BaseWebAppActivity {
 		val shortcut = ShortcutActivity.getShortcut(this, webapp)
 		ShortcutManagerCompat.requestPinShortcut(this, shortcut.build(), null)
 		toast(getString(R.string.msg_shortcut_added))
+	}
+	
+	def updateActionBar(File favIcon) {
+		val iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
+		iconImg.imageResource = R.drawable.ic_action_site
+		WebappsAdapter.loadFavicon(this, favIcon, iconImg)
+		val colour = FaviconHandler.getDominantColor(favIcon)
+		supportActionBar.backgroundDrawable = new ColorDrawable(colour)
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		    val window = getWindow();
+		    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+		    window.setStatusBarColor(colour);
+		}		
 	}
 }
