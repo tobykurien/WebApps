@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">WebApps</string>
     <string name="menu_site">Cambia sito</string>
     <string name="menu_exit">Esci</string>
     <string name="menu_text_size">Dimensioni font</string>
@@ -42,7 +41,7 @@
 
     <string name="action_tips">Suggerimenti</string>
     <string name="tips"><![CDATA[
-        <p><b>Aggiunta delle web apps</b>: per aggiungere una nuova web app, apri il sito, poi premi l'azione "Salva come Webapp"</p>
+        <p><b>Aggiunta delle web apps</b>: per aggiungere una nuova web app, apri il sito, poi premi l\'azione "Salva come Webapp"</p>
         <p><b>Domini di terze parti</b>: se un sito sembra malfunzionante, prova ad abilitare alcuni domini di terze parti sui quali il sito può dipendere, ad es. <i>fbcdn.net</i> per <i>Facebook</i></p>
         <p><b>Collegamenti nella schermata Home</b>: premi a lungo sulla tua schermata Home e accedi alla pagina dei widget per aggiungere un collegamento webapp alla tua Home</p>
         <p><b>Pressione lunga sui link</b>: premi a lungo un link su un sito per scegliere come aprirlo</p>
@@ -63,7 +62,7 @@
     <string name="title_fullscreen">Schermo intero</string>
     <string name="summary_fullscreen">Nascondi la barra di stato (richiede la riapertura)</string>
     <string name="title_fullscreen_immersive">Modalità immersiva</string>
-    <string name="summary_fullscreen_immersive">Nella modalità a schermo intero, nascondere tutta l'UI di sistema</string>
+    <string name="summary_fullscreen_immersive">Nella modalità a schermo intero, nascondere tutta l\'UI di sistema</string>
     <string name="title_autohide">Nascondi automaticamente la barra delle azioni</string>
     <string name="summary_autohide">Nascondi la barra delle azioni mentre scorri in basso, rivela mentre scorri in alto</string>
     <string name="title_hide_actionbar">Nascondi barra delle azioni</string>
