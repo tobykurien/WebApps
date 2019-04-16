@@ -81,9 +81,12 @@ class FaviconHandler {
 	
 	// from: https://stackoverflow.com/questions/8471236/finding-the-dominant-color-of-an-image-in-an-android-drawable
 	def static int getDominantColor(File image) {
-	    if (image == null || !image.exists) {
-	        return Color.rgb(0xFF, 0xA0, 0x00);
+		val defaultColor = Color.rgb(0xFF, 0xA0, 0x00);
+
+	    if (image === null || !image.exists) {
+	        return defaultColor
 	    }
+
 	    val bitmap = BitmapFactory.decodeFile(image.absolutePath)
 	    val int width = bitmap.getWidth();
 	    val int height = bitmap.getHeight();
@@ -100,7 +103,7 @@ class FaviconHandler {
 	    for (var i = 0; i < pixels.length; i++) {
 	        color = pixels.get(i);
 	        a = Color.alpha(color);
-	        if (a > 0) {
+	        if (a > 0 && notTooBright(color)) {
 	            r += Color.red(color);
 	            g += Color.green(color);
 	            b += Color.blue(color);
@@ -114,6 +117,23 @@ class FaviconHandler {
 	    g = (g << 8).bitwiseAnd(0x0000FF00);
 	    b = b.bitwiseAnd(0x000000FF);
 	    color = 0xFF000000.bitwiseOr(r).bitwiseOr(g).bitwiseOr(b);
-	    return color;
+	    
+	    if (notTooBright(color)) {
+		    return color;
+	    } else {
+			return defaultColor;
+	    }    
 	}
+	
+	def static notTooBright(int color) {
+		var r = Color.red(color)
+		var g = Color.green(color)
+		var b = Color.blue(color)
+		val threshold = 127
+		
+		if (r > threshold && g > threshold && b > threshold) return false; // too bright
+
+		return true
+	}
+	
 }
