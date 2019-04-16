@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!--
+		Copying and distribution of this file, with or without modification,
+		are permitted in any medium without royalty provided this notice is
+		preserved.  This file is offered as-is, without any warrant.
+	-->
+	
+	<string-array name="text_sizes">
+		<item>Il più piccolo</item>
+		<item>Più piccolo</item>
+		<item>Normale</item>
+		<item>Più grande</item>
+		<item>Il più grande</item>
+	</string-array>	
+</resources> 
