@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">WebApps</string>
+    <string name="menu_site">Cambia sito</string>
+    <string name="menu_exit">Esci</string>
+    <string name="menu_text_size">Dimensioni font</string>
+    <string name="menu_stop">Arresta</string>
+    <string name="menu_refresh">Aggiorna</string>
+    <string name="menu_toggle_image">Abilita immagini</string>
+    <string name="menu_settings">Impostazioni</string>
+    <string name="menu_3rd_party">Domini di terze parti</string>
+    <string name="menu_open_url">Apri URL</string>
+    <string name="menu_save">Salva come Webapp</string>
+    <string name="menu_share">Condividi URL</string>
+    <string name="menu_shortcut">Collegamento in schermata Home</string>
+    <string name="menu_user_agent">User Agent</string>
+    <string name="menu_certificate">Certificato</string>
+
+    <string name="open_url_hint">sito.com</string>
+    <string name="open_url">Apri URL</string>
+    <string name="err_invalid_url">URL non valido</string>
+
+    <string name="blocked_root_domains">Sblocca domini di terze parti</string>
+    <string name="unblock">Sblocca</string>
+    <string name="title_save_webapp">Salva Webapp</string>
+    <string name="msg_save_webapp">Salvare l\'attuale sito come Webapp?</string>
+    <string name="msg_saving_webapp">Salvataggio Webapp</string>
+    <string name="msg_shortcut_added">Collegamento aggiunto</string>
+    <string name="btn_save">Salva</string>
+    <string name="webapp_name">Nome Webapp</string>
+    <string name="open_site">Apri sito</string>
+    <string name="btn_recommended_sites">Consigliati</string>
+    <string name="delete_webapp">Cancellare Webapp?</string>
+    <string name="shortcut_label">Collegamento Webapp</string>
+    <string name="err_webapp_not_found">Webapp non trovata</string>
+    <string name="title_open_with">Open con</string>
+
+    <string name="title_certificate">Certificato del sito web</string>
+    <string name="title_cert_untrusted">Certificato non attendibile</string>
+    <string name="title_cert_changed">Certificato cambiato</string>
+    <string name="cert_accept">Accetta certificato</string>
+
+    <string name="action_tips">Suggerimenti</string>
+    <string name="tips"><![CDATA[
+        <p><b>Aggiunta delle web apps</b>: per aggiungere una nuova web app, apri il sito, poi premi l'azione "Salva come Webapp"</p>
+        <p><b>Domini di terze parti</b>: se un sito sembra malfunzionante, prova ad abilitare alcuni domini di terze parti sui quali il sito può dipendere, ad es. <i>fbcdn.net</i> per <i>Facebook</i></p>
+        <p><b>Collegamenti nella schermata Home</b>: premi a lungo sulla tua schermata Home e accedi alla pagina dei widget per aggiungere un collegamento webapp alla tua Home</p>
+        <p><b>Pressione lunga sui link</b>: premi a lungo un link su un sito per scegliere come aprirlo</p>
+]]></string>
+    <string name="btn_website">Codice sorgente</string>
+    <string name="toast_images_enabled">Caricamento immagini attivo</string>
+    <string name="toast_images_disabled">Caricamento immagini non attivo</string>
+    <string name="progress_opening_site">Apertura web app...</string>
+    <string name="open_new_sandbox">Apri in una nuova sandbox</string>
+
+    <!-- Preferences activity strings -->
+    <string name="title_3rd_party">Blocca richieste di terze parti</string>
+    <string name="summary_3rd_party">Non caricare immagini/script al di fuori dei domini delle webapp</string>
+    <string name="title_font_size">Dimensione font</string>
+    <string name="summary_font_size">Cambia la dimensione del font renderizzato</string>
+    <string name="title_user_agent">User Agent</string>
+    <string name="summary_user_agent">Determina come vengono renderizzati i siti sul tuo dispositivo</string>
+    <string name="title_fullscreen">Schermo intero</string>
+    <string name="summary_fullscreen">Nascondi la barra di stato (richiede la riapertura)</string>
+    <string name="title_fullscreen_immersive">Modalità immersiva</string>
+    <string name="summary_fullscreen_immersive">Nella modalità a schermo intero, nascondere tutta l'UI di sistema</string>
+    <string name="title_autohide">Nascondi automaticamente la barra delle azioni</string>
+    <string name="summary_autohide">Nascondi la barra delle azioni mentre scorri in basso, rivela mentre scorri in alto</string>
+    <string name="title_hide_actionbar">Nascondi barra delle azioni</string>
+    <string name="summary_hide_actionbar">Rimuovi completamente la barra delle azioni. Premi a lungo un punto vuoto per mostrarla.</string>
+    <string name="title_shortcut_actionbar">Nascondi solo per i collegamenti</string>
+    <string name="summary_shortcut_actionbar">Nascondi la barra delle azioni quando si lancia da un collegamento</string>
+</resources>
