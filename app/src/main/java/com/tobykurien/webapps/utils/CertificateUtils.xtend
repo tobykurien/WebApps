@@ -18,14 +18,12 @@ class CertificateUtils {
 	
 	// Create a hash of the certificate for comparison
 	def static String certificateHash(SslCertificate certificate) {
-		SHA1(certificate.issuedBy.DName + 
-				certificate.issuedTo.DName)
+		SHA1(certificate.issuedBy.DName) // + certificate.issuedTo.DName)
 	}
 	
 	// Create a hash of the webapp's saved certificate details for comparison
 	def static String certificateHash(Webapp webapp) {
-		SHA1(webapp.certIssuedBy + 
-				webapp.certIssuedTo)
+		SHA1(webapp.certIssuedBy) // + webapp.certIssuedTo)
 	}
 		
 	def static int compare(SslCertificate cert1, SslCertificate cert2) {
@@ -38,8 +36,8 @@ class CertificateUtils {
 
 	// Save the certificate details to the webapp	
 	def static void updateCertificate(Webapp webapp, SslCertificate certificate, DbService db) {
-		if (certificate == null || certificate.issuedBy == null ||
-			certificate.issuedTo == null) return;
+		if (certificate === null || certificate.issuedBy === null ||
+			certificate.issuedTo === null) return;
 		
 		db.update(DbService.TABLE_WEBAPPS, #{
 			'certIssuedBy' -> certificate.issuedBy.DName,
