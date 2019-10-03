@@ -21,6 +21,7 @@ import com.tobykurien.webapps.activity.BaseWebAppActivity
 import com.tobykurien.webapps.activity.WebAppActivity
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.fragment.DlgCertificate
+import com.tobykurien.webapps.utils.CertificateUtils
 import com.tobykurien.webapps.utils.Debug
 import java.lang.UnsupportedOperationException
 import java.io.ByteArrayInputStream
@@ -113,16 +114,18 @@ class WebClient extends WebViewClient {
 				return true
 			} else if (uri.getScheme().equals("http")) {
 				if (isInSandbox(uri)) {
-					// Common case where site redirects to "http", let's force it to "https"
-					var uriBuilder = uri.buildUpon()
-					uriBuilder.scheme("https")
-					uri = uriBuilder.build()
+					if(!CertificateUtils.canBeUnencrypted(uri.toString())) {
+						// Common case where site redirects to "http", let's force it to "https"
+						var uriBuilder = uri.buildUpon()
+						uriBuilder.scheme("https")
+						uri = uriBuilder.build()
 
-					// avoid recursive loads when https redirects back to http
-					if (view.url.equalsIgnoreCase(uri.toString())) {
-						handleExternalLink(activity, uri, true)
-					} else {
-						view.loadUrl(uri.toString())
+						// avoid recursive loads when https redirects back to http
+						if(view.url.equalsIgnoreCase(uri.toString())) {
+							handleExternalLink(activity, uri, true)
+						} else {
+							view.loadUrl(uri.toString())
+						}
 					}
 				} else {
 					handleExternalLink(activity, uri, true)
@@ -197,7 +200,7 @@ class WebClient extends WebViewClient {
 			isBlocked = true
 		}
 
-		if (activity.settings.isBlockHttp() && !uri.getScheme().equals("https") && !isInSandbox(uri)) {
+		if (activity.settings.isBlockHttp() && !uri.getScheme().equals("https") && !isInSandbox(uri) && !CertificateUtils.canBeUnencrypted(uri.toString())) {
 			isBlocked = true
 		}
 
@@ -229,11 +232,7 @@ class WebClient extends WebViewClient {
 	def public static String getHost(String url, String defaultHost) {
 		if (url == null) return defaultHost
 		try {
-			if (url.indexOf("://") > 0) {
-				return getHost(Uri.parse(url))
-			} else {
-				return getHost(Uri.parse("https://" + url))
-			}
+			return getHost(Uri.parse(url))
 		} catch (Exception e) {
 			Log.e("host", "Error parsing " + url, e)
 			return defaultHost

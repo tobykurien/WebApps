@@ -12,6 +12,7 @@ import com.tobykurien.webapps.R
 import com.tobykurien.webapps.activity.BaseWebAppActivity
 import com.tobykurien.webapps.activity.WebAppActivity
 import com.tobykurien.webapps.data.Webapp
+import com.tobykurien.webapps.utils.CertificateUtils
 import java.io.InputStream
 import java.net.URL
 import java.net.URLConnection
@@ -76,10 +77,16 @@ import com.tobykurien.webapps.webviewclient.WebClient
 		try {
 			if (url.trim().length == 0) throw new Exception();
 
-		    if (url.contains("://")) {
-				uri = Uri.parse("https://" + url.substring(url.indexOf("://") + 3))
+			if (!CertificateUtils.canBeUnencrypted(url)) {
+				if(url.contains("://")) {
+					uri = Uri.parse("https://" + url.substring(url.indexOf("://") + 3))
+				} else {
+					uri = Uri.parse("https://" + url)
+				}
 			} else {
-				uri = Uri.parse("https://" + url)
+				if(!url.contains("://")) {
+					uri = Uri.parse("http://" + url)
+				}
 			}
 		} catch (Exception e) {
 			Log.e("dlgOpenUrl", "Error opening url", e)
@@ -113,7 +120,7 @@ import com.tobykurien.webapps.webviewclient.WebClient
 				uriFinal = originalUri
 			}
 
-			if (!uriFinal.getScheme().equals("https")) {
+			if (!uriFinal.getScheme().equals("https") && !CertificateUtils.canBeUnencrypted(uriFinal.toString())) {
 				// force it to https
 				var builder = uriFinal.buildUpon()
 				builder.scheme("https")
