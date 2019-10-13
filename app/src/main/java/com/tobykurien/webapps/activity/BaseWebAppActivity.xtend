@@ -23,6 +23,7 @@ import android.widget.ProgressBar
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.data.Webapp
 import com.tobykurien.webapps.db.DbService
+import com.tobykurien.webapps.utils.CertificateUtils
 import com.tobykurien.webapps.utils.Debug
 import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
@@ -221,7 +222,9 @@ import static extension org.xtendroid.utils.AlertUtils.*
 		}
 
 		var url = siteUrl.toString()
-		if (!url.startsWith("https://")) {
+		if(CertificateUtils.canBeUnencrypted(url)){
+			toastLong("Accessing a local domain, so no HTTPS was enforced!")
+		} else if (!url.startsWith("https://")) {
 			url = "https://" + url.substring(url.indexOf("://") + 3)
 		}
 		wv.loadUrl(url)

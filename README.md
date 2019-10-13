@@ -7,9 +7,9 @@ This Android app is a fork of the [GoogleApps Sandboxed browser][gapps]. The ide
 
 It accomplishes this by providing a sandbox for multiple webapps (like Google's apps, Facebook, Twitter, etc.). Each webapp will run in it's own sandbox, with 3rd party requests (images, scripts, iframes, etc.) blocked, and all external links opening in an external default web browser (which should have cookies, plug-ins, flash, etc. disabled). Homescreen (launcher) shortcuts can be created to any of the saved webapps.
 
-By default, all HTTP requests are blocked (only HTTPS allowed). This improves security, especially on untrusted networks. In addition, WebApps will warn you if the SSL certificate of the site you're viewing has changed.
+By default, all HTTP requests are blocked (only HTTPS allowed) except for some local network domains (like localhost and class a, b and c private networks). This improves security, especially on untrusted networks. In addition, WebApps will warn you if the SSL certificate of the site you're viewing has changed.
 
-For a less security-focussed, but more media-friendly option, try [Web Media Share][webmediashare], which is a fork of WebApps with specific focus on extracting and sharing/casting media.
+For a less security-focused, but more media-friendly option, try [Web Media Share][webmediashare], which is a fork of WebApps with specific focus on extracting and sharing/casting media.
 
 For using Google's suite of apps, try the [GApps Sandboxed Browser app][gapps], which works the same as this app but contains specific handling for Google's web apps.
 
@@ -25,7 +25,7 @@ Features
 
 - Works like Mozilla Prism on the desktop. This is a mostly chrome-less browser that gets out of your way.
 - Completely full-screen browsing (auto-hiding actionbar)
-- Securely browse mobile sites (uses HTTPS only)
+- Securely browse mobile sites (uses HTTPS only except for some local network domains)
 - Blocks 3rd party requests (images/scripts/iframes) like the NoScript and NotScripts plugins on the desktop
 - Allows self-signed SSL certificates to be saved
 - Warns if server SSL certificate changes (e.g. during man-in-the-middle-attack)
@@ -36,7 +36,6 @@ Features
 - Uses much less bandwidth than native apps (like Google+ app). No background sync'ing.
 - Features local data storage and caching for reduced bandwidth usage and better speed.
 - Fully open source software.
-
 
 Cookies
 =======
@@ -64,6 +63,15 @@ Location
 ========
 
 The WebView's location access has been disabled, to prevent sites requesting your location.
+
+Local Network Domains
+=======
+By default all requests are redirected to HTTPS. Since SSL is not always possible for devices in your own network, or your device itself the following adresses are excempt from HTTPS enforcement:
+- localhost
+- 127.0.0.1 and ::1
+- 10.0.0.0 to 10.255.255.255
+- 172.16.0.0 to 172.31.255.255
+- 192.168.0.0 to 192.168.255.255
 
 Libraries
 =========
