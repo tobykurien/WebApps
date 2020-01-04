@@ -35,6 +35,14 @@ import java.util.Set
 import org.xtendroid.annotations.BundleProperty
 import org.xtendroid.app.AndroidActivity
 import org.xtendroid.app.OnCreate
+import android.webkit.GeolocationPermissions
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog
+import android.content.DialogInterface;
+import android.support.v4.content.ContextCompat;
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
@@ -129,7 +137,9 @@ import static extension org.xtendroid.utils.AlertUtils.*
 				onFullscreenChanged(false)
 			}
 
-
+			override onGeolocationPermissionsShowPrompt(String origin, android.webkit.GeolocationPermissions.Callback callback) {
+				handleLocationPermissions(webapp, origin, callback);
+			}
 		})
 
 		openSite(webapp, siteUrl)
@@ -365,6 +375,50 @@ import static extension org.xtendroid.utils.AlertUtils.*
 		}
 
 		getWindow().setAttributes(attrs);
+	}
+
+	def void handleLocationPermissions(Webapp webapp, String origin, android.webkit.GeolocationPermissions.Callback callback) {
+		if (webapp.allowLocation === null) {
+			new AlertDialog.Builder(BaseWebAppActivity.this)
+				.setTitle(origin)
+				.setMessage("Would like to use your Current Location ")
+				.setCancelable(true)
+				.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+					override void onClick(DialogInterface dialog, int id) {
+						webapp.allowLocation = true
+						db.update(DbService.TABLE_WEBAPPS, #{
+							'allowLocation' -> webapp.allowLocation
+						}, webappId)
+						callback.invoke(origin, true, false);
+						var result = ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+						if (result == PackageManager.PERMISSION_GRANTED) {
+						} else {
+							ActivityCompat.requestPermissions(BaseWebAppActivity.this, 
+								#[Manifest.permission.ACCESS_COARSE_LOCATION, 
+								Manifest.permission.ACCESS_FINE_LOCATION], 
+								101);
+						}
+					}
+					})
+				.setNegativeButton("Don't Allow", new DialogInterface.OnClickListener() {
+						override void onClick(DialogInterface dialog, int id) {
+							webapp.allowLocation = false
+							db.update(DbService.TABLE_WEBAPPS, #{
+								'allowLocation' -> webapp.allowLocation
+							}, webappId)
+							callback.invoke(origin, false, false);
+						}
+					})
+				.create()
+				.show()
+		} else if (webapp.allowLocation) {
+			// grant permission
+			callback.invoke(origin, true, false);
+		} else {
+			// deny
+			callback.invoke(origin, false, false);
+		}
+
 	}
 }
 

@@ -18,7 +18,7 @@ class DbService extends BaseDbService {
 	public static val TABLE_DOMAINS = "domain_names"
 
 	protected new(Context context) {
-		super(context, "webapps4", 5)
+		super(context, "webapps4", 6)
 	}
 
 	def static getInstance(Context context) {
@@ -45,6 +45,10 @@ class DbService extends BaseDbService {
 
 		if (oldVersion == 4 && newVersion == 5) {
 			db.execSQL('''alter table «TABLE_WEBAPPS» add column cookies text''')
+		}
+
+		if (oldVersion == 5 && newVersion == 6) {
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column allowLocation bool''')
 		}
 	}
 

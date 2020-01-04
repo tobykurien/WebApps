@@ -13,7 +13,8 @@
            certValidFrom text,
            certValidTo text,
            certHash text,
-           cookies text
+           cookies text,
+           allowLocation boolean
         );
         
         create table domain_names (
