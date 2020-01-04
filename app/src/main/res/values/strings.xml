@@ -70,4 +70,9 @@
     <string name="summary_hide_actionbar">Remove the actionbar completely. Long-press a blank spot to toggle.</string>
     <string name="title_shortcut_actionbar">Hide only for shortcuts</string>
     <string name="summary_shortcut_actionbar">Only hide the actionbar when launched from a shortcut</string>
+
+    <string name="title_location_access">Location Access</string>
+    <string name="desc_location_access">Current location is being requested by</string>
+    <string name="btn_allow">Allow</string>
+    <string name="btn_deny">Deny</string>
 </resources>

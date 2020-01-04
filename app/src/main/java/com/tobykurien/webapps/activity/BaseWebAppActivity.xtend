@@ -380,10 +380,10 @@ import static extension org.xtendroid.utils.AlertUtils.*
 	def void handleLocationPermissions(Webapp webapp, String origin, android.webkit.GeolocationPermissions.Callback callback) {
 		if (webapp.allowLocation === null) {
 			new AlertDialog.Builder(BaseWebAppActivity.this)
-				.setTitle(origin)
-				.setMessage("Would like to use your Current Location ")
+				.setTitle(getString(R.string.title_location_access))
+				.setMessage(getString(R.string.desc_location_access) + origin)
 				.setCancelable(true)
-				.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+				.setPositiveButton(getString(R.string.btn_allow), new DialogInterface.OnClickListener() {
 					override void onClick(DialogInterface dialog, int id) {
 						webapp.allowLocation = true
 						db.update(DbService.TABLE_WEBAPPS, #{
@@ -391,16 +391,18 @@ import static extension org.xtendroid.utils.AlertUtils.*
 						}, webappId)
 						callback.invoke(origin, true, false);
 						var result = ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-						if (result == PackageManager.PERMISSION_GRANTED) {
-						} else {
+						if (result !== PackageManager.PERMISSION_GRANTED) {
+							// request android location permissions
 							ActivityCompat.requestPermissions(BaseWebAppActivity.this, 
-								#[Manifest.permission.ACCESS_COARSE_LOCATION, 
-								Manifest.permission.ACCESS_FINE_LOCATION], 
+								#[
+									Manifest.permission.ACCESS_COARSE_LOCATION, 
+									Manifest.permission.ACCESS_FINE_LOCATION
+								], 
 								101);
 						}
 					}
 					})
-				.setNegativeButton("Don't Allow", new DialogInterface.OnClickListener() {
+				.setNegativeButton(getString(R.string.btn_deny), new DialogInterface.OnClickListener() {
 						override void onClick(DialogInterface dialog, int id) {
 							webapp.allowLocation = false
 							db.update(DbService.TABLE_WEBAPPS, #{
