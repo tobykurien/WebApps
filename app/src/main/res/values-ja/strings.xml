@@ -28,7 +28,7 @@
     <string name="btn_save">保存</string>
     <string name="webapp_name">Webアプリ名</string>
     <string name="open_site">サイトを開く</string>
-    <string name="delete_webapp">Webアプリを削除しますか?</string>
+    <string name="delete_webapp">Webアプリを削除しますか</string>
     <string name="shortcut_label">Webアプリのショートカット</string>
     <string name="err_webapp_not_found">Webapp not found</string>
 

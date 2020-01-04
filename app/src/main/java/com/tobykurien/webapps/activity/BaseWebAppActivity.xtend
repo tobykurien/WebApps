@@ -381,7 +381,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 		if (webapp.allowLocation === null) {
 			new AlertDialog.Builder(BaseWebAppActivity.this)
 				.setTitle(getString(R.string.title_location_access))
-				.setMessage(getString(R.string.desc_location_access) + origin)
+				.setMessage(getString(R.string.desc_location_access) + " " + origin)
 				.setCancelable(true)
 				.setPositiveButton(getString(R.string.btn_allow), new DialogInterface.OnClickListener() {
 					override void onClick(DialogInterface dialog, int id) {

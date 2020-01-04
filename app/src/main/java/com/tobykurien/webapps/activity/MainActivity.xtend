@@ -69,7 +69,7 @@ import android.app.Activity
 
         mainList.setOnItemLongClickListener([av, v, pos, id|
         	val item = av.getItemAtPosition(pos) as Webapp
-            confirm(getString(R.string.delete_webapp), [
+            confirm(getString(R.string.delete_webapp) + " " + item.name + "?", [
                 AsyncBuilder.async[p1, p2|
                     db.execute(R.string.dbDeleteDomains, # {'webappId' -> item.id})
                     db.delete(DbService.TABLE_WEBAPPS, String.valueOf(item.id))

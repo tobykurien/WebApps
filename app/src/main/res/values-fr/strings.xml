@@ -28,7 +28,7 @@
     <string name="btn_save">open_url_hint</string>
     <string name="webapp_name">Nom de la WebApp</string>
     <string name="open_site">Ouvrir le site web</string>
-    <string name="delete_webapp">Supprimer la WebApp ?</string>
+    <string name="delete_webapp">Supprimer la WebApp</string>
 
     <string name="err_invalid_url">URL invalide</string>
     <string name="msg_saving_webapp">Sauvegarde de la webapp</string>

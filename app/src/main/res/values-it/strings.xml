@@ -29,7 +29,7 @@
     <string name="webapp_name">Nome Webapp</string>
     <string name="open_site">Apri sito</string>
     <string name="btn_recommended_sites">Consigliati</string>
-    <string name="delete_webapp">Cancellare Webapp?</string>
+    <string name="delete_webapp">Cancellare Webapp</string>
     <string name="shortcut_label">Collegamento Webapp</string>
     <string name="err_webapp_not_found">Webapp non trovata</string>
     <string name="title_open_with">Open con</string>
