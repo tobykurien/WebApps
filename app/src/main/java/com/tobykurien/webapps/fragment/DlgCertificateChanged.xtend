@@ -7,18 +7,16 @@ import com.tobykurien.webapps.R
 import org.xtendroid.app.OnCreate
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import com.tobykurien.webapps.db.DbService
-
-import static extension com.tobykurien.webapps.utils.Dependencies.*
-import static extension org.xtendroid.utils.AlertUtils.*
 
 @AndroidDialogFragment(R.layout.dlg_certificate_changed) class DlgCertificateChanged extends DlgCertificate {
     var Webapp webapp = null
+	var protected ()=>boolean onIgnoreClicked = null
 
     public new(Webapp webapp, SslCertificate certificate, String title, String okText,
-        ()=>boolean onOkClicked, ()=>boolean onCancelClicked) {
+        ()=>boolean onOkClicked, ()=>boolean onCancelClicked, ()=>boolean onIgnoreClicked) {
         super(certificate, title, okText, onOkClicked, onCancelClicked)
         this.webapp = webapp
+        this.onIgnoreClicked = onIgnoreClicked
     }
 
     /**
@@ -38,13 +36,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
                 if (onCancelClicked != null) onCancelClicked.apply()
             ])
             .setNeutralButton(R.string.btn_disable_cert_checks, [
-                // Allow user to permanently disable certificate checks
-                activity.confirm(getString(R.string.confirm_cert_disable)) [
-                    webapp.ignoreCertChanges = true
-                    if (webapp.id > 0) activity.db.update(DbService.TABLE_WEBAPPS, #{
-                        'ignoreCertChanges' -> webapp.ignoreCertChanges
-                    }, webapp.id)
-                ]
+                if (onIgnoreClicked != null) onIgnoreClicked.apply()
             ])
             .create()
     }

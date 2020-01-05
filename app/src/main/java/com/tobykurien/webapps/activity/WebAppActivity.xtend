@@ -342,7 +342,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		// TODO - security issue: if this is MITM, cookies already sent!
 		if (webapp != null && wv.certificate != null && webapp.ignoreCertChanges !== false) {
 			if (webapp.certIssuedBy != null) {
-				if (CertificateUtils.compare(webapp, wv.certificate) != 0) {
+				if (true || CertificateUtils.compare(webapp, wv.certificate) != 0) {
 					// SSL certificate changed!
 					var dlg = new DlgCertificateChanged(webapp, wv.certificate,
 						getString(R.string.title_cert_changed),
@@ -351,6 +351,15 @@ public class WebAppActivity extends BaseWebAppActivity {
 							true
 						], [
 							finish
+							true
+						], [
+							// Allow user to permanently disable certificate checks
+							confirm(getString(R.string.confirm_cert_disable)) [
+								webapp.ignoreCertChanges = true
+								if (webapp.id > 0) db.update(DbService.TABLE_WEBAPPS, #{
+									'ignoreCertChanges' -> webapp.ignoreCertChanges
+								}, webapp.id)
+							]
 							true
 						])
 					dlg.show(supportFragmentManager, "certificate")
