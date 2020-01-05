@@ -47,4 +47,11 @@
         delete from domain_names
         where webappId = #webappId#
     </string>
+
+    <string translatable="false" name="dbResetWebapp">
+        update webapps
+        set allowLocation = null, 
+            ignoreCertChanges = null
+        where id = #webappId#
+    </string>
 </resources>

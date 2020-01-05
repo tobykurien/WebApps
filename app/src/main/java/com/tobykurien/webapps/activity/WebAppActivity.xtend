@@ -216,10 +216,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 			}
 			case R.id.menu_reset: {
 				confirm(getString(R.string.reset_confirm)) [
-					db.update(DbService.TABLE_WEBAPPS, #{
-						'allowLocation' -> null,
-						'ignoreCertChanges' -> null
-					}, webappId)
+					webapp.ignoreCertChanges = null
+					webapp.allowLocation = null
+					if (webapp.id > 0) db.execute(R.string.dbResetWebapp, #{"webappId" -> webapp.id})
 				]
 			}
 			case R.id.menu_exit: {
@@ -340,9 +339,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 		// alert the user if SSL certificate has changed since last time
 		// TODO - security issue: if this is MITM, cookies already sent!
-		if (webapp != null && wv.certificate != null && webapp.ignoreCertChanges !== false) {
+		if (webapp != null && wv.certificate != null && webapp.ignoreCertChanges !== true) {
 			if (webapp.certIssuedBy != null) {
-				if (true || CertificateUtils.compare(webapp, wv.certificate) != 0) {
+				if (CertificateUtils.compare(webapp, wv.certificate) != 0) {
 					// SSL certificate changed!
 					var dlg = new DlgCertificateChanged(webapp, wv.certificate,
 						getString(R.string.title_cert_changed),
