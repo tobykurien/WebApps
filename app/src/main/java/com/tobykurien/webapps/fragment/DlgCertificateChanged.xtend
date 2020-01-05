@@ -7,6 +7,10 @@ import com.tobykurien.webapps.R
 import org.xtendroid.app.OnCreate
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import com.tobykurien.webapps.db.DbService
+
+import static extension com.tobykurien.webapps.utils.Dependencies.*
+import static extension org.xtendroid.utils.AlertUtils.*
 
 @AndroidDialogFragment(R.layout.dlg_certificate_changed) class DlgCertificateChanged extends DlgCertificate {
     var Webapp webapp = null
@@ -27,10 +31,20 @@ import android.support.v7.app.AlertDialog
             .setTitle(title)
             .setView(contentView) // contentView is the layout specified in the annotation
             .setPositiveButton(
-                    if (okText == null) getString(android.R.string.ok) else okText,
-                    [ if (onOkClicked != null) onOkClicked.apply() ]) // to avoid it closing dialog
+                if (okText == null) getString(android.R.string.ok) else okText, [ 
+                    if (onOkClicked != null) onOkClicked.apply() 
+                ]) // to avoid it closing dialog
             .setNegativeButton(android.R.string.cancel, [
                 if (onCancelClicked != null) onCancelClicked.apply()
+            ])
+            .setNeutralButton(R.string.btn_disable_cert_checks, [
+                // Allow user to permanently disable certificate checks
+                activity.confirm(getString(R.string.confirm_cert_disable)) [
+                    webapp.ignoreCertChanges = true
+                    if (webapp.id > 0) activity.db.update(DbService.TABLE_WEBAPPS, #{
+                        'ignoreCertChanges' -> webapp.ignoreCertChanges
+                    }, webapp.id)
+                ]
             ])
             .create()
     }

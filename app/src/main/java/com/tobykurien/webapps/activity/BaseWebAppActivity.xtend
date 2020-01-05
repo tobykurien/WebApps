@@ -386,7 +386,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 				.setPositiveButton(getString(R.string.btn_allow), new DialogInterface.OnClickListener() {
 					override void onClick(DialogInterface dialog, int id) {
 						webapp.allowLocation = true
-						db.update(DbService.TABLE_WEBAPPS, #{
+						if (webappId > 0) db.update(DbService.TABLE_WEBAPPS, #{
 							'allowLocation' -> webapp.allowLocation
 						}, webappId)
 						callback.invoke(origin, true, false);
@@ -405,7 +405,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 				.setNegativeButton(getString(R.string.btn_deny), new DialogInterface.OnClickListener() {
 						override void onClick(DialogInterface dialog, int id) {
 							webapp.allowLocation = false
-							db.update(DbService.TABLE_WEBAPPS, #{
+							if (webappId > 0) db.update(DbService.TABLE_WEBAPPS, #{
 								'allowLocation' -> webapp.allowLocation
 							}, webappId)
 							callback.invoke(origin, false, false);

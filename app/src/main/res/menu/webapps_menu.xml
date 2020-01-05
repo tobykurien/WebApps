@@ -63,6 +63,12 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menu_reset"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/menu_reset"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/menu_exit"
         android:icon="@drawable/ic_action_exit"
         android:title="@string/menu_exit"

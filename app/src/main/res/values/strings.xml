@@ -15,6 +15,13 @@
     <string name="menu_shortcut">Homescreen shortcut</string>
     <string name="menu_user_agent">User Agent</string>
     <string name="menu_certificate">Certificate</string>
+    <string name="menu_reset">Reset</string>
+
+    <string name="reset_confirm"><![CDATA[
+        Reset Webapp options? This will undo settings like location access and 
+        disabling of certificate checking, but will not delete the cookies of 
+        the Webapp.
+    ]]></string>
 
     <string name="open_url_hint">site.com</string>
     <string name="open_url">Open URL</string>
@@ -39,6 +46,11 @@
     <string name="title_cert_untrusted">Untrusted Certificate</string>
     <string name="title_cert_changed">Certificate Changed</string>
     <string name="cert_accept">Accept Certificate</string>
+    <string name="btn_disable_cert_checks">Ignore</string>
+    <string name="confirm_cert_disable"><![CDATA[
+        Disable certificate checking for this Webapp? You can use the 
+        Reset menu option to re-enable it.
+    ]]></string>
 
     <string name="action_tips">Tips</string>
     <string name="tips"><![CDATA[

@@ -48,7 +48,8 @@ class DbService extends BaseDbService {
 		}
 
 		if (oldVersion == 5 && newVersion == 6) {
-			db.execSQL('''alter table «TABLE_WEBAPPS» add column allowLocation bool''')
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column allowLocation boolean''')
+			db.execSQL('''alter table «TABLE_WEBAPPS» add column ignoreCertChanges boolean''')
 		}
 	}
 

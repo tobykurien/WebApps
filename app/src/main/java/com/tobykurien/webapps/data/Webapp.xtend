@@ -18,4 +18,5 @@ import org.eclipse.xtend.lib.annotations.ToString
    String certValidTo
    String cookies
    Boolean allowLocation
+   Boolean ignoreCertChanges
 }

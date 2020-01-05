@@ -14,7 +14,8 @@
            certValidTo text,
            certHash text,
            cookies text,
-           allowLocation boolean
+           allowLocation boolean,
+           ignoreCertChanges boolean
         );
         
         create table domain_names (
