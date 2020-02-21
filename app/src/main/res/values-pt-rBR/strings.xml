@@ -41,14 +41,14 @@
     <string name="cert_accept">Aceitar Certificado</string>
     <string name="btn_disable_cert_checks">Ignorar</string>
     <string name="confirm_cert_disable"><![CDATA[
-        Desabilitar checagem de certificado para esse Webapp? Voce pode usar o a opção no menu Resetar par reativar.
+        Desabilitar checagem de certificado para esse Webapp? Voce pode usar a opção no menu Resetar par reativar.
     ]]></string>
 
     <string name="action_tips">Dicas</string>
     <string name="tips"><![CDATA[
         <p><b>Adicionando web apps</b>: para adicionar um novo web app, abra o site, então clique em "Salvar como Webapp"</p>
         <p><b>Domínios de terceiros</b>: se um site parecer quebrado, tente habilitar um domínio de terceiro para restabelecê-lo, e.x. <i>fbcdn.net</i> para <i>Facebook</i></p>
-        <p><b>Atalhos na tela inicial</b>: Pressione por um período sua tela inicial e acesse a página de funcionalidades para adicionar um atalho webapp na tela inicial</p>
+        <p><b>Atalhos na tela inicial</b>: Pressione por um longo período sua tela inicial e acesse a página de funcionalidades para adicionar um atalho webapp na tela inicial</p>
         <p><b>Pressione links por um longo período</b>: Pressione um link por um logo período em um site para escolher como abrí-lo</p>
 ]]></string>
     <string name="btn_website">Código fonte</string>
