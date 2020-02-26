@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_site">Mudar Site</string>
+    <string name="menu_exit">Sair</string>
+    <string name="menu_text_size">Tamanho Da Fonte</string>
+    <string name="menu_stop">Parar</string>
+    <string name="menu_refresh">Atualizar</string>
+    <string name="menu_toggle_image">Alternar Imagens</string>
+    <string name="menu_settings">Configurações</string>
+    <string name="menu_3rd_party">Domínios dde terceiros</string>
+    <string name="menu_open_url">Abrir URL</string>
+    <string name="menu_save">Salvar como Webapp</string>
+    <string name="menu_share">Compartilhar URL</string>
+    <string name="menu_shortcut">Atalho na tela inicial</string>
+    <string name="menu_user_agent">User Agent</string>
+    <string name="menu_certificate">Certificado</string>
+    <string name="menu_reset">Resetar</string>
+
+    <string name="open_url_hint">site.com</string>
+    <string name="open_url">Abrir URL</string>
+    <string name="err_invalid_url">URL Inválida</string>
+
+    <string name="blocked_root_domains">Desbloquear Domínios De Terceiros</string>
+    <string name="unblock">Desbloquear</string>
+    <string name="title_save_webapp">Salvar Webapp</string>
+    <string name="msg_save_webapp">Salvar conteúdo atual do site como Webapp?</string>
+    <string name="msg_saving_webapp">Salvando webapp</string>
+    <string name="msg_shortcut_added">Atalho adicionado</string>
+    <string name="btn_save">Salvar</string>
+    <string name="webapp_name">Nome Do Webapp</string>
+    <string name="open_site">Abrir Site</string>
+    <string name="btn_recommended_sites">Recomendados</string>
+    <string name="delete_webapp">Apagar Webapp</string>
+    <string name="shortcut_label">Webapp atalho</string>
+    <string name="err_webapp_not_found">Webapp não encontrado</string>
+    <string name="title_open_with">Abrir Com</string>
+
+    <string name="title_certificate">Certificado Do Website</string>
+    <string name="title_cert_untrusted">Certificado Não Confiável</string>
+    <string name="title_cert_changed">Certificado Alterado</string>
+    <string name="cert_accept">Aceitar Certificado</string>
+    <string name="btn_disable_cert_checks">Ignorar</string>
+    <string name="confirm_cert_disable"><![CDATA[
+        Desabilitar checagem de certificado para esse Webapp? Voce pode usar a opção no menu Resetar par reativar.
+    ]]></string>
+
+    <string name="action_tips">Dicas</string>
+    <string name="tips"><![CDATA[
+        <p><b>Adicionando web apps</b>: para adicionar um novo web app, abra o site, então clique em "Salvar como Webapp"</p>
+        <p><b>Domínios de terceiros</b>: se um site parecer quebrado, tente habilitar um domínio de terceiro para restabelecê-lo, e.x. <i>fbcdn.net</i> para <i>Facebook</i></p>
+        <p><b>Atalhos na tela inicial</b>: Pressione por um longo período sua tela inicial e acesse a página de funcionalidades para adicionar um atalho webapp na tela inicial</p>
+        <p><b>Pressione links por um longo período</b>: Pressione um link por um logo período em um site para escolher como abrí-lo</p>
+]]></string>
+    <string name="btn_website">Código fonte</string>
+    <string name="toast_images_enabled">Carregamento de imagem habilitado</string>
+    <string name="toast_images_disabled">Carregamento de imagem desabilitado</string>
+    <string name="progress_opening_site">Abrindo web app...</string>
+    <string name="open_new_sandbox">Abrir em uma nova sandbox</string>
+
+    <!-- Preferences activity strings -->
+    <string name="title_3rd_party">Bloquear requisições de terceiros</string>
+    <string name="summary_3rd_party">Não carregar imagens ou scripts fora do domínio do webapp</string>
+    <string name="title_font_size">Tamanho da fonte</string>
+    <string name="summary_font_size">Mudar tamanho da fonte renderizada</string>
+    <string name="title_user_agent">User Agent</string>
+    <string name="summary_user_agent">Afeta como os sites são renderizados no seu dispositivo</string>
+    <string name="title_fullscreen">Tela cheia</string>
+    <string name="summary_fullscreen">Ocultar a barra de status (necessário reiniciar)</string>
+    <string name="title_fullscreen_immersive">Modo imersivo</string>
+    <string name="summary_fullscreen_immersive">No modo tela cheia, ocultar todas interfaces de sistema</string>
+    <string name="title_autohide">Ocultar automaticamente a barra de ação</string>
+    <string name="summary_autohide">Oculte a barra de ação quando você rola para baixo, revela quando você rola para cima</string>
+    <string name="title_hide_actionbar">Ocultar barra de ação</string>
+    <string name="summary_hide_actionbar">Remova a barra de ação completamente. Pressione e segure em um ponto vazio para alternar.</string>
+    <string name="title_shortcut_actionbar">Ocultar somente para os atalhos</string>
+    <string name="summary_shortcut_actionbar">Ocultar a barra de ação somente quando iniciada a partir de um atalho</string>
+
+    <string name="title_location_access">Acesso A Localização</string>
+    <string name="desc_location_access">A localização atual está sendo solicitada por</string>
+    <string name="btn_allow">Permitir</string>
+    <string name="btn_deny">Negar</string>
+</resources>
