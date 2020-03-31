@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_site">更改网址</string>
+    <string name="menu_exit">退出</string>
+    <string name="menu_text_size">字体大小</string>
+    <string name="menu_stop">停止</string>
+    <string name="menu_refresh">刷新</string>
+    <string name="menu_toggle_image">切换图片</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_3rd_party">第三方域名</string>
+    <string name="menu_open_url">打开链接</string>
+    <string name="menu_save">保存为Webapp</string>
+    <string name="menu_share">分享链接</string>
+    <string name="menu_shortcut">截屏</string>
+    <string name="menu_user_agent">浏览器标识</string>
+    <string name="menu_certificate">证书</string>
+    <string name="menu_reset">重置</string>
+
+    <string name="reset_confirm">你确定要重置此Webapp的选项？注意此操作将撤消之前所做的更改（位置权限、禁用证书检测等），但不会删除此Webapp的cookies。</string>
+
+    <string name="open_url_hint">输入网址</string>
+    <string name="open_url">打开链接</string>
+    <string name="err_invalid_url">无效的链接</string>
+
+    <string name="blocked_root_domains">阻止第三方域名</string>
+    <string name="unblock">解除禁止</string>
+    <string name="title_save_webapp">保存Webapp</string>
+    <string name="msg_save_webapp">是否将此网页保存为Webapp？</string>
+    <string name="msg_saving_webapp">正在保存Webapp</string>
+    <string name="msg_shortcut_added">添加快捷方式</string>
+    <string name="btn_save">保存</string>
+    <string name="webapp_name">Webapp的名字</string>
+    <string name="open_site">打开网页</string>
+    <string name="btn_recommended_sites">推荐</string>
+    <string name="delete_webapp">删除Webapp</string>
+    <string name="shortcut_label">Webapp快捷方式</string>
+    <string name="err_webapp_not_found">没有找到Webapp</string>
+    <string name="title_open_with">打开为</string>
+
+    <string name="title_certificate">网页证书</string>
+    <string name="title_cert_untrusted">不安全的证书</string>
+    <string name="title_cert_changed">更换证书</string>
+    <string name="cert_accept">同意证书</string>
+    <string name="btn_disable_cert_checks">忽略</string>
+    <string name="confirm_cert_disable">是否禁用此Webapp的证书检测？你可以通过重置选项来重新启用。</string>
+
+    <string name="action_tips">提示</string>
+    <string name="tips"><p><b>添加网页应用</b>:想要添加新的网页应用，请先打开网页再通过点击导航栏上的“保存为Webapp”即可</p>         <p><b>第三方域名</b>: 如果网站加载不全，请尝试启用该网页可能依赖的某些第三方域名，例如<i>fbcdn.net</i> for <i>Facebook</i></p>         <p><b>快速截屏</b>: 长按主屏幕并访问小部件页面，以将webapp快捷方式添加到主屏幕</p>         <p><b>长按链接</b>: 通过长按网页上的链接以选择如何打开它</p></string>
+    <string name="btn_website">源代码</string>
+    <string name="toast_images_enabled">允许加载图片</string>
+    <string name="toast_images_disabled">不允许加载图片</string>
+    <string name="progress_opening_site">正在打开Webapp...</string>
+    <string name="open_new_sandbox">在新的沙盒中打开</string>
+
+    <!-- Preferences activity strings -->
+    <string name="title_3rd_party">阻止第三方请求</string>
+    <string name="summary_3rd_party">不加载Webapp的网址之外的图片或脚本</string>
+    <string name="title_font_size">字体大小</string>
+    <string name="summary_font_size">更改渲染的字体大小</string>
+    <string name="title_user_agent">浏览器标识</string>
+    <string name="summary_user_agent">影响网站在您设备上的渲染方式</string>
+    <string name="title_fullscreen">全屏</string>
+    <string name="summary_fullscreen">隐藏状态栏（需要重启）</string>
+    <string name="title_fullscreen_immersive">沉浸模式</string>
+    <string name="summary_fullscreen_immersive">全屏状态下隐藏所有系统界面</string>
+    <string name="title_autohide">自动隐藏导航栏</string>
+    <string name="summary_autohide">向下滚动时隐藏导航栏，下拉时恢复</string>
+    <string name="title_hide_actionbar">隐藏导航栏</string>
+    <string name="summary_hide_actionbar">彻底删除导航栏，长按空白处切换。</string>
+    <string name="title_shortcut_actionbar">仅隐藏快捷方式</string>
+    <string name="summary_shortcut_actionbar">当从快捷方式中打开时只隐藏导航栏</string>
+
+    <string name="title_location_access">位置权限</string>
+    <string name="desc_location_access">网页请求获取你当前的位置</string>
+    <string name="btn_allow">允许</string>
+    <string name="btn_deny">拒绝</string>
+</resources>

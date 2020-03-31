@@ -63,7 +63,7 @@ Plugins, and local file access are disabled, however DOM/local storage and app c
 Location
 ========
 
-The WebView's location access has been disabled, to prevent sites requesting your location.
+Since WebApps v3.0, location access has been enabled. WebApps will prompt for location access per web app, the first time the app requests your location. You can then permanently allow or deny location access, with an option to reset the app should you change your mind.
 
 Libraries
 =========
