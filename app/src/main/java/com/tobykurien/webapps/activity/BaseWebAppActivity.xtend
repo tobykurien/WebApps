@@ -156,7 +156,9 @@ import static extension org.xtendroid.utils.AlertUtils.*
 
 	override protected void onResume() {
 		super.onResume()
-		CookieSyncManager.getInstance().startSync()
+		
+		if (webapp !== null) loadSiteCookies(webapp)
+
 		if (reload) {
 			reload = false
 			setupWebView()
@@ -204,6 +206,20 @@ import static extension org.xtendroid.utils.AlertUtils.*
 		return wc
 	}
 
+	def void loadSiteCookies(Webapp webapp) {
+		// Load cookies for webapp
+        CookieManager.instance.removeAllCookie()
+		if (webapp.cookies !== null) {
+			val domain = WebClient.getRootDomain(webapp.url)
+			var cookies = webapp.cookies.split(";")
+			for (cookieStr: cookies) {
+				if (Debug.COOKIE) Log.d("cookie", "Loading cookie for " + domain + ": " + cookieStr)
+				CookieManager.instance.setCookie("https://" + domain, cookieStr.trim() + "; Domain=" + domain)
+			}
+			CookieSyncManager.getInstance().sync();
+		}
+	}
+
 	def void openSite(Webapp webapp, Uri siteUrl) {
 		// TODO - use okHttp to check the site cert before connecting
 
@@ -218,17 +234,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 		// 	System.out.println(CertificatePinner.pin(certificate));
 		// }
 		
-		// Load cookies for webapp
-        CookieManager.instance.removeAllCookie()
-		if (webapp.cookies !== null) {
-			val domain = WebClient.getRootDomain(webapp.url)
-			var cookies = webapp.cookies.split(";")
-			for (cookieStr: cookies) {
-				if (Debug.COOKIE) Log.d("cookie", "Loading cookie for " + domain + ": " + cookieStr)
-				CookieManager.instance.setCookie("https://" + domain, cookieStr.trim() + "; Domain=" + domain)
-			}
-			CookieSyncManager.getInstance().sync();
-		}
+		loadSiteCookies(webapp)
 
 		var url = siteUrl.toString()
 		if (!url.startsWith("https://")) {

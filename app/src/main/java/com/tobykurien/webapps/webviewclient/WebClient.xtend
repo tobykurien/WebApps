@@ -208,8 +208,8 @@ class WebClient extends WebViewClient {
 		}
 
 		val cookieManager = CookieManager.instance
-		if (Debug.COOKIE && siteUrl !== null) Log.d("cookie", "Cookies for " + siteUrl + ": " +
-                cookieManager.getCookie(siteUrl.toString()))
+		// if (Debug.COOKIE && siteUrl !== null) Log.d("cookie", "Cookies for " + siteUrl + ": " +
+        //         cookieManager.getCookie(siteUrl.toString()))
 
 		return super.shouldInterceptRequest(view, url)
 	}
