@@ -32,6 +32,7 @@ class FaviconHandler {
 	 */
 	def void saveFavIcon(long webappId, Bitmap icon) {
 		val f = getFile(webappId)
+		if (Debug.FAVICON) Log.d("favicon", "Received favicon " + icon.width + "x" + icon.height)
 
 		if (f.exists) {
 			// make sure new icon is of higher or same resolution
@@ -88,6 +89,8 @@ class FaviconHandler {
 	    }
 
 	    val bitmap = BitmapFactory.decodeFile(image.absolutePath)
+		if (bitmap === null) return defaultColor
+
 	    val int width = bitmap.getWidth();
 	    val int height = bitmap.getHeight();
 	    val int size = width * height;

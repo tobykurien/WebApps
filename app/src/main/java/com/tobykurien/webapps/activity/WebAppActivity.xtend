@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.AsyncTask
 import android.support.v4.content.pm.ShortcutManagerCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
@@ -32,6 +33,7 @@ import com.tobykurien.webapps.fragment.PreferencesFragment
 import com.tobykurien.webapps.utils.CertificateUtils
 import com.tobykurien.webapps.utils.FaviconHandler
 import com.tobykurien.webapps.utils.Settings
+import com.tobykurien.webapps.utils.Debug
 import com.tobykurien.webapps.webviewclient.WebClient
 import com.tobykurien.webapps.webviewclient.WebViewUtils
 import java.io.File
@@ -61,7 +63,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 	var private MenuItem imageMenu = null;
 	var private MenuItem shortcutMenu = null;
 	var private Bitmap unsavedFavicon = null;
-	var private firstIconReceived = true;
+	var private Bitmap favIcon = null;
 	val iconHandler = new FaviconHandler(this)
 
 	override onCreate(Bundle savedInstanceState) {
@@ -325,6 +327,8 @@ public class WebAppActivity extends BaseWebAppActivity {
 			stopMenu.setIcon(R.drawable.ic_action_stop);
 			stopMenu.setChecked(true);
 		}
+
+		favIcon = null
 	}
 
 	override onPageLoadDone() {
@@ -375,30 +379,35 @@ public class WebAppActivity extends BaseWebAppActivity {
 		}
 	}
 
+	val saveFavIconTask = AsyncBuilder.async [ builder, params |
+			Thread.sleep(1000) // wait till all icons are received, hopefully
+			return true
+		].then[
+			if (webappId >= 0 && favIcon !== null) {
+				iconHandler.saveFavIcon(webappId, favIcon)
+			} else {
+				unsavedFavicon = favIcon
+			}
+		].onError [ ex |
+			Log.e("favicon", "error saving icon", ex)
+		]
+
 	override onReceivedFavicon(WebView view, Bitmap icon) {
 		super.onReceivedFavicon(view, icon)
+		var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
 
-		if (firstIconReceived) {
-			// delete the previous favicon so that it is updated
-			iconHandler.deleteFavIcon(webappId)
+		// This callback is called multiple times for each received icon, of which there may be none or many,
+		// of varying resolutions, at some *arbitrary* time, **AFTER** page load!
+
+		if (Debug.FAVICON) Log.d("favicon", "onReceivedFavicon " + icon.width)
+		if (favIcon === null || favIcon.width < icon.width || 
+			favIcon.height < icon.height) {
+			favIcon = icon;
+			iconImg.setImageBitmap(icon);
 		}
 
-		var iconImg = supportActionBar.customView.findViewById(R.id.favicon) as ImageView;
-		iconImg.setImageBitmap(icon);
-
-		// also save favicon
-		if (webappId >= 0) {
-			AsyncBuilder.async [ builder, params |
-				iconHandler.saveFavIcon(webappId, icon)
-				return true
-			].then[
-				val favIcon = iconHandler.getFavIcon(webappId)
-				updateActionBar(favIcon)
-			].onError [ ex |
-				Log.e("favicon", "error saving icon", ex)
-			].start()
-		} else {
-			unsavedFavicon = icon
+		if (saveFavIconTask.status !== AsyncTask.Status.RUNNING) {
+			saveFavIconTask.start();
 		}
 	}
 
