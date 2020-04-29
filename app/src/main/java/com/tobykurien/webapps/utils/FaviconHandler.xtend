@@ -110,6 +110,12 @@ class FaviconHandler {
 	            count++;
 	        }
 	    }
+
+		if (count == 0){
+			// didn't find suitable colours
+			return defaultColor;
+		}
+
 	    r /= count;
 	    g /= count;
 	    b /= count;
