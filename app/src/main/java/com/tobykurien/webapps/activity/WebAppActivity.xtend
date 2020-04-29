@@ -406,7 +406,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 			iconImg.setImageBitmap(icon);
 		}
 
-		if (saveFavIconTask.status !== AsyncTask.Status.RUNNING) {
+		if (saveFavIconTask.status === AsyncTask.Status.PENDING) {
 			saveFavIconTask.start();
 		}
 	}
