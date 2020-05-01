@@ -3,6 +3,7 @@ package com.tobykurien.webapps.activity;
 import android.annotation.TargetApi
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
@@ -41,6 +42,7 @@ import java.util.ArrayList
 import java.util.List
 import java.util.Set
 import org.xtendroid.utils.AsyncBuilder
+import android.app.ActivityManager.TaskDescription;
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
@@ -97,7 +99,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 		// load a favico if it already exists
 		val favIcon = iconHandler.getFavIcon(webappId)
-		updateActionBar(favIcon)		
+		updateActionBar(favIcon)
 	}
 
 	override protected onResume() {
@@ -576,6 +578,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 		    val window = getWindow();
 		    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 		    window.setStatusBarColor(colour);
-		}		
+		}	
+
+		val taskDesc = new TaskDescription(webapp.name, BitmapFactory.decodeFile(favIcon.absolutePath), colour);
+		setTaskDescription(taskDesc);
 	}
 }
