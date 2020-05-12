@@ -72,6 +72,14 @@ This project makes use of the following libraries/tools:
 
 - Xtend compiler: http://xtend-lang.org
 - Xtendroid library: http://github.com/tobykurien/xtendroid
+- Bumptech Glide: https://github.com/bumptech/glide
+- Android Support library: https://developer.android.com/topic/libraries/support-library 
+
+Credits:
+========
+
+- New app icon by https://github.com/TacoTheDank, modified from the original by Steve Morris (https://thenounproject.com/term/sandbox/30514/)
+
 
 Development
 ===========
