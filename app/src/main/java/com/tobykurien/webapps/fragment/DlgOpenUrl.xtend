@@ -9,9 +9,7 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.webkit.CookieManager
 import com.tobykurien.webapps.R
-import com.tobykurien.webapps.activity.BaseWebAppActivity
 import com.tobykurien.webapps.activity.WebAppActivity
-import com.tobykurien.webapps.data.Webapp
 import java.io.InputStream
 import java.net.URL
 import java.net.URLConnection
@@ -22,8 +20,6 @@ import static org.xtendroid.utils.AsyncBuilder.*
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 import android.content.Context
-import android.webkit.CookieSyncManager
-import android.os.Build
 import com.tobykurien.webapps.webviewclient.WebClient
 
 /**

@@ -7,7 +7,6 @@ import org.xtendroid.app.OnCreate
 import android.support.v4.app.DialogFragment
 import com.tobykurien.webapps.R
 import android.net.http.SslCertificate
-import com.tobykurien.webapps.data.Webapp
 
 @AndroidDialogFragment(R.layout.dlg_certificate) class DlgCertificate extends DialogFragment {
 	var protected SslCertificate certificate = null

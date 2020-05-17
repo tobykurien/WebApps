@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.Html
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
@@ -25,10 +24,6 @@ import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
 import static extension org.xtendroid.utils.AsyncBuilder.*
 import android.webkit.CookieManager
-import com.tobykurien.webapps.utils.Debug
-import com.tobykurien.webapps.webviewclient.WebClient
-import android.webkit.CookieSyncManager
-import com.tobykurien.webapps.BuildConfig
 import android.os.Build
 import com.tobykurien.webapps.utils.FaviconHandler
 import android.view.View
