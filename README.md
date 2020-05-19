@@ -94,7 +94,10 @@ In order to develop in Eclipse:
 - Install the [Xtend plugin for Eclipse][xtend_install]
 - Clone the git repository to your local machine (```git clone ...```)
 - Inside the checked-out folder, run: ```./gradlew eclipse```. This will download all the required 3rd party libraries and create the Eclipse classpath and project files
-- Open Eclipse and import the project in the `app` folder
+- Open Eclipse and import the project in the `app` folder using `File -> Import -> Gradle -> Existing Gradle Project` (not as a generic project)
+- Right-click the "app" project -> Properties -> Add Variable -> Cionfigure Variables -> New
+  - add a new variable called `ANDROID_HOME` and point it to the location of your android SDK installation
+  - Apply and Close, and do a full re-build
 - The project should now compile in Eclipse
 
 To develop using Android Studio:
