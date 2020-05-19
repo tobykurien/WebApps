@@ -28,9 +28,7 @@ import java.util.HashMap
 import java.util.Set
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
-import com.tobykurien.webapps.db.DbService
 import android.content.Context
-import android.webkit.WebResourceRequest
 
 class WebClient extends WebViewClient {
 	public static val UNKNOWN_HOST = "999.999.999.999" // impossible hostname to avoid vuln

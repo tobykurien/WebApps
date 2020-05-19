@@ -1,17 +1,14 @@
 package com.tobykurien.webapps.webviewclient
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.WebIconDatabase
 import android.webkit.WebSettings
 import android.webkit.WebSettings.PluginState
-import android.webkit.WebSettings.TextSize
 import android.webkit.WebView
 import com.tobykurien.webapps.data.Webapp
-import com.tobykurien.webapps.utils.Settings
 import android.annotation.TargetApi
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*

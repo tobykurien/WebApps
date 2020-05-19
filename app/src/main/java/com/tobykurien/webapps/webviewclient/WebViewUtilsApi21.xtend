@@ -6,7 +6,6 @@ import android.net.Uri
 import android.webkit.WebView
 import com.tobykurien.webapps.data.Webapp
 import android.webkit.*
-import android.util.Log
 
 @TargetApi(21)
 class WebViewUtilsApi21 extends WebViewUtilsApi19 {

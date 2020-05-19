@@ -2,7 +2,6 @@ package com.tobykurien.webapps.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.webkit.CookieSyncManager
 import com.tobykurien.webapps.data.Webapp
 import java.util.List
 import org.xtendroid.db.BaseDbService
