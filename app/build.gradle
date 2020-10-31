@@ -1,39 +1,24 @@
 buildscript {
     repositories {
         jcenter()
-        // google()
         maven {
             url "https://maven.google.com"
-        }
-        flatDir {
-            dirs "libs"
         }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'org.xtext:xtext-android-gradle-plugin:2.0.8'
-        classpath "gradle.plugin.com.greensopinion.gradle-android-eclipse:gradle-android-eclipse:1.1"
     }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'org.xtext.android.xtend'
-apply plugin: 'com.greensopinion.gradle-android-eclipse'
-apply plugin: 'eclipse'
 
 repositories {
     jcenter()
-    // google()
     maven {
         url "https://maven.google.com"
-    }
-}
-
-eclipse {
-    classpath {
-        plusConfigurations += [configurations.compile, configurations.testCompile]
-        downloadSources = true
     }
 }
 
