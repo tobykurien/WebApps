@@ -65,16 +65,6 @@ Location
 
 Since WebApps v3.0, location access has been enabled. WebApps will prompt for location access per web app, the first time the app requests your location. You can then permanently allow or deny location access, with an option to reset the app should you change your mind.
 
-Libraries
-=========
-
-This project makes use of the following libraries/tools:
-
-- Xtend compiler: http://xtend-lang.org
-- Xtendroid library: http://github.com/tobykurien/xtendroid
-- Bumptech Glide: https://github.com/bumptech/glide
-- Android Support library: https://developer.android.com/topic/libraries/support-library 
-
 Credits:
 ========
 
@@ -84,20 +74,33 @@ Credits:
 Development
 ===========
 
+## Libraries
+
+This project makes use of the following libraries/tools:
+
+- Xtend language compiler: http://xtend-lang.org
+- Xtendroid library (an Android DSL): http://github.com/tobykurien/xtendroid
+- Bumptech Glide: https://github.com/bumptech/glide
+- Android Support library: https://developer.android.com/topic/libraries/support-library 
+
+*NOTE*: There are many inter-dependencies between the various library versions, Gradle versions, Gradle plugin versions, Android SDK versions, and the JDK version (which has to be JDK 8 for Android)! Simply upgrading any one of these components is likely to cause a build failure, and this will not be easy to resolve.
+
 ## Build and run
 
-To build this project:
+To run a debug build of this project:
 
 - Clone or download the git repository to your local machine (```git clone git@github.com:tobykurien/WebApps.git```)
 - Run ```./debug.sh``` to build a debug APK and upload it to a connected device.
 
 ## VSCode
 
-The easiest way to make changes to this app is to use VSCode and an [Xtend plugin](https://marketplace.visualstudio.com/items?itemName=Grammarcraft.xtend-lang), although you will get no code completion/intellisense. You can run `./debug.sh` after a code change to compile and run the app on an attached device. This is how this project is currently being maintained.
+The easiest (although not the nicest) way to make changes to this app is to use VSCode and an [Xtend plugin](https://marketplace.visualstudio.com/items?itemName=Grammarcraft.xtend-lang). While you get basic syntax highlighting, you will get no code completion/intellisense/code navigation/Java docs/etc. It is a basic text editor. On the plus side, setup is very easy, and it is light on RAM (can work on a machine with only 4Gb RAM).
+
+You can run `./debug.sh` after a code change to compile and run the app on an attached device. This is how this project is currently being maintained.
 
 ## Eclipse
 
-In order to develop in Eclipse:
+Eclipse is the best development environment for this project, because it makes use of Xtend lang that is only supported in Eclipse. In order to develop in Eclipse:
 
 - UPDATE: due to [this issue](https://github.com/tobykurien/WebApps/issues/212) the [Gradle android eclipse plugin](https://plugins.gradle.org/plugin/com.greensopinion.gradle-android-eclipse) had to be removed from the repo, so you will need to manually compile that gradle plugin with JDK8 and add it to the `app/build.gradle` file to continue. Alternatively, copy the compiled version from [here](https://github.com/tobykurien/WebApps/tree/v3.41/app/libs) and apply the plugin as in [build.gradle](https://github.com/tobykurien/WebApps/tree/v3.41/app/build.gradle). This plugin is needed to set up Eclipse to work with Android AAR dependencies.
 - Install the [Xtend plugin for Eclipse][xtend_install]
