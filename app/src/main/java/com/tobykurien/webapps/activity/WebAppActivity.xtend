@@ -98,7 +98,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		]
 
 		// load a favico if it already exists
-		val favIcon = iconHandler.getFavIcon(webappId)
+		val favIcon = iconHandler.getFavIcon(webapp.id)
 		updateActionBar(favIcon)
 	}
 
@@ -118,7 +118,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 	override protected onPause() {
 		super.onPause()
 
-		if (webappId < 0) {
+		if (webapp.id < 0) {
 			// clean up data left behind by this webapp
 			clearWebviewCache(wv)
 		}
@@ -145,7 +145,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		updateImageMenu();
 
 		shortcutMenu = menu.findItem(R.id.menu_shortcut);
-		if (webappId < 0) {
+		if (webapp.id < 0) {
 			shortcutMenu.enabled = false;
 		}
 
@@ -258,10 +258,10 @@ public class WebAppActivity extends BaseWebAppActivity {
 			])
 			.setPositiveButton(android.R.string.ok, [ dlg, i |
 				// save font size
-				if (webappId > 0) {
+				if (webapp.id > 0) {
 					db.update(DbService.TABLE_WEBAPPS, #{
 						'fontSize' -> webapp.fontSize
-					}, webappId)
+					}, webapp.id)
 				}
 	
 				dlg.dismiss
@@ -286,10 +286,10 @@ public class WebAppActivity extends BaseWebAppActivity {
 						wv.settings.userAgentString = webapp.userAgent
 
 						// save user agent
-						if (webappId > 0) {
+						if (webapp.id > 0) {
 							db.update(DbService.TABLE_WEBAPPS, #{
 								'userAgent' -> webapp.userAgent
-							}, webappId)
+							}, webapp.id)
 							wv.reload()
 						}
 		
@@ -297,10 +297,10 @@ public class WebAppActivity extends BaseWebAppActivity {
 					]
 				} else {
 					// save user agent
-					if (webappId > 0) {
+					if (webapp.id > 0) {
 						db.update(DbService.TABLE_WEBAPPS, #{
 							'userAgent' -> webapp.userAgent
-						}, webappId)
+						}, webapp.id)
 						wv.reload()
 					}
 	
@@ -385,8 +385,8 @@ public class WebAppActivity extends BaseWebAppActivity {
 			Thread.sleep(1000) // wait till all icons are received, hopefully
 			return true
 		].then[
-			if (webappId >= 0 && favIcon !== null) {
-				iconHandler.saveFavIcon(webappId, favIcon)
+			if (webapp.id >= 0 && favIcon !== null) {
+				iconHandler.saveFavIcon(webapp.id, favIcon)
 			} else {
 				unsavedFavicon = favIcon
 			}
@@ -418,11 +418,11 @@ public class WebAppActivity extends BaseWebAppActivity {
 	 */
 	def private void dlgSave() {
 		var dlg = new DlgSaveWebapp(
-						webappId, wv.getTitle(), wv.getUrl(), 
+						webapp.id, wv.getTitle(), wv.getUrl(), 
 						wv.certificate,
 						unblock);
 
-		val isNewWebapp = if(webappId < 0) true else false;
+		val isNewWebapp = if(webapp.id < 0) true else false;
 
 		dlg.setOnSaveListener [ wapp |
 			putWebappId(wapp.id)
@@ -430,13 +430,13 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 			// save any unblocked domains and cookies
 			if (isNewWebapp) {
-				saveWebappUnblockList(webappId, unblock)
+				saveWebappUnblockList(webapp.id, unblock)
 				db.saveCookies(webapp)
 			}
 
 			// if we have unsaved icon, save it
 			if (unsavedFavicon != null) {
-				onReceivedFavicon(wv, unsavedFavicon)
+				iconHandler.saveFavIcon(webapp.id, unsavedFavicon)
 				unsavedFavicon = null
 			}
 
@@ -456,7 +456,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		AsyncBuilder.async [ builder, params |
 			// get the saved list of whitelisted domains
 			db.findByFields(DbService.TABLE_DOMAINS, #{
-				"webappId" -> webappId
+				"webappId" -> webapp.id
 			}, null, ThirdPartyDomain)
 		].then [ List<ThirdPartyDomain> whitelisted |
 			// add all whitelisted domains
@@ -484,7 +484,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 					Log.d("unblock", unblock.toString)
 				])
 				.setPositiveButton(R.string.unblock, [ d, pos |
-					saveWebappUnblockList(webappId, unblock)
+					saveWebappUnblockList(webapp.id, unblock)
 					wc.unblockDomains(unblock);
 					clearWebviewCache(wv)
 					wv.reload();
