@@ -84,13 +84,22 @@ Credits:
 Development
 ===========
 
+## Build and run
+
 To build this project:
 
-- Clone the git repository to your local machine (```git clone ...```)
-- Run ```./build.sh``` to build an unsigned release APK
+- Clone or download the git repository to your local machine (```git clone git@github.com:tobykurien/WebApps.git```)
+- Run ```./debug.sh``` to build a debug APK and upload it to a connected device.
+
+## VSCode
+
+The easiest way to make changes to this app is to use VSCode and an [Xtend plugin](https://marketplace.visualstudio.com/items?itemName=Grammarcraft.xtend-lang), although you will get no code completion/intellisense. You can run `./debug.sh` after a code change to compile and run the app on an attached device. This is how this project is currently being maintained.
+
+## Eclipse
 
 In order to develop in Eclipse:
 
+- UPDATE: due to [this issue](https://github.com/tobykurien/WebApps/issues/212) the [Gradle android eclipse plugin](https://plugins.gradle.org/plugin/com.greensopinion.gradle-android-eclipse) had to be removed from the repo, so you will need to manually compile that gradle plugin with JDK8 and add it to the `app/build.gradle` file to continue. Alternatively, copy the compiled version from [here](https://github.com/tobykurien/WebApps/tree/v3.41/app/libs) and apply the plugin as in [build.gradle](https://github.com/tobykurien/WebApps/tree/v3.41/app/build.gradle). This plugin is needed to set up Eclipse to work with Android AAR dependencies.
 - Install the [Xtend plugin for Eclipse][xtend_install]
 - Clone the git repository to your local machine (```git clone ...```)
 - Inside the checked-out folder, run: ```./gradlew eclipse```. This will download all the required 3rd party libraries and create the Eclipse classpath and project files
@@ -100,12 +109,10 @@ In order to develop in Eclipse:
   - Apply and Close, and do a full re-build
 - The project should now compile in Eclipse
 
-To develop using Android Studio:
+## Android Studio
 
-- Install the [Xtend plugin for IntelliJ][xtend_install]
-- Clone the git repository to your local machine (```git clone ...```)
-- Import the project into Android Studio
-- The project should now compile (very first build may fail, a rebuild should fix this).
+Development in Android Studio is not supported any longer, as the Xtend plugin for IntelliJ (https://plugins.jetbrains.com/plugin/8073-xtend-support) is not maintained.
+
 
    [webmediashare]: https://github.com/tobykurien/WebMediaShare
    [gapps]: https://github.com/tobykurien/GoogleNews
