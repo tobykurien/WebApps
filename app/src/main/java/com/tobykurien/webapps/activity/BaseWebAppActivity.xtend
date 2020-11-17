@@ -157,7 +157,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 	override protected void onResume() {
 		super.onResume()
 		
-		if (webapp !== null) loadSiteCookies(webapp)
+		if (webapp !== null && webapp.id > 0) loadSiteCookies(webapp)
 
 		if (reload) {
 			reload = false
