@@ -6,8 +6,7 @@ else
 fi
 
 echo Compiling app...
-# always clean because incremental compile sometimes fails and results in non-sensical compile errors
-./gradlew --no-daemon installDebug runApp | grep "ERROR"
+./gradlew --no-daemon installDebug runApp
 
 adb logcat -c
 adb logcat -v color -e "$FILTER" "*:D"
