@@ -71,6 +71,11 @@ public class WebAppActivity extends BaseWebAppActivity {
 	override onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		if (settings.secureWindows) {
+		    val window = getWindow();
+		    window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+		}
+
 		// setup actionbar
 		val ab = getSupportActionBar();
 		ab.setDisplayShowTitleEnabled(false);
@@ -83,7 +88,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		wv.onLongClickListener = [
 			var url = wv.hitTestResult.extra
 			if (url !== null) {
-				var i = new Intent(Intent.ACTION_VIEW);
+				var i = new Intent(Intent.ACTION_SEND);
 				i.setData(Uri.parse(url));
 				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

@@ -26,6 +26,12 @@
         android:persistent="true" />
 
     <CheckBoxPreference
+        android:title="@string/title_secure_windows"
+        android:summary="@string/summary_secure_windows"
+        android:defaultValue="false"
+        android:key="secure_windows"/>
+
+    <CheckBoxPreference
         android:title="@string/title_fullscreen"
         android:summary="@string/summary_fullscreen"
         android:defaultValue="false"
