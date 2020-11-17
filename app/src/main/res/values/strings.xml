@@ -28,13 +28,15 @@
     <string name="export_confirm"><![CDATA[
         WARNING: Database export is NOT encrypted! Anyone getting hold of the exported
         database can easily take over your accounts. In such a case, you should log into 
-        all your affected web sites and log out of all other sessions.
+        all your affected web sites and log out of all other sessions. Continue at your 
+        own risk!
     ]]></string>
     
     <string name="export_chooser">Export to</string>
 
     <string name="import_confirm"><![CDATA[
-        WARNING: All your current webapps will be replaced by the imported database.
+        WARNING: All your current webapps will be replaced by the webapps from the 
+        imported database. Suggest first backing up your current database before proceeding.
     ]]></string>
 
     <string name="open_url_hint">site.com</string>
