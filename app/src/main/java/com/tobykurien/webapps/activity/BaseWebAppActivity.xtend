@@ -168,6 +168,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 
 	override protected void onPause() {
 		super.onPause()
+		db.saveCookies(webapp)
 		CookieSyncManager.getInstance().stopSync()
 	}
 
