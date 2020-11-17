@@ -381,8 +381,10 @@ import static extension org.xtendroid.utils.AlertUtils.*
 
 		if (fullscreen) {
 			attrs.flags = attrs.flags.bitwiseOr(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			attrs.flags = attrs.flags.bitwiseOr(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		} else {
 			attrs.flags = attrs.flags.bitwiseAnd(WindowManager.LayoutParams.FLAG_FULLSCREEN.bitwiseNot);
+			attrs.flags = attrs.flags.bitwiseAnd(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON.bitwiseNot);
 		}
 
 		getWindow().setAttributes(attrs);
