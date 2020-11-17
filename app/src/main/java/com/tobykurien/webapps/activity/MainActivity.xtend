@@ -28,9 +28,18 @@ import android.os.Build
 import com.tobykurien.webapps.utils.FaviconHandler
 import android.view.View
 import android.app.Activity
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import android.support.v4.content.FileProvider
+import android.app.DownloadManager
+import android.content.Context
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
     var protected List<Webapp> webapps
+    
+    val FILECHOOSER_RESULTCODE = 10;
+    val FILESAVE_RESULTCODE = 20;
 
     @OnCreate
     def init(Bundle savedInstanceState) {
@@ -111,6 +120,48 @@ import android.app.Activity
                 var i = new Intent(this, Preferences)
                 startActivity(i)
             }
+
+			case R.id.menu_export: {
+				confirm(getString(R.string.export_confirm)) [
+					val dbFile = getDatabasePath(db.databaseName)
+					val outPath = new File(cacheDir.absolutePath + "/exports")
+					outPath.mkdirs()
+					val outFile = File.createTempFile("webapps", "backup.db", outPath)
+					
+					val fr = new FileReader(dbFile); 
+					val fw = new FileWriter(outFile)
+					try {
+						val char[] buf = #[ ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' ];
+						while (fr.read(buf) > 0) {
+							fw.write(buf)
+						}
+					} finally {
+						fr.close()
+						fw.close()
+					}
+					
+					outFile.deleteOnExit();
+					
+					val uri = FileProvider.getUriForFile(getApplicationContext(), "com.tobykurien.webapps.fileprovider", outFile); 
+					grantUriPermission(getPackageName(), uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+					var exportIntent = new Intent(Intent.ACTION_SEND);
+					exportIntent.setDataAndType(uri, "application/vnd.sqlite3");
+					exportIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+					exportIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+					exportIntent.putExtra(Intent.EXTRA_STREAM, uri);
+					startActivityForResult(Intent.createChooser(exportIntent, getString(R.string.export_chooser)), FILESAVE_RESULTCODE);
+				]
+			}
+
+			case R.id.menu_import: {
+				confirm(getString(R.string.import_confirm)) [
+					val intent = new Intent(Intent.ACTION_GET_CONTENT);
+					intent.addCategory(Intent.CATEGORY_OPENABLE);
+					intent.setType("*/*");
+					startActivityForResult(Intent.createChooser(intent, "File Chooser"), FILECHOOSER_RESULTCODE);
+				]
+			}
 
             case R.id.menu_exit: finish()
         }

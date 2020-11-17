@@ -16,11 +16,25 @@
     <string name="menu_user_agent">User Agent</string>
     <string name="menu_certificate">Certificate</string>
     <string name="menu_reset">Reset</string>
+    <string name="menu_export">Export data</string>
+    <string name="menu_import">Import data</string>
 
     <string name="reset_confirm"><![CDATA[
         Reset Webapp options? This will undo settings like location access and 
         disabling of certificate checking, but will not delete the cookies of 
         the Webapp.
+    ]]></string>
+
+    <string name="export_confirm"><![CDATA[
+        WARNING: Database export is NOT encrypted! Anyone getting hold of the exported
+        database can easily take over your accounts. In such a case, you should log into 
+        all your affected web sites and log out of all other sessions.
+    ]]></string>
+    
+    <string name="export_chooser">Export to</string>
+
+    <string name="import_confirm"><![CDATA[
+        WARNING: All your current webapps will be replaced by the imported database.
     ]]></string>
 
     <string name="open_url_hint">site.com</string>

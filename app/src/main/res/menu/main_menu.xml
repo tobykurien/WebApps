@@ -21,6 +21,16 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menu_export"
+        android:title="@string/menu_export"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_import"
+        android:title="@string/menu_import"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_exit"
         android:icon="@drawable/ic_action_exit"
         android:title="@string/menu_exit"
