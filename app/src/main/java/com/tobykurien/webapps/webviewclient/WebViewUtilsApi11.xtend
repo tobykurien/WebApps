@@ -57,6 +57,9 @@ class WebViewUtilsApi11 extends WebViewUtils {
 		settings.setSavePassword(false);
 		settings.setLoadsImagesAutomatically(context.settings.isLoadImages());
 
+		settings.setBuiltInZoomControls(true);
+		settings.setDisplayZoomControls(false);
+		
 		// set preferred text size
 		if (webapp.getFontSize() >= 0) {
 			setTextSize(wv, webapp.getFontSize());
