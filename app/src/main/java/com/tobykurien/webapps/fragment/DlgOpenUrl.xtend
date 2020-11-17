@@ -1,6 +1,7 @@
 package com.tobykurien.webapps.fragment
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.util.Log
 import android.webkit.CookieManager
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.activity.WebAppActivity
+import com.tobykurien.webapps.webviewclient.WebClient
 import java.io.InputStream
 import java.net.URL
 import java.net.URLConnection
@@ -19,8 +21,6 @@ import static org.xtendroid.utils.AsyncBuilder.*
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import android.content.Context
-import com.tobykurien.webapps.webviewclient.WebClient
 
 /**
  * Dialog to open a URL.
@@ -58,7 +58,7 @@ import com.tobykurien.webapps.webviewclient.WebClient
 	def boolean onOpenUrlClick() {
 		var url = txtOpenUrl.text.toString;
 		try {
-			openUrl(activity, url, chkNewSandbox.checked)
+			openUrl(activity, url, chkNewSandbox.checked, chkAllowRedirects.checked)
 		} catch (Exception e) {
 			txtOpenUrl.setError(getString(R.string.err_invalid_url), null)
 			return false
@@ -67,7 +67,7 @@ import com.tobykurien.webapps.webviewclient.WebClient
 		return true
 	}
 
-	def static openUrl(Context activity, String url, boolean newSandbox) {
+	def static openUrl(Context activity, String url, boolean newSandbox, boolean allowRedirects) {
 		var Uri uri = null
 		try {
 			if (url.trim().length == 0) throw new Exception();
@@ -87,9 +87,9 @@ import com.tobykurien.webapps.webviewclient.WebClient
 		val pd = new ProgressDialog(activity)
 		pd.setMessage(activity.getString(R.string.progress_opening_site))
 
-		async(pd) [
+		async(pd) [a,b|
 			var URLConnection con = new URL(originalUri.toString()).openConnection()
-			if (activity.settings.userAgent != null && 
+			if (activity.settings.userAgent !== null && 
 				activity.settings.userAgent.trim().length > 0) {
 				// User-agent may affect site redirects
 				con.setRequestProperty("User-Agent", activity.settings.userAgent)
@@ -116,10 +116,12 @@ import com.tobykurien.webapps.webviewclient.WebClient
 				uriFinal = builder.build()
 			}
 
+			WebAppActivity.allowRedirects = allowRedirects
+
 			if (newSandbox) {
 				// open in new sandbox
 				// delete all previous cookies
-				CookieManager.instance.removeAllCookie()
+				CookieManager.instance.removeAllCookies([])
 				var i = new Intent(activity, WebAppActivity)
 				i.action = Intent.ACTION_VIEW
 				i.data = uriFinal

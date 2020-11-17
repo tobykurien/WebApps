@@ -46,6 +46,7 @@ import android.app.ActivityManager.TaskDescription;
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import org.xtendroid.annotations.BundleProperty
 
 /**
  * Extensions to the main activity for Android 3.0+, or at least it used to be.
@@ -67,6 +68,12 @@ public class WebAppActivity extends BaseWebAppActivity {
 	var private Bitmap unsavedFavicon = null;
 	var private Bitmap favIcon = null;
 	val iconHandler = new FaviconHandler(this)
+
+	// A globally accessible flag to check if redirects are temporarily allowed
+	// This should only be enabled from DlgOpenUrl, and should be set to false
+	// as soon as user switches away from webapps, hence not affecting other webapps.
+	// Done this way to avoid having to pass this boolean around a lot of places!
+	var public static boolean allowRedirects = false;
 
 	override onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,6 +130,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 	override protected onPause() {
 		super.onPause()
 
+		// this is temporary and is disabled as soon as user switches away
+		allowRedirects = false
+		
 		if (webapp.id < 0) {
 			// clean up data left behind by this webapp
 			clearWebviewCache(wv)

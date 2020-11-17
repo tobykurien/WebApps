@@ -80,6 +80,7 @@
     <string name="toast_images_disabled">Image loading disabled</string>
     <string name="progress_opening_site">Opening web app...</string>
     <string name="open_new_sandbox">Open in new sandbox</string>
+    <string name="open_allow_redirects">Temporarily allow redirects (for logins)</string>
 
     <!-- Preferences activity strings -->
     <string name="title_3rd_party">Block 3rd party requests</string>

@@ -15,6 +15,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.webkit.CookieManager
+import android.webkit.ValueCallback
 import com.tobykurien.webapps.R
 import com.tobykurien.webapps.adapter.WebappsAdapter
 import com.tobykurien.webapps.data.Webapp
@@ -22,9 +23,6 @@ import com.tobykurien.webapps.db.DbService
 import com.tobykurien.webapps.fragment.DlgOpenUrl
 import com.tobykurien.webapps.utils.FaviconHandler
 import com.tobykurien.webapps.webviewclient.WebViewUtils
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
 import java.util.List
 import org.xtendroid.app.AndroidActivity
 import org.xtendroid.app.OnCreate
@@ -32,7 +30,6 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
-import android.webkit.ValueCallback
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
 	var protected List<Webapp> webapps
@@ -41,7 +38,7 @@ import android.webkit.ValueCallback
 	val static FILESAVE_RESULTCODE = 20;
 	val static int REQUEST_SELECT_FILE = 102
 
-	private ValueCallback<Uri> mUploadMessage = [uri|
+	ValueCallback<Uri> mUploadMessage = [uri|
 		// test and import the database
 		db.importDatabase(this, uri)
 		
@@ -56,10 +53,10 @@ import android.webkit.ValueCallback
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 
-		if (intent != null && intent.getDataString() != null) {
-			DlgOpenUrl.openUrl(this, intent.getDataString(), false)
-		} else if (intent != null && intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
-			DlgOpenUrl.openUrl(this, intent.getStringExtra(Intent.EXTRA_TEXT), false)
+		if (intent !== null && intent.getDataString() !== null) {
+			DlgOpenUrl.openUrl(this, intent.getDataString(), false, false)
+		} else if (intent !== null && intent.getStringExtra(Intent.EXTRA_TEXT) !== null) {
+			DlgOpenUrl.openUrl(this, intent.getStringExtra(Intent.EXTRA_TEXT), false, false)
 		}
 	}
 
@@ -158,17 +155,17 @@ import android.webkit.ValueCallback
 
 	override protected onActivityResult(int requestCode, int resultCode, Intent intent) {
 		try {
-			if (requestCode == FILECHOOSER_RESULTCODE) {
-				if(null == mUploadMessage) return;
-				var result = if(intent == null || resultCode != RESULT_OK) null else intent.getData()
+			if (requestCode === FILECHOOSER_RESULTCODE) {
+				if(null === mUploadMessage) return;
+				var result = if(intent === null || resultCode !== RESULT_OK) null else intent.getData()
 				mUploadMessage.onReceiveValue(result);
 				mUploadMessage = null;
-			} else if (requestCode == REQUEST_SELECT_FILE) {
+			} else if (requestCode === REQUEST_SELECT_FILE) {
 				// Check that the response is a good one
 				var Uri result = null;
-				if (resultCode == RESULT_OK) {
+				if (resultCode === RESULT_OK) {
 					var String dataString = intent.getDataString();
-					if (dataString != null) {
+					if (dataString !== null) {
 						val uri = Uri.parse(dataString);
 						result = uri;
 	
@@ -197,7 +194,7 @@ import android.webkit.ValueCallback
 		new AlertDialog.Builder(this).setTitle(R.string.action_tips).setMessage(
 			Html.fromHtml(getString(R.string.tips))).setPositiveButton(android.R.string.ok, null).setNeutralButton(
 			R.string.btn_website, [
-				DlgOpenUrl.openUrl(this, "https://github.com/tobykurien/webapps", false)
+				DlgOpenUrl.openUrl(this, "https://github.com/tobykurien/webapps", false, false)
 			]).create().show()
 	}
 
