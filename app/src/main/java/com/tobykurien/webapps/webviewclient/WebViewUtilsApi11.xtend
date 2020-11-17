@@ -49,14 +49,13 @@ class WebViewUtilsApi11 extends WebViewUtils {
 
 		settings.setPluginState(PluginState.OFF);
 		settings.setDomStorageEnabled(true);
-		settings.setSupportZoom(true);
-		settings.setBuiltInZoomControls(false);
 		settings.setGeolocationEnabled(true); // allow maps, etc. to work
 		settings.setJavaScriptCanOpenWindowsAutomatically(false);
 		settings.setSaveFormData(false);
 		settings.setSavePassword(false);
 		settings.setLoadsImagesAutomatically(context.settings.isLoadImages());
 
+		settings.setSupportZoom(true);
 		settings.setBuiltInZoomControls(true);
 		settings.setDisplayZoomControls(false);
 		
