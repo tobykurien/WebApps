@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">WebApps</string>
     <string name="menu_site">更改网址</string>
     <string name="menu_exit">退出</string>
     <string name="menu_text_size">字体大小</string>
