@@ -30,6 +30,7 @@ import org.xtendroid.utils.AsyncBuilder
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
 import static extension org.xtendroid.utils.AlertUtils.*
+import com.tobykurien.webapps.utils.Debug
 
 @AndroidActivity(R.layout.main) class MainActivity extends AppCompatActivity {
 	var protected List<Webapp> webapps
@@ -132,7 +133,9 @@ import static extension org.xtendroid.utils.AlertUtils.*
 				confirm(getString(R.string.export_confirm)) [
 					val outFile = db.exportDatabase(this)
 
-					val uri = FileProvider.getUriForFile(getApplicationContext(), "com.tobykurien.webapps.fileprovider",
+					val uri = FileProvider.getUriForFile(getApplicationContext(), 
+						if (Debug.ON) "com.tobykurien.webapps.debug.fileprovider" 
+						else "com.tobykurien.webapps.fileprovider",
 						outFile);
 					grantUriPermission(getPackageName(), uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
