@@ -53,6 +53,12 @@ import static extension org.xtendroid.utils.AlertUtils.*
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 
+
+		if (settings.secureWindows) {
+		    val window = getWindow();
+		    window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+		}
+
 		if (intent !== null && intent.getDataString() !== null) {
 			DlgOpenUrl.openUrl(this, intent.getDataString(), false, false)
 		} else if (intent !== null && intent.getStringExtra(Intent.EXTRA_TEXT) !== null) {
