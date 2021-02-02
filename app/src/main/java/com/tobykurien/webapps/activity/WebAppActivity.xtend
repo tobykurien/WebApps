@@ -95,8 +95,28 @@ public class WebAppActivity extends BaseWebAppActivity {
 		registerForContextMenu(wv)
 
 		wv.onLongClickListener = [
-			var url = wv.hitTestResult.extra			
-			if (url !== null) {
+			var url = wv.hitTestResult.extra
+
+			if (wv.hitTestResult.type == WebView.HitTestResult.UNKNOWN_TYPE) {
+				val Message message = new Message();
+			    message.setTarget(new Handler()[msg|
+			        var String href = msg.getData().getString("src");
+					if (href === null) href = msg.getData().getString("href");
+					if (href !== null) {
+						toast("GOT URL " + href)
+						var i = new Intent(Intent.ACTION_VIEW);
+						i.setData(Uri.parse(href));
+						i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+						var chooser = Intent.createChooser(i, getString(R.string.title_open_with))
+						if (i.resolveActivity(getPackageManager()) != null) {
+							context.startActivity(chooser);
+						}
+						return true;
+					}
+				]);
+    			wv.requestFocusNodeHref(message);
+			} else if (url !== null) {
 				var i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(url));
 				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
