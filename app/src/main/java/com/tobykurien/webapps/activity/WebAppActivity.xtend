@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.AsyncTask
+import android.os.Message
+import android.os.Handler
 import android.support.v4.content.pm.ShortcutManagerCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
@@ -93,9 +95,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 		registerForContextMenu(wv)
 
 		wv.onLongClickListener = [
-			var url = wv.hitTestResult.extra
+			var url = wv.hitTestResult.extra			
 			if (url !== null) {
-				var i = new Intent(Intent.ACTION_SEND);
+				var i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(url));
 				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -496,7 +498,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 					} else {
 						unblock.remove(domains.get(pos).intern());
 					}
-					Log.d("unblock", unblock.toString)
+					if (Debug.ON) Log.d("unblock", unblock.toString)
 				])
 				.setPositiveButton(R.string.unblock, [ d, pos |
 					saveWebappUnblockList(webapp.id, unblock)
