@@ -95,10 +95,18 @@ import static extension org.xtendroid.utils.AlertUtils.*
 				con.setRequestProperty("User-Agent", activity.settings.userAgent)
 			}
 			con.connect()
-			var InputStream is = con.getInputStream()
-			var finalUrl = con.getURL()
-			is.close()
-			return finalUrl.toString()	
+
+			var InputStream is;
+			try {
+				is = con.getInputStream()
+				var finalUrl = con.getURL()
+				return finalUrl.toString()	
+			} catch (Exception e) {
+				// sometimes an exception is thrown, e.g. with mobile.twitter.com
+				return con.getURL().toString();
+			} finally {
+				is?.close()
+			}
 		].then [ result |
 			if (!pd.isShowing) return; // user cancelled
 
