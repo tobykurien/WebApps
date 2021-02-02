@@ -50,6 +50,8 @@ Cookies are stored by Android's [CookieManager][], of which there is one instanc
 
 In short, there is a strict cookie policy in place that ensures that cookies are correctly sandboxed, and that no 3rd party cookies are saved or sent.
 
+However, it should be noted that there are several techniques for storing unique identifiers, such as [evercookie](https://github.com/samyk/evercookie). Thus, the strongest protection this app provides is the blocking of 3rd party requests, which is why it is important to pick services that use the least amount of 3rd party requests, and try to unblock as few of them as possible. In particular, CDNs and other common 3rd party services such as CloudFlare, JQuery, Google Fonts, Google Analytics, etc. should be blocked as much as possible.
+
 Referer
 =======
 
