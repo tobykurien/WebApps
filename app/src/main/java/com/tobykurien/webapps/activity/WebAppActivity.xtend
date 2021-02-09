@@ -146,9 +146,6 @@ public class WebAppActivity extends BaseWebAppActivity {
 	override protected onPause() {
 		super.onPause()
 
-		// this is temporary and is disabled as soon as user switches away
-		allowRedirects = false
-		
 		if (webapp.id < 0) {
 			// clean up data left behind by this webapp
 			clearWebviewCache(wv)
@@ -467,6 +464,9 @@ public class WebAppActivity extends BaseWebAppActivity {
 
 			shortcutMenu.enabled = true;
 			shortcutMenu.visible = true;
+
+			// this is temporary and is disabled as soon as user saves the webapp
+			allowRedirects = false				
 
 			return null
 		]
