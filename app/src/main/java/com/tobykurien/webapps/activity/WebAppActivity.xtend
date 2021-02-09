@@ -97,34 +97,28 @@ public class WebAppActivity extends BaseWebAppActivity {
 		wv.onLongClickListener = [
 			var url = wv.hitTestResult.extra
 
-			if (wv.hitTestResult.type == WebView.HitTestResult.UNKNOWN_TYPE) {
+			if (wv.hitTestResult.type == WebView.HitTestResult.UNKNOWN_TYPE ||
+				wv.hitTestResult.type == WebView.HitTestResult.SRC_ANCHOR_TYPE ||
+				wv.hitTestResult.type == WebView.HitTestResult.IMAGE_TYPE ||
+				wv.hitTestResult.type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
 				val Message message = new Message();
 			    message.setTarget(new Handler()[msg|
-			        var String href = msg.getData().getString("src");
+			        var String title = msg.getData().getString("title");
+					if (title === null) title = msg.getData().getString("alt");
+					if (title === null) title = webapp.name;
+
+			        var String href = msg.getData().getString("url");
 					if (href === null) href = msg.getData().getString("href");
+					if (href === null) href = msg.getData().getString("src");
+
 					if (href !== null) {
-						toast("GOT URL " + href)
-						var i = new Intent(Intent.ACTION_VIEW);
-						i.setData(Uri.parse(href));
-						i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-						var chooser = Intent.createChooser(i, getString(R.string.title_open_with))
-						if (i.resolveActivity(getPackageManager()) != null) {
-							context.startActivity(chooser);
-						}
+						shareURL(href, title);
 						return true;
 					}
 				]);
     			wv.requestFocusNodeHref(message);
 			} else if (url !== null) {
-				var i = new Intent(Intent.ACTION_VIEW);
-				i.setData(Uri.parse(url));
-				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-				var chooser = Intent.createChooser(i, getString(R.string.title_open_with))
-				if (i.resolveActivity(getPackageManager()) != null) {
-				    context.startActivity(chooser);
-				}
+				shareURL(url, webapp.name);
 				return true;
 			}
 			
@@ -237,13 +231,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 				return true;
 			}
 			case R.id.menu_share: {
-				var share = new Intent(Intent.ACTION_SEND)
-				share.setType("text/plain")
-				share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-				share.putExtra(Intent.EXTRA_SUBJECT, webapp.name);
-				share.putExtra(Intent.EXTRA_TEXT, wv.url);
-
-				startActivity(Intent.createChooser(share, getString(R.string.menu_share)));
+				shareURL(wv.url, webapp.name);
 				return true;
 			}
 			case R.id.menu_shortcut: {
@@ -620,4 +608,13 @@ public class WebAppActivity extends BaseWebAppActivity {
 		val taskDesc = new TaskDescription(webapp.name, BitmapFactory.decodeFile(favIcon.absolutePath), colour);
 		setTaskDescription(taskDesc);
 	}
+
+	def shareURL(String shareUrl, String shareTitle) {
+		var share = new Intent(Intent.ACTION_SEND)
+		share.setType("text/plain")		
+		share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+		share.putExtra(Intent.EXTRA_SUBJECT, shareTitle);
+		share.putExtra(Intent.EXTRA_TEXT, shareUrl);
+		startActivity(Intent.createChooser(share, getString(R.string.menu_share)));
+	}	
 }
