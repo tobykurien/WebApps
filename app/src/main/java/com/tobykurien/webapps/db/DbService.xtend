@@ -16,6 +16,7 @@ import java.io.BufferedWriter
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 import java.io.FileInputStream
+import com.tobykurien.webapps.webviewclient.WebClient
 
 /**
  * Class to manage database queries. Uses Xtendroid's BaseDbService
@@ -65,10 +66,13 @@ class DbService extends BaseDbService {
 	}
 
 	def void saveCookies(Webapp webapp) {
-		if(Debug.COOKIE) Log.d("cookie", "Saving cookies for " + webapp.url)
-		var cookiesStr = CookieManager.instance.getCookie(webapp.url)
+		val domain = WebClient.getRootDomain(webapp.url)
+		if(Debug.COOKIE) Log.d("cookie", "Saving cookies for " + domain)
+		var cookiesStr = CookieManager.instance.getCookie(domain)
 
 		if (cookiesStr != null) {
+			if(Debug.COOKIE) Log.d("cookie", cookiesStr)
+
 			// Obfuscate Expires and Max-Age
 			cookiesStr = cookiesStr.replaceAll("(?i)expires", "NoExp")
 			cookiesStr = cookiesStr.replaceAll("(?i)max-age", "NoAge")
