@@ -6,7 +6,7 @@ else
 fi
 
 echo Compiling app...
-./gradlew --no-daemon installDebug runApp
+./gradlew --no-daemon installDebug runApp|grep "ERROR: "
 
 adb logcat -c
 adb logcat -v color -e "$FILTER" "*:D"
