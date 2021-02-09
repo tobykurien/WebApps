@@ -74,6 +74,7 @@ import com.tobykurien.webapps.utils.Debug
 		loadWebapps()
 
 		mainList.setOnItemClickListener([ av, v, pos, id |
+			WebAppActivity.allowRedirects = false				
 			val item = av.getItemAtPosition(pos) as Webapp
 			var intent = new Intent(activity, typeof(WebAppActivity))
 			intent.action = Intent.ACTION_VIEW
