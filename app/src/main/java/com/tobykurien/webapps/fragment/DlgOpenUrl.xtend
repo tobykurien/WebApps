@@ -16,6 +16,7 @@ import java.io.InputStream
 import java.net.URL
 import java.net.URLConnection
 import org.xtendroid.annotations.AndroidDialogFragment
+import com.tobykurien.webapps.utils.Debug
 
 import static org.xtendroid.utils.AsyncBuilder.*
 
@@ -129,6 +130,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 			if (newSandbox) {
 				// open in new sandbox
 				// delete all previous cookies
+				if (Debug.COOKIE) Log.d("cookie", "DELETING ALL COOKIES")
 				CookieManager.instance.removeAllCookies([])
 				var i = new Intent(activity, WebAppActivity)
 				i.action = Intent.ACTION_VIEW

@@ -65,6 +65,8 @@ import static extension org.xtendroid.utils.AlertUtils.*
 	private ValueCallback<Uri[]> mUploadMessage2;
 	private String mCameraPhotoPath;
 
+	private static long lastWebappId = 0;
+
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -157,7 +159,10 @@ import static extension org.xtendroid.utils.AlertUtils.*
 	override protected void onResume() {
 		super.onResume()
 		
-		if (webapp !== null && webapp.id > 0) loadSiteCookies(webapp)
+		if (webapp !== null && webapp.id > 0 && lastWebappId != webapp.id) {
+			// reload cookies if we've switched to another webapp
+			loadSiteCookies(webapp)
+		}
 
 		if (reload) {
 			reload = false
@@ -170,6 +175,7 @@ import static extension org.xtendroid.utils.AlertUtils.*
 		super.onPause()
 		
 		if (webapp !== null && webapp.id > 0) {
+			lastWebappId = webapp.id;
 			db.saveCookies(webapp)
 		}
 		
@@ -213,12 +219,14 @@ import static extension org.xtendroid.utils.AlertUtils.*
 
 	def void loadSiteCookies(Webapp webapp) {
 		// Load cookies for webapp
+		if (Debug.COOKIE) Log.d("cookie", "DELETING ALL COOKIES")
         CookieManager.instance.removeAllCookie()
+
 		if (webapp.cookies !== null) {
 			val domain = WebClient.getRootDomain(webapp.url)
 			var cookies = webapp.cookies.split(";")
 			for (cookieStr: cookies) {
-				if (Debug.COOKIE) Log.d("cookie", "Loading cookie for " + domain + ": " + cookieStr)
+				if (Debug.COOKIE) Log.d("cookie", "Load -> " + domain + ": " + cookieStr)
 				CookieManager.instance.setCookie("https://" + domain, cookieStr.trim() + "; Domain=" + domain)
 			}
 			CookieSyncManager.getInstance().sync();

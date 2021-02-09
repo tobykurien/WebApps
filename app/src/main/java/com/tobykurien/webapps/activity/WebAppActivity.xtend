@@ -359,7 +359,7 @@ public class WebAppActivity extends BaseWebAppActivity {
 		super.onPageLoadDone();
 
 		val domain = WebClient.getRootDomain(webapp.url)
-		val cookies = CookieManager.instance.getCookie(webapp.url)
+		val cookies = CookieManager.instance.getCookie("https://" + domain)
 		if (webapp != null && cookies != null && webapp.id > 0 &&
 				!cookies.equals(webapp.cookies)) {
 			db.saveCookies(webapp)

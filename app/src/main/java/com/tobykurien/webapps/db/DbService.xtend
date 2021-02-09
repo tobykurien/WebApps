@@ -68,10 +68,10 @@ class DbService extends BaseDbService {
 	def void saveCookies(Webapp webapp) {
 		val domain = WebClient.getRootDomain(webapp.url)
 		if(Debug.COOKIE) Log.d("cookie", "Saving cookies for " + domain)
-		var cookiesStr = CookieManager.instance.getCookie(domain)
+		var cookiesStr = CookieManager.instance.getCookie("https://" + domain)
 
 		if (cookiesStr != null) {
-			if(Debug.COOKIE) Log.d("cookie", cookiesStr)
+			if(Debug.COOKIE) Log.d("cookie", "Save -> " + cookiesStr)
 
 			// Obfuscate Expires and Max-Age
 			cookiesStr = cookiesStr.replaceAll("(?i)expires", "NoExp")

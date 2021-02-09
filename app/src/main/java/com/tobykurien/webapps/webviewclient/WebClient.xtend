@@ -159,6 +159,7 @@ class WebClient extends WebViewClient {
 				Log.d("url_loading", "Opening in new sandbox " + uri.toString)
                 // open in new sandbox
                 // delete all previous cookies
+				if (Debug.COOKIE) Log.d("cookie", "DELETING ALL COOKIES")
                 CookieManager.instance.removeAllCookie()
                 var i = new Intent(activity, WebAppActivity)
                 i.action = Intent.ACTION_VIEW
@@ -205,7 +206,7 @@ class WebClient extends WebViewClient {
 			return new WebResourceResponse("text/plain", "utf-8", new ByteArrayInputStream("[blocked]".getBytes()))
 		}
 
-		val cookieManager = CookieManager.instance
+		//val cookieManager = CookieManager.instance
 		// if (Debug.COOKIE && siteUrl !== null) Log.d("cookie", "Cookies for " + siteUrl + ": " +
         //         cookieManager.getCookie(siteUrl.toString()))
 

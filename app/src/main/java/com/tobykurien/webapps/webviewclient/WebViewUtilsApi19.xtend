@@ -7,6 +7,7 @@ import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.WebView
 import com.tobykurien.webapps.data.Webapp
+import com.tobykurien.webapps.utils.Debug
 import java.io.File
 
 import static extension com.tobykurien.webapps.utils.Dependencies.*
@@ -35,6 +36,7 @@ class WebViewUtilsApi19 extends WebViewUtilsApi16 {
 			wv.clearFormData
 			wv.clearHistory
 			var cookieManager = CookieManager.getInstance();
+			if (Debug.COOKIE) Log.d("cookie", "DELETING ALL COOKIES")
 			cookieManager.removeAllCookie();
 			trimCache(context)				
 			 
@@ -89,8 +91,8 @@ class WebViewUtilsApi19 extends WebViewUtilsApi16 {
 	override deleteWebappData(Context context, long webappId) {
 		var webapp = context.db.findById("webapps", webappId, Webapp)
 		if (webapp !== null) {
-			var hostname = WebClient.getHost(webapp.url)
-			CookieManager.instance.setCookie(webapp.url, "")
+			var hostname = WebClient.getRootDomain(webapp.url)
+			CookieManager.instance.setCookie(hostname, "")
 		}
 
 		super.deleteWebappData(context, webappId)
