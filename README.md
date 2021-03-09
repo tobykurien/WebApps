@@ -16,6 +16,8 @@ For a less security-focussed, but more media-friendly option, try [Web Media Sha
   <img src="https://f-droid.org/badge/get-it-on.png" height="60"/>
 </a>
 
+[Grab the APK from releases](https://github.com/tobykurien/WebApps/releases)
+
 Features
 ========
 
