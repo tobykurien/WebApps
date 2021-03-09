@@ -3,15 +3,11 @@ WebApps Sandboxed browser Android app
 
 ![screenshot 1](images/webapps1.png) ![screenshot 2](images/webapps2.png) ![screenshot 3](images/webapps3.png)
 
-This Android app is a fork of the [GoogleApps Sandboxed browser][gapps]. The idea behind it is to provide a secure way to browse popular webapps by eliminating referrers, 3rd party requests, insecure HTTP requests, etc.
+WebApps allows you to save websites, as if they were apps! It provides a secure way to browse popular webapps by eliminating referrers, 3rd party requests, 3rd party cookies, insecure HTTP requests, etc.
 
-It accomplishes this by providing a sandbox for multiple webapps (like Google's apps, Facebook, Twitter, etc.). Each webapp will run in it's own sandbox, with 3rd party requests (images, scripts, iframes, etc.) blocked, and all external links opening in an external default web browser (which should have cookies, plug-ins, flash, etc. disabled). Homescreen (launcher) shortcuts can be created to any of the saved webapps.
+It accomplishes this by providing a sandbox for multiple webapps (like Google's apps, Facebook, Twitter, etc.). Each webapp will run in it's own sandbox, with 3rd party requests (images, scripts, iframes, etc.) blocked, and all external links opening in an external default web browser (which should have cookies, plug-ins, flash, etc. disabled). All HTTP requests are blocked (only HTTPS allowed). This improves security, especially on untrusted networks. In addition, WebApps will warn you if the SSL certificate of the site you're viewing has changed to warn you of a possible man-in-the-middle attack.
 
-By default, all HTTP requests are blocked (only HTTPS allowed). This improves security, especially on untrusted networks. In addition, WebApps will warn you if the SSL certificate of the site you're viewing has changed.
-
-For a less security-focussed, but more media-friendly option, try [Web Media Share][webmediashare], which is a fork of WebApps with specific focus on extracting and sharing/casting media.
-
-For using Google's suite of apps, try the [GApps Sandboxed Browser app][gapps], which works the same as this app but contains specific handling for Google's web apps.
+For a less security-focussed, but more media-friendly option, try [Web Media Share][webmediashare], which is a fork of WebApps with specific focus on viewing and sharing/casting media.
 
 <a href="https://play.google.com/store/apps/details?id=com.tobykurien.webapps" target="_blank">
   <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="60"/>
@@ -26,7 +22,7 @@ Features
 - Works like Mozilla Prism on the desktop. This is a mostly chrome-less browser that gets out of your way.
 - Completely full-screen browsing (auto-hiding actionbar)
 - Securely browse mobile sites (uses HTTPS only)
-- Blocks 3rd party requests (images/scripts/iframes) like the NoScript and NotScripts plugins on the desktop
+- Blocks 3rd party requests (images/scripts/iframes) like the NoScript, NotScripts, uMatrix, uBlock Origin plugins on the desktop
 - Allows self-signed SSL certificates to be saved
 - Warns if server SSL certificate changes (e.g. during man-in-the-middle-attack)
 - User agent and text size setting (per site) allows more rich mobile experience (depending on site)
@@ -36,7 +32,6 @@ Features
 - Uses much less bandwidth than native apps (like Google+ app). No background sync'ing.
 - Features local data storage and caching for reduced bandwidth usage and better speed.
 - Fully open source software.
-
 
 Cookies
 =======
