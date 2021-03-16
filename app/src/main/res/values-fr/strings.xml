@@ -1,47 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!--
-		Copyright (C) 2015, Nicola Spanti (also known as RyDroid) <dev@nicola-spanti.info>
-		
-		Copying and distribution of this file, with or without modification,
-		are permitted in any medium without royalty provided the copyright
-		notice and this notice are preserved.  This file is offered as-is,
-		without any warrant.
-	-->
-	
+    <string name="app_name" translatable="false">WebApps</string>
     <string name="menu_site">Changer de site</string>
     <string name="menu_exit">Quitter</string>
     <string name="menu_text_size">Taille de police</string>
     <string name="menu_stop">Arrêter</string>
-    <string name="menu_refresh">Rafraichir</string>
+    <string name="menu_refresh">Rafraîchir</string>
     <string name="menu_toggle_image">Changer d\'image</string>
     <string name="menu_settings">Paramètres</string>
-    <string name="menu_3rd_party">Bloquer les domaines tiers</string>
+    <string name="menu_3rd_party">Domaines tiers</string>
     <string name="menu_open_url">Ouvrir l\'URL</string>
+    <string name="menu_save">Sauvegarder comme WebApp</string>
+    <string name="menu_share">Partager l\'URL</string>
+    <string name="menu_shortcut">Raccourci sur l\'écran d\'accueil</string>
+    <string name="menu_user_agent">Agent utilisateur</string>
+    <string name="menu_certificate">Certificat</string>
+    <string name="menu_reset">Réinitialiser</string>
+    <string name="menu_export">Exporter les données</string>
+    <string name="menu_import">Import les données</string>
+
+    <string name="reset_confirm"><![CDATA[
+        Réinitialiser les options de la webapp ? Cela annulera les paramètres tels que
+ 	l\'accès à la localisation et la désactivation de la vérification des certificats, 
+	mais ne supprimera pas les cookies de la Webapp.
+    ]]></string>
+
+    <string name="export_confirm"><![CDATA[
+       	AVERTISSEMENT : l\'export de la base de données n\'est PAS chiffré ! Quiconque s'empare de 
+	la base de données exportée peut facilement reprendre vos comptes. Dans ce cas, vous devez 
+ 	vous connecter à tous vos sites Web concernés et vous déconnecter de toutes les autres sessions. 
+	Continuez à vos riques et périls ! 
+    ]]></string>
+    
+    <string name="export_chooser">Exporter vers</string>
+
+    <string name="import_confirm"><![CDATA[
+        AVERTISSEMENT: toutes vos webapps actuelles seront remplacées par les Webapps de 
+	la base de données importée. Nous vous suggérons de d\'abord sauvegarder votre base de données actuelle
+ 	avant de continuer.
+    ]]></string>
+
     <string name="open_url_hint">site-web.fr</string>
     <string name="open_url">Ouvrir l\'URL</string>
-    <string name="menu_save">Sauvegarder comme WebApp</string>
-    <string name="blocked_root_domains">Bloqué les domaines racines</string>
-    <string name="unblock">Débloquer</string>
-    <string name="title_save_webapp">Sauvegarder la WebApp</string>
-    <string name="msg_save_webapp">Sauvegarder le site web actuel comme WebbApp ?</string>
-    <string name="btn_save">open_url_hint</string>
-    <string name="webapp_name">Nom de la WebApp</string>
-    <string name="open_site">Ouvrir le site web</string>
-    <string name="delete_webapp">Supprimer la WebApp</string>
-
     <string name="err_invalid_url">URL invalide</string>
-    <string name="msg_saving_webapp">Sauvegarde de la webapp</string>
-    <string name="shortcut_label">Raccourci pour la webapp</string>
 
-    <string name="action_tips">Astuces</string>
-    <string name="tips"><![CDATA[
-        <p><b>Domaines tiers</b> : is un site parrait cassé, essayez d\'activer quelques domaines tiers dont le site pourraient dépendre, comme. <i>fbcdn.net</i> pour <i>Facebook</i></p>
-        <p><b>Raccourcis de l\'écran d\'accueil</b> : Faites un appui long sur l\'écran d\'accueil pour accéder aux widgets pour ajouter un raccourci vers une webapp sur l\'écran d\'accueil</p>
-        <p><b>Appui long sur les liens</b> : Faites un appui long sur un lien sur un site web pour choisir comment l\'ouvrir</p>
-]]></string>
-    <string name="err_webapp_not_found">Webapp pas trouvé</string>
-    <string name="menu_share">Partager l\'URL</string>
-    <string name="menu_shortcut">Raccourci</string>
+    <string name="blocked_root_domains">Débloquer les domaines tiers</string>
+    <string name="unblock">Débloquer</string>
+    <string name="title_save_webapp">Sauvegarder la Webapp</string>
+    <string name="msg_save_webapp">Sauvegarder le site web actuel comme Webapp?</string>
+    <string name="msg_saving_webapp">Sauvegarde de la webapp</string>
     <string name="msg_shortcut_added">Raccourci ajouté</string>
+    <string name="btn_save">Sauvegarder</string>
+    <string name="webapp_name">Webapp Name</string>
+    <string name="open_site">Ouvrir le site</string>
+    <string name="btn_recommended_sites">Recommendé</string>
+    <string name="delete_webapp">Supprimer la Webapp</string>
+    <string name="shortcut_label">Raccourci de la Webapp</string>
+    <string name="err_webapp_not_found">Webapp introuvable</string>
+    <string name="title_open_with">Ouvrir avec</string>
+
+    <string name="title_certificate">Certificat du site web</string>
+    <string name="title_cert_untrusted">Certificat non approuvé</string>
+    <string name="title_cert_changed">Certificat modifié</string>
+    <string name="cert_accept">Accepter le certificat</string>
+    <string name="btn_disable_cert_checks">Ignorer</string>
+    <string name="confirm_cert_disable"><![CDATA[
+        Désactiver la vérification des certificats pour cette Webapp? Vous pouvez utiliser l\'option du
+ 	menu Réinitialiser pour la réactiver.
+    ]]></string>
+
+    <string name="action_tips">Tips</string>
+    <string name="tips"><![CDATA[
+        <p><b>Ajout de Webapps</b>: pour ajouter une nouvelle Webapp, ouvrez le site, puis cliquez sur l\'action "Sauvegarder comme WebApp"</p>
+        <p><b>Domaines tiers</b> : si un site parrait cassé, essayez d\'activer certains domaines tiers dont le site pourraient dépendre, comme. <i>fbcdn.net</i> pour <i>Facebook</i></p>
+        <p><b>Raccourcis de l\'écran d\'accueil</b> : Faites un appui long sur l\'écran d\'accueil pour accéder aux widgets pour ajouter un raccourci vers une webapp sur l\'écran d\'accueil</p>
+        <p><b>Appui long sur les liens</b> : Faites un appui long sur un lien d\'un site web pour choisir comment l\'ouvrir</p>
+]]></string>
+    <string name="btn_website">Code source</string>
+    <string name="toast_images_enabled">Chargement des images activé</string>
+    <string name="toast_images_disabled">Chargement des images déactivé</string>
+    <string name="progress_opening_site">Ouverture de la Webapp</string>
+    <string name="open_new_sandbox">Ouvrir dans une nouvelle sandbox</string>
+    <string name="open_allow_redirects">Autoriser temporairement les redirections (pour les connexions)</string>
+
+    <!-- Preferences activity strings -->
+    <string name="title_3rd_party">Bloquer les requêtes tierces</string>
+    <string name="summary_3rd_party">Ne pas charger d\'images / scripts en dehors des domaines des Webapps</string>
+    <string name="title_font_size">Taille de police</string>
+    <string name="summary_font_size">Changer le rendu de la taille police</string>
+    <string name="title_user_agent">Agent utilisateur</string>
+    <string name="summary_user_agent">Affecte le rendu des sites sur votre appareil</string>
+    <string name="title_fullscreen">Plein écran</string>
+    <string name="summary_fullscreen">Masquer la barre d\'état (nécessite un redémarrage)</string>
+    <string name="title_fullscreen_immersive">Mode immersif</string>
+    <string name="summary_fullscreen_immersive">En mode plein écran, masquer toute l\'UI du système</string>
+    <string name="title_autohide">Masquer automatiquement la barre d\'action</string>
+    <string name="summary_autohide">Masquer la barre d\'action lorsque vous faites défiler vers le bas, révéler lorsque vous faites défiler vers le haut</string>
+    <string name="title_hide_actionbar">Masquer la barre d\'action</string>
+    <string name="summary_hide_actionbar">Masquer complètement la barre d\'action. Appuyez longuement sur un espace vide pour l\'afficher.</string>
+    <string name="title_shortcut_actionbar">Masquer uniquement pour les raccourcis</string>
+    <string name="summary_shortcut_actionbar">Masque la barre d\'action uniquement lorsqu'elle est lancée à partir d\'un raccourci</string>
+    <string name="title_secure_windows">Empêcher les captures d\'écran</string>
+    <string name="summary_secure_windows">Empêcher les captures d\'écran et le contenu des Webapps d\'apparaître dans Récents</string>
+
+    <string name="title_location_access">Accès à la localisation</string>
+    <string name="desc_location_access">La localisation actuelle est demandée par</string>
+    <string name="btn_allow">Autoriser</string>
+    <string name="btn_deny">Refuser</string>
 </resources>
