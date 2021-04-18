@@ -57,12 +57,25 @@ Referer information is not send on any request (as per default behaviour of Webv
 Storage
 =======
 
-Plugins, and local file access are disabled, however DOM/local storage and app caching is allowed. There is only one cache for all sandboxes to share.
+Plugins, and local file access are disabled, however DOM/local storage and app caching is allowed. There is only one cache for all sandboxes to share, so this is potentially a way to leak information between sandboxes.
 
 Location
 ========
 
 Since WebApps v3.0, location access has been enabled. WebApps will prompt for location access per web app, the first time the app requests your location. You can then permanently allow or deny location access, with an option to reset the app should you change your mind.
+
+Privacy warnings
+================
+
+WebApps sandboxing is not perfect:
+
+- WebApps relies on Android System WebView (or Bromite if you have that installed) which may or may not make additional requests, send out identifying headers, implement FLoC or similar, etc.
+- Evercookie/supercookies can leak information between sandboxes
+- Browser fingerprinting can be used to identify our browser across domains
+- The shared cache can be abused to leak information between sandboxes
+- CNAME cloaking (see https://medium.com/nextdns/cname-cloaking-the-dangerous-disguise-of-third-party-trackers-195205dc522a) can be used to bypass 3rd-party content blocking, and is being increasingly used across the web
+
+There are probably many more ways to leak identifying data across sites that I am not aware of.
 
 Credits:
 ========
