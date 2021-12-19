@@ -1,6 +1,8 @@
 WebApps Sandboxed browser Android app
 =====================================
 
+**DEPRECATED** - This project is no longer maintained, due to reasons explained in [this issue](https://github.com/tobykurien/WebApps/issues/253)
+
 ![screenshot 1](images/webapps1.png) ![screenshot 2](images/webapps2.png) ![screenshot 3](images/webapps3.png)
 
 WebApps allows you to save websites, as if they were apps! It provides a secure way to browse popular webapps by eliminating referrers, 3rd party requests, 3rd party cookies, insecure HTTP requests, etc.
