@@ -76,7 +76,7 @@ WebApps sandboxing is not perfect:
 - Browser fingerprinting can be used to identify our browser across domains
 - The shared cache can be abused to leak information between sandboxes
 - CNAME cloaking (see https://medium.com/nextdns/cname-cloaking-the-dangerous-disguise-of-third-party-trackers-195205dc522a) can be used to bypass 3rd-party content blocking, and is being increasingly used across the web
-- Hermit app authors have tested simultaneous use of sandboxes and found that you can only use one sandbox at a time in split-screen view, see [their analysis](https://hermit.chimbori.com/features/sandbox-webapps). They claim that sandboxes "will be commingled between the two" but this claim needs to be tested, WebApps simply unloads one sandbox and loads another sandbox when switching between sandboxes (even in split-screen mode), since it can only run one instance of Android's system WebView component at a time.
+- Hermit app authors have tested simultaneous use of sandboxes and found that you can only use one sandbox at a time in split-screen view, see [their analysis](https://hermit.chimbori.com/features/sandbox-webapps). They claim that sandboxes "will be commingled between the two" but this claim needs to be tested, WebApps simply [unloads one sandbox and loads another sandbox](https://github.com/tobykurien/WebApps/blob/master/app/src/main/java/com/tobykurien/webapps/activity/BaseWebAppActivity.xtend#L162) when switching between sandboxes (even in split-screen mode), since it can only run one instance of Android's system WebView component at a time.
 
 There are probably many more ways to leak identifying data across sites that I am not aware of.
 
